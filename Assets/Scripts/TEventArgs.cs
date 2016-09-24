@@ -25,7 +25,6 @@ public class FloatEventArgs : EventArgs
         get { return _value; }
     }
 
-
     public FloatEventArgs(float value)
     {
         _value = value;
