@@ -8,6 +8,11 @@ namespace Alchemy.Views
     public class PotionsWindow : MonoBehaviour
     {
         [SerializeField]CanvasGroup _researchContent = null;
+        Flask _flask;
+        [SerializeField]Text _flaskText = null;
+        Solvent _solvent;
+        Ingredient _ingredient1;
+        Ingredient _ingredient2;
         [SerializeField]CanvasGroup _prototypesContent = null;
         [SerializeField]PotionPrototypeComponent _potionPrototypePrefab = null;
         [SerializeField]Transform _prototypesArea = null;
@@ -52,13 +57,39 @@ namespace Alchemy.Views
             _potionShopContent.blocksRaycasts = false;
         }
 
+        public void ChangeFlask()
+        {
+            if (World.Instance.Shop.Flasks.Count > 0)
+            {
+                _flask = World.Instance.Shop.Flasks[0];
+
+                _flaskText.text = _flask.Name;
+            }
+        }
+
+        public void ChangeSolvent()
+        {
+
+        }
+
+        public void ChangeIngredient1()
+        {
+            
+        }
+
+        public void ChangeIngredient2()
+        {
+
+        }
+
         public void Research()
         {
-            World.Instance.Shop.ResearchPotion(World.Instance.Shop.Flasks[0], null, new Ingredient[]
-                {
-                    World.Instance.Shop.Ingredients.Herbs[0],
-                    World.Instance.Shop.Ingredients.Herbs[1]
-                });
+            if (_flask == null || _ingredient1 == null || _ingredient2 == null)
+            {
+                return;
+            }
+
+            World.Instance.Shop.ResearchPotion(_flask, _solvent, new Ingredient[] { _ingredient1, _ingredient2 });
         }
 
         public void ShowPrototypeContent()

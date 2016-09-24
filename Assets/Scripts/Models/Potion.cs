@@ -83,22 +83,25 @@ namespace Alchemy.Models
 
                     if (combinedEffect != null)
                     {
+                        effect.Discovered = true;
+                        currentEffect.Discovered = true;
+
                         effects.Add(combinedEffect);
                     }
                 }
             }
-
-            _effects = new Effect[effects.Count];
-            for (int i = 0; i < effects.Count; i++)
-            {
-                _effects[i] = (Effect)effects[i].Clone();
-            }
+            _effects = effects.ToArray();
 
             var prefix = Flask.Quality.ToString();
             var name = "Potion of ";
             for (int i = 0; i < Effects.Length; i++)
             {
-                name += Effects[i].Name + " ";
+                name += Effects[i].Name;
+
+                if (i < Effects.Length - 1)
+                {
+                    name += ", ";
+                }
             }
             _name = prefix + " " + name;
 

@@ -38,10 +38,7 @@ namespace Alchemy.Models
         {
             if (Name == other.Name)
             {
-                Discovered = true;
-                other.Discovered = true;
-
-                return this;
+                return (Effect)Clone();
             }
 
             return null;
