@@ -32,6 +32,36 @@ namespace Alchemy.Models
             get { return _guards; }
         }
 
+        public Employee[] Total
+        {
+            get
+            {
+                var total = new List<Employee>();
+
+                for (int i = 0; i < Herbalists.Count; i++)
+                {
+                    total.Add(Herbalists[i]);
+                }
+
+                for (int i = 0; i < Apothecaries.Count; i++)
+                {
+                    total.Add(Apothecaries[i]);
+                }
+
+                for (int i = 0; i < Shopkeepers.Count; i++)
+                {
+                    total.Add(Shopkeepers[i]);
+                }
+
+                for (int i = 0; i < Guards.Count; i++)
+                {
+                    total.Add(Guards[i]);
+                }
+
+                return total.ToArray();
+            }
+        }
+
         public Employees()
         {
             _herbalists = new List<Herbalist>();

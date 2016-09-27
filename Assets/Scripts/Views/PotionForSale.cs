@@ -4,7 +4,7 @@ using Alchemy.Models;
 
 namespace Alchemy.Views
 {
-    public class PotionShopComponent : MonoBehaviour
+    public class PotionForSale : MonoBehaviour
     {
         public Potion potion;
 

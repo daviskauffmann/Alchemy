@@ -18,6 +18,21 @@ namespace Alchemy.Models
             get { return _herbs; }
         }
 
+        public Ingredient[] Total
+        {
+            get
+            {
+                var total = new List<Ingredient>();
+
+                for (int i = 0; i < _herbs.Count; i++)
+                {
+                    total.Add(_herbs[i]);
+                }
+
+                return total.ToArray();
+            }
+        }
+
         public Ingredients()
         {
             _herbs = new List<Herb>();

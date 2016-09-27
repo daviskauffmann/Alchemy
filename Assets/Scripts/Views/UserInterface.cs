@@ -42,7 +42,7 @@ namespace Alchemy.Views
             ChangeHourText(World.Instance, new IntEventArgs(World.Instance.Hour));
             ChangeDayText(World.Instance, new IntEventArgs(World.Instance.Day));
             ChangeGoldText(World.Instance.Shop, new FloatEventArgs(World.Instance.Shop.Gold));
-            ChangeApplicationText(World.Instance.Applicants, new IntEventArgs(World.Instance.Applicants.Count));
+            ChangeApplicationText(World.Instance.Applicants, new IntEventArgs(World.Instance.Applicants.Total.Length));
         }
 
         void Log(string value) //FIXME

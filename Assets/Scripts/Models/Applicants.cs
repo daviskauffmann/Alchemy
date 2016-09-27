@@ -34,9 +34,34 @@ namespace Alchemy.Models
             get { return _guards; }
         }
 
-        public int Count
+        public Employee[] Total
         {
-            get { return _herbalists.Count + _apothecaries.Count + _shopkeepers.Count + _guards.Count; }
+            get
+            {
+                var total = new List<Employee>();
+
+                for (int i = 0; i < Herbalists.Count; i++)
+                {
+                    total.Add(Herbalists[i]);
+                }
+
+                for (int i = 0; i < Apothecaries.Count; i++)
+                {
+                    total.Add(Apothecaries[i]);
+                }
+
+                for (int i = 0; i < Shopkeepers.Count; i++)
+                {
+                    total.Add(Shopkeepers[i]);
+                }
+
+                for (int i = 0; i < Guards.Count; i++)
+                {
+                    total.Add(Guards[i]);
+                }
+
+                return total.ToArray();
+            }
         }
 
         public Applicants()
@@ -69,7 +94,7 @@ namespace Alchemy.Models
                 _guards.Add((Guard)applicant);
             }
 
-            OnCountChanged(Count);
+            OnCountChanged(Total.Length);
         }
 
         public void Remove(Employee applicant)
@@ -94,7 +119,7 @@ namespace Alchemy.Models
                 _guards.Remove((Guard)applicant);
             }
 
-            OnCountChanged(Count);
+            OnCountChanged(Total.Length);
         }
 
         protected virtual void OnCountChanged(int value)

@@ -6,13 +6,16 @@ using Alchemy.Models;
 
 namespace Alchemy.Views
 {
-    public class HerbComponent : MonoBehaviour
+    public class HerbInShop : MonoBehaviour
     {
         public Herb herb;
 
-        [SerializeField]Text _amount = null;
-        [SerializeField]Text _name = null;
-        [SerializeField]Text _rarity = null;
+        [SerializeField]
+        Text _amount = null;
+        [SerializeField]
+        Text _name = null;
+        [SerializeField]
+        Text _rarity = null;
 
         void Start()
         {

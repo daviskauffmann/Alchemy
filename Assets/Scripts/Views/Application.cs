@@ -4,21 +4,24 @@ using Alchemy.Models;
 
 namespace Alchemy.Views
 {
-    public class EmployeeComponent : MonoBehaviour
+    public class Application : MonoBehaviour
     {
-        public Employee employee;
+        public Employee applicant;
 
-        [SerializeField]Text _name = null;
-        [SerializeField]Text _title = null;
-        [SerializeField]Text _salary = null;
+        [SerializeField]
+        Text _name = null;
+        [SerializeField]
+        Text _title = null;
+        [SerializeField]
+        Text _salary = null;
 
         void Start()
         {
-            _name.text = employee.Name;
-            _title.text = employee.Title;
-            _salary.text = string.Format("{0} gold/day", employee.Salary);
+            _name.text = applicant.Name;
+            _title.text = applicant.Title;
+            _salary.text = string.Format("{0} gold/day", applicant.Salary);
 
-            switch (employee.Title)
+            switch (applicant.Title)
             {
                 case "Herbalist":
                     _title.color = Color.green;
@@ -38,9 +41,14 @@ namespace Alchemy.Views
             }
         }
 
-        public void Fire()
+        public void Dismiss()
         {
-            World.Instance.Shop.FireEmployee(employee);
+            World.Instance.DismissApplication(applicant);
+        }
+
+        public void Hire()
+        {
+            World.Instance.Shop.HireEmployee(applicant);
         }
     }
 }
