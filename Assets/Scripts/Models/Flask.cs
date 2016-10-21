@@ -44,7 +44,6 @@ namespace Alchemy.Models
         {
             var clone = (Flask)MemberwiseClone();
             clone.Amount = -1;
-
             return clone;
         }
     }

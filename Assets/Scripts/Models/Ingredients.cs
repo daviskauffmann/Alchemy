@@ -23,12 +23,10 @@ namespace Alchemy.Models
             get
             {
                 var total = new List<Ingredient>();
-
                 for (int i = 0; i < _herbs.Count; i++)
                 {
                     total.Add(_herbs[i]);
                 }
-
                 return total.ToArray();
             }
         }
@@ -48,21 +46,16 @@ namespace Alchemy.Models
                     if (Herbs[i].Name == prototype.Name)
                     {
                         Herbs[i].Amount++;
-
                         OnHerbAdded(Herbs[i]);
-
                         newEntry = false;
-
                         break;
                     }
                 }
-
                 if (newEntry)
                 {
                     var herb = (Herb)prototype.Clone();
                     herb.Amount = 1;
                     Herbs.Add(herb);
-
                     OnHerbAdded(herb);
                 }
             }
@@ -77,15 +70,12 @@ namespace Alchemy.Models
                     if (Herbs[i].Name == prototype.Name)
                     {
                         Herbs[i].Amount--;
-
                         if (Herbs[i].Amount < 0)
                         {
                             Herbs[i].Amount = 0;
                         }
-
                         OnHerbRemoved(Herbs[i]);
-
-                        return;
+                        break;
                     }
                 }
             }

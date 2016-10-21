@@ -19,8 +19,6 @@ namespace Alchemy.Views
         {
             _name.text = applicant.Name;
             _title.text = applicant.Title;
-            _salary.text = string.Format("{0} gold/day", applicant.Salary);
-
             switch (applicant.Title)
             {
                 case "Herbalist":
@@ -39,6 +37,7 @@ namespace Alchemy.Views
                     _title.color = Color.white;
                     break;
             }
+            _salary.text = string.Format("{0} gold/day", applicant.Salary);
         }
 
         public void Dismiss()

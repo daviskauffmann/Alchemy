@@ -48,22 +48,18 @@ namespace Alchemy.Views
         void Log(string value) //FIXME
         {
             bool scrollDown = false;
-
             if (_messageScrollRect.verticalNormalizedPosition == 0)
             {
                 scrollDown = true;
             }
-
             var message = Instantiate<Text>(_messagePrefab);
             message.transform.SetParent(_messageArea);
             message.text = string.Format("[Day: {0} Hour: {1}] {2}", World.Instance.Day, World.Instance.Hour, value);
-
             if (scrollDown)
             {
                 Canvas.ForceUpdateCanvases();
                 _messageScrollRect.verticalNormalizedPosition = 0;
             }
-                
             Destroy(message, 30);
         }
 

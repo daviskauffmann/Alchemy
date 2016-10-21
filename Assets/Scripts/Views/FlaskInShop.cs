@@ -20,7 +20,6 @@ namespace Alchemy.Views
         {
             _name.text = flask.Name;
             _quality.text = flask.Quality.ToString();
-
             switch (flask.Quality)
             {
                 case Quality.Poor:

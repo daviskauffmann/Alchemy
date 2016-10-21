@@ -21,7 +21,6 @@ namespace Alchemy.Views
         {
             _name.text = herb.Name;
             _rarity.text = herb.Rarity.ToString();
-
             switch (herb.Rarity)
             {
                 case Rarity.Common:

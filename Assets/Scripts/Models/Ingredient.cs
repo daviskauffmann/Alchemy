@@ -42,7 +42,6 @@ namespace Alchemy.Models
             {
                 ingredient._effects[i] = (Effect)_effects[i].Clone();
             }
-
             return ingredient;
         }
     }

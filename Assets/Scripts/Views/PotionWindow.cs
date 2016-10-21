@@ -23,8 +23,6 @@ namespace Alchemy.Views
 
         void Start()
         {
-            ShowPotionResearch();
-
             World.Instance.Shop.PotionResearched += CreatePotionPrototype;
             World.Instance.Shop.PotionCreated += CreatePotionForSale;
             World.Instance.Shop.PotionSold += RemovePotionForSale;
@@ -33,21 +31,20 @@ namespace Alchemy.Views
             {
                 CreatePotionPrototype(World.Instance.Shop, new PotionEventArgs(World.Instance.Shop.PotionPrototypes[i]));
             }
-
             for (int i = 0; i < World.Instance.Shop.PotionsForSale.Count; i++)
             {
                 CreatePotionForSale(World.Instance.Shop, new PotionEventArgs(World.Instance.Shop.PotionsForSale[i]));
             }
+
+            ShowPotionResearch();
         }
 
         public void ShowPotionResearch()
         {
             _potionResearchContent.alpha = 1;
             _potionResearchContent.blocksRaycasts = true;
-
             _potionPrototypeContent.alpha = 0;
             _potionPrototypeContent.blocksRaycasts = false;
-
             _potionForSaleContent.alpha = 0;
             _potionForSaleContent.blocksRaycasts = false;
         }
@@ -81,10 +78,8 @@ namespace Alchemy.Views
         {
             _potionPrototypeContent.alpha = 1;
             _potionPrototypeContent.blocksRaycasts = true;
-
             _potionResearchContent.alpha = 0;
             _potionResearchContent.blocksRaycasts = false;
-
             _potionForSaleContent.alpha = 0;
             _potionForSaleContent.blocksRaycasts = false;
         }
@@ -100,10 +95,8 @@ namespace Alchemy.Views
         {
             _potionForSaleContent.alpha = 1;
             _potionForSaleContent.blocksRaycasts = true;
-
             _potionResearchContent.alpha = 0;
             _potionResearchContent.blocksRaycasts = false;
-
             _potionPrototypeContent.alpha = 0;
             _potionPrototypeContent.blocksRaycasts = false;
         }
@@ -113,14 +106,12 @@ namespace Alchemy.Views
             var potionForSaleGameObject = Instantiate<PotionForSale>(_potionForSalePrefab);
             potionForSaleGameObject.transform.SetParent(_potionForSaleArea);
             potionForSaleGameObject.potion = e.Potion;
-
             _potionForSaleGameObjects.Add(e.Potion, potionForSaleGameObject);
         }
 
         void RemovePotionForSale(object sender, PotionEventArgs e)
         {
             Destroy(_potionForSaleGameObjects[e.Potion].gameObject);
-
             _potionForSaleGameObjects.Remove(e.Potion);
         }
     }

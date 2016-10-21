@@ -51,17 +51,27 @@ namespace Alchemy.Models
 
         public Potion(Flask flask, Solvent solvent, Ingredient[] ingredients)
         {
+            _name = "";
+            _value = 0;
             _flask = (Flask)flask.Clone();
             _solvent = /*(Solvent)*/solvent/*.Clone()*/;
             var herbs = new List<Herb>();
+            //var otherTypes = new List<OtherType>();
             for (int i = 0; i < ingredients.Length; i++)
             {
                 if (ingredients[i] is Herb)
                 {
                     herbs.Add((Herb)ingredients[i].Clone());
                 }
+                /*
+                if (ingredients[i] is OtherType)
+                {
+                    herbs.Add((OtherType)ingredients[i].Clone());
+                }
+                */
             }
             _herbs = herbs.ToArray();
+            //_otherTypes = otherTypes.ToArray();
 
             var effectsToCheck = new Queue<Effect>();
             for (int i = 0; i < ingredients.Length; i++)
@@ -76,16 +86,13 @@ namespace Alchemy.Models
             while (effectsToCheck.Count > 0)
             {
                 var currentEffect = effectsToCheck.Dequeue();
-
                 foreach (var effect in effectsToCheck)
                 {
                     var combinedEffect = currentEffect.Combine(effect);
-
                     if (combinedEffect != null)
                     {
                         effect.Discovered = true;
                         currentEffect.Discovered = true;
-
                         effects.Add(combinedEffect);
                     }
                 }
@@ -97,7 +104,6 @@ namespace Alchemy.Models
             for (int i = 0; i < Effects.Length; i++)
             {
                 name += Effects[i].Name;
-
                 if (i < Effects.Length - 1)
                 {
                     name += ", ";

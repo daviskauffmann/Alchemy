@@ -39,27 +39,22 @@ namespace Alchemy.Models
             get
             {
                 var total = new List<Employee>();
-
                 for (int i = 0; i < Herbalists.Count; i++)
                 {
                     total.Add(Herbalists[i]);
                 }
-
                 for (int i = 0; i < Apothecaries.Count; i++)
                 {
                     total.Add(Apothecaries[i]);
                 }
-
                 for (int i = 0; i < Shopkeepers.Count; i++)
                 {
                     total.Add(Shopkeepers[i]);
                 }
-
                 for (int i = 0; i < Guards.Count; i++)
                 {
                     total.Add(Guards[i]);
                 }
-
                 return total.ToArray();
             }
         }
@@ -78,17 +73,14 @@ namespace Alchemy.Models
             {
                 _herbalists.Add((Herbalist)applicant);
             }
-
             if (applicant is Apothecary)
             {
                 _apothecaries.Add((Apothecary)applicant);
             }
-
             if (applicant is Shopkeeper)
             {
                 _shopkeepers.Add((Shopkeeper)applicant);
             }
-
             if (applicant is Guard)
             {
                 _guards.Add((Guard)applicant);
@@ -103,17 +95,14 @@ namespace Alchemy.Models
             {
                 _herbalists.Remove((Herbalist)applicant);
             }
-
             if (applicant is Apothecary)
             {
                 _apothecaries.Remove((Apothecary)applicant);
             }
-
             if (applicant is Shopkeeper)
             {
                 _shopkeepers.Remove((Shopkeeper)applicant);
             }
-
             if (applicant is Guard)
             {
                 _guards.Remove((Guard)applicant);
@@ -126,7 +115,7 @@ namespace Alchemy.Models
         {
             if (CountChanged != null)
             {
-                CountChanged(this, new IntEventArgs(value));  
+                CountChanged(this, new IntEventArgs(value));
             }
         }
     }

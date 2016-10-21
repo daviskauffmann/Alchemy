@@ -26,7 +26,6 @@ namespace Alchemy.Controllers
                 if (World.Instance.Speed != 0)
                 {
                     _previousGameSpeed = World.Instance.Speed;
-
                     World.Instance.Speed = 0;
                 }
                 else
@@ -42,7 +41,6 @@ namespace Alchemy.Controllers
                     var herb = World.Instance.HerbDatabase[World.Instance.Random.Next(World.Instance.HerbDatabase.Length)];
                     World.Instance.Shop.DeliverIngredient(herb);
                 }
-
                 for (int i = 0; i < 100; i++)
                 {
                     var flask = (Flask)World.Instance.FlaskDatabase[World.Instance.Random.Next(World.Instance.FlaskDatabase.Length)].Clone();

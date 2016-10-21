@@ -34,14 +34,12 @@ namespace Alchemy.Views
             var employeeCardGameObject = Instantiate<EmployeeCard>(_employeeCardPrefab);
             employeeCardGameObject.transform.SetParent(_employeeCardArea);
             employeeCardGameObject.employee = e.Employee;
-
             _employeeCardGameObjects.Add(e.Employee, employeeCardGameObject);
         }
 
         void RemoveEmployeeCard(object sender, EmployeeEventArgs e)
         {
             Destroy(_employeeCardGameObjects[e.Employee].gameObject);
-
             _employeeCardGameObjects.Remove(e.Employee);
         }
     }

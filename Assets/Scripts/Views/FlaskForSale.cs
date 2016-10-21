@@ -22,8 +22,6 @@ namespace Alchemy.Views
         {
             _name.text = flask.Name;
             _quality.text = flask.Quality.ToString();
-            _value.text = string.Format("{0} Gold", flask.Value);
-
             switch (flask.Quality)
             {
                 case Quality.Poor:
@@ -45,6 +43,7 @@ namespace Alchemy.Views
                     _quality.color = Color.white;
                     break;
             }
+            _value.text = string.Format("{0} Gold", flask.Value);
         }
 
         void Update()

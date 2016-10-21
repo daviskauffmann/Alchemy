@@ -30,7 +30,6 @@ namespace Alchemy.Models
         {
             var clone = (Effect)MemberwiseClone();
             clone._discovered = false;
-
             return clone;
         }
 
@@ -40,7 +39,6 @@ namespace Alchemy.Models
             {
                 return (Effect)Clone();
             }
-
             return null;
         }
     }

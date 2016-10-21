@@ -19,14 +19,12 @@ namespace Alchemy.Models
         public override void StartWorking()
         {
             base.StartWorking();
-
             World.Instance.HourChanged += FindHerb;
         }
 
         public override void StopWorking()
         {
             base.StopWorking();
-
             World.Instance.HourChanged -= FindHerb;
         }
 

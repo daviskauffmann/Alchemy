@@ -32,11 +32,10 @@ namespace Alchemy.Views
         {
             if (!_herbInShopGameObjects.ContainsKey(e.Herb))
             {
-                var herb = Instantiate<HerbInShop>(_herbInShopPrefab);
-                herb.transform.SetParent(_herbInShopArea);
-                herb.herb = e.Herb;
-
-                _herbInShopGameObjects.Add(e.Herb, herb);
+                var herbInShopGameObject = Instantiate<HerbInShop>(_herbInShopPrefab);
+                herbInShopGameObject.transform.SetParent(_herbInShopArea);
+                herbInShopGameObject.herb = e.Herb;
+                _herbInShopGameObjects.Add(e.Herb, herbInShopGameObject);
             }
         }
 
@@ -45,7 +44,6 @@ namespace Alchemy.Views
             if (e.Herb.Amount < 1)
             {
                 Destroy(_herbInShopGameObjects[e.Herb].gameObject);
-
                 _herbInShopGameObjects.Remove(e.Herb);
             }
         }

@@ -28,7 +28,6 @@ namespace Alchemy.Views
             World.Instance.Shop.EmployeeHired += RemoveApplication;
 
             ChangeTitleText(World.Instance.Applicants, new IntEventArgs(World.Instance.Applicants.Total.Length));
-
             for (int i = 0; i < World.Instance.Applicants.Total.Length; i++)
             {
                 CreateApplication(World.Instance.Applicants, new EmployeeEventArgs(World.Instance.Applicants.Total[i]));
@@ -45,14 +44,12 @@ namespace Alchemy.Views
             var _applicationGameObject = Instantiate<Application>(_applicationPrefab);
             _applicationGameObject.transform.SetParent(_applicationArea);
             _applicationGameObject.applicant = e.Employee;
-
             _applicationGameObjects.Add(e.Employee, _applicationGameObject);
         }
 
         void RemoveApplication(object sender, EmployeeEventArgs e)
         {
             Destroy(_applicationGameObjects[e.Employee].gameObject);
-
             _applicationGameObjects.Remove(e.Employee);
         }
     }

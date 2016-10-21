@@ -37,27 +37,22 @@ namespace Alchemy.Models
             get
             {
                 var total = new List<Employee>();
-
                 for (int i = 0; i < Herbalists.Count; i++)
                 {
                     total.Add(Herbalists[i]);
                 }
-
                 for (int i = 0; i < Apothecaries.Count; i++)
                 {
                     total.Add(Apothecaries[i]);
                 }
-
                 for (int i = 0; i < Shopkeepers.Count; i++)
                 {
                     total.Add(Shopkeepers[i]);
                 }
-
                 for (int i = 0; i < Guards.Count; i++)
                 {
                     total.Add(Guards[i]);
                 }
-
                 return total.ToArray();
             }
         }
@@ -78,17 +73,14 @@ namespace Alchemy.Models
             {
                 _herbalists.Add((Herbalist)employee);
             }
-
             if (employee is Apothecary)
             {
                 _apothecaries.Add((Apothecary)employee);
             }
-
             if (employee is Shopkeeper)
             {
                 _shopkeepers.Add((Shopkeeper)employee);
             }
-
             if (employee is Guard)
             {
                 _guards.Add((Guard)employee);
@@ -103,17 +95,14 @@ namespace Alchemy.Models
             {
                 _herbalists.Remove((Herbalist)employee);
             }
-
             if (employee is Apothecary)
             {
                 _apothecaries.Remove((Apothecary)employee);
             }
-
             if (employee is Shopkeeper)
             {
                 _shopkeepers.Remove((Shopkeeper)employee);
             }
-
             if (employee is Guard)
             {
                 _guards.Remove((Guard)employee);
@@ -124,24 +113,9 @@ namespace Alchemy.Models
 
         void PayEmployees(object sender, IntEventArgs e)
         {
-            for (int i = 0; i < _herbalists.Count; i++)
+            for (int i = 0; i < Total.Length; i++)
             {
-                World.Instance.Shop.Gold -= _herbalists[i].Salary;
-            }
-
-            for (int i = 0; i < _apothecaries.Count; i++)
-            {
-                World.Instance.Shop.Gold -= _apothecaries[i].Salary;
-            }
-
-            for (int i = 0; i < _shopkeepers.Count; i++)
-            {
-                World.Instance.Shop.Gold -= _shopkeepers[i].Salary;
-            }
-
-            for (int i = 0; i < _guards.Count; i++)
-            {
-                World.Instance.Shop.Gold -= _guards[i].Salary;
+                World.Instance.Shop.Gold -= Total[i].Salary;
             }
         }
     }

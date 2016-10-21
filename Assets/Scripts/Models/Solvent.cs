@@ -36,7 +36,6 @@ namespace Alchemy.Models
         {
             var clone = (Solvent)MemberwiseClone();
             clone.Amount = -1;
-
             return clone;
         }
     }

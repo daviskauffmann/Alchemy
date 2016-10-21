@@ -44,8 +44,7 @@ namespace Alchemy.Models
             {
                 if (_gold != value)
                 {
-                    _gold = value; 
-
+                    _gold = value;
                     OnGoldChanged(_gold);
                 }
             }
@@ -95,16 +94,13 @@ namespace Alchemy.Models
         public void HireEmployee(Employee employee)
         {
             World.Instance.Applicants.Remove(employee);
-
             Employees.Add(employee);
-
             OnEmployeeHired(employee);
         }
 
         public void FireEmployee(Employee employee)
         {
             Employees.Remove(employee);
-
             OnEmployeeFired(employee);
         }
 
@@ -116,31 +112,24 @@ namespace Alchemy.Models
             }
 
             Gold -= prototype.Value;
-
             bool newEntry = true;
             for (int i = 0; i < Flasks.Count; i++)
             {
                 if (Flasks[i].Name == prototype.Name)
                 {
                     Flasks[i].Amount++;
-
                     OnFlaskBought(Flasks[i]);
-
                     newEntry = false;
-
                     break;
                 }
             }
-
             if (newEntry)
             {
                 var flask = (Flask)prototype.Clone();
                 flask.Amount = 1;
                 Flasks.Add(flask);
-
                 OnFlaskBought(flask);
             }
-
             return true;
         }
 
@@ -151,15 +140,12 @@ namespace Alchemy.Models
                 if (Flasks[i].Name == prototype.Name)
                 {
                     Flasks[i].Amount--;
-
                     if (Flasks[i].Amount < 0)
                     {
                         Flasks[i].Amount = 0;
                     }
-
                     OnFlaskDiscarded(Flasks[i]);
-                  
-                    return;
+                    break;
                 }
             }
         }
@@ -167,27 +153,24 @@ namespace Alchemy.Models
         public void DeliverIngredient(Ingredient prototype)
         {
             Ingredients.Add(prototype);
-
             OnIngredientDelivered(prototype);
         }
 
         public void DiscardIngredient(Ingredient prototype)
         {
             Ingredients.Remove(prototype);
-
             OnIngredientDiscarded(prototype);
         }
 
         public void ResearchPotion(Flask flask, Solvent solvent, Ingredient[] ingredients)
         {
-            var potion = new Potion(flask, solvent, ingredients);
-                
+            var potion = new Potion(flask, solvent, ingredients);   
             if (!AddPotionPrototype(potion))
             {
                 return;
             }
-
             RemovePotionMaterials(flask, solvent, ingredients);
+            OnPotionResearched(potion);
 
             for (int i = 0; i < ingredients.Length; i++)
             {
@@ -199,27 +182,20 @@ namespace Alchemy.Models
                     }
                 }
             }
-
-            OnPotionResearched(potion);
         }
 
         public void CreatePotion(Flask flask, Solvent solvent, Ingredient[] ingredients)
         {
             var potion = new Potion(flask, solvent, ingredients);
-
             PotionsForSale.Add(potion);
-
             RemovePotionMaterials(flask, solvent, ingredients);
-
             OnPotionCreated(potion);
         }
 
         public void SellPotion(Potion potion)
         {
             Gold += potion.Value;
-
             PotionsForSale.Remove(potion);
-
             OnPotionSold(potion);
         }
 
@@ -335,7 +311,6 @@ namespace Alchemy.Models
             }
 
             PotionPrototypes.Add(potion);
-
             return true;
         }
     }

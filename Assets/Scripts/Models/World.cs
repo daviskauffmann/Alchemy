@@ -77,7 +77,6 @@ namespace Alchemy.Models
                 if (_speed != value)
                 {
                     _speed = value;
-
                     OnSpeedChanged(_speed);
                 }
             }
@@ -91,11 +90,9 @@ namespace Alchemy.Models
                 if (_time != value)
                 {
                     _time = value;
-
                     if (_time >= _timePerHour)
                     {
                         Hour++;
-
                         _time = 0;
                     }
                 }
@@ -110,14 +107,11 @@ namespace Alchemy.Models
                 if (_hour != value)
                 {
                     _hour = value;
-
                     if (_hour >= 24)
                     {
                         Day++;
-
                         _hour = 0;
                     }
-
                     OnHourChanged(_hour);
                 }
             }
@@ -131,7 +125,6 @@ namespace Alchemy.Models
                 if (_day != value)
                 {
                     _day = value; 
-
                     OnDayChanged(_day);
                 }
             }
@@ -187,7 +180,6 @@ namespace Alchemy.Models
 
             DayChanged += FindRandomApplicant;
             DayChanged += GenerateFlaskForSale;
-
             DayChanged += (object sender, IntEventArgs e) =>
             {
                 Shop.Gold += 1000;
@@ -196,54 +188,55 @@ namespace Alchemy.Models
 
         public Flask GetFlaskPrototype(string name)
         {
+            Flask flask = null;
             for (int i = 0; i < FlaskDatabase.Length; i++)
             {
                 if (FlaskDatabase[i].Name == name)
                 {
-                    return FlaskDatabase[i];
+                    flask = FlaskDatabase[i];
+                    break;
                 }
             }
-
-            return null;
+            return flask;
         }
 
         public Solvent GetSolventPrototype(string name)
         {
+            Solvent solvent = null;
             for (int i = 0; i < SolventDatabase.Length; i++)
             {
                 if (SolventDatabase[i].Name == name)
                 {
-                    return SolventDatabase[i];
+                    solvent = SolventDatabase[i];
+                    break;
                 }
             }
-
-            return null;
+            return solvent;
         }
 
         public Herb GetHerbPrototype(string name)
         {
+            Herb herb = null;
             for (int i = 0; i < HerbDatabase.Length; i++)
             {
                 if (HerbDatabase[i].Name == name)
                 {
-                    return HerbDatabase[i];
+                    herb = HerbDatabase[i];
+                    break;
                 }
             }
-
-            return null;
+            return herb;
         }
 
         public void ReceiveApplication(Employee applicant)
         {
             Applicants.Add(applicant);
-
             OnApplicantReceived(applicant);
         }
 
         public void DismissApplication(Employee applicant)
         {
             Applicants.Remove(applicant);
-
             OnApplicantDismissed(applicant);
         }
 
@@ -255,21 +248,16 @@ namespace Alchemy.Models
                 if (FlasksForSale[i].Name == prototype.Name)
                 {
                     FlasksForSale[i].Amount++;
-
                     OnFlaskDisplayed(FlasksForSale[i]);
-
                     newEntry = false;
-
                     break;
                 }
             }
-
             if (newEntry)
             {
                 var flask = (Flask)prototype.Clone();
                 flask.Amount = 1;
                 FlasksForSale.Add(flask);
-
                 OnFlaskDisplayed(flask);
             }
         }
@@ -286,15 +274,12 @@ namespace Alchemy.Models
                 if (FlasksForSale[i].Name == prototype.Name)
                 {
                     FlasksForSale[i].Amount--;
-
                     if (FlasksForSale[i].Amount < 0)
                     {
                         FlasksForSale[i].Amount = 0;
                     }
-
                     OnFlaskSold(FlasksForSale[i]);
-
-                    return;
+                    break;
                 }
             }
         }
@@ -358,7 +343,6 @@ namespace Alchemy.Models
         void FindRandomApplicant(object sender, IntEventArgs e)
         {
             Employee applicant = null;
-
             switch (World.Instance.Random.Next(4))
             {
                 case 0:
@@ -376,7 +360,6 @@ namespace Alchemy.Models
                 default:
                     break;
             }
-
             if (applicant != null)
             {
                 ReceiveApplication(applicant);
@@ -386,7 +369,6 @@ namespace Alchemy.Models
         void GenerateFlaskForSale(object sender, IntEventArgs e)
         {
             var flask = FlaskDatabase[World.Instance.Random.Next(FlaskDatabase.Length)];
-
             DisplayFlask(flask);
         }
     }

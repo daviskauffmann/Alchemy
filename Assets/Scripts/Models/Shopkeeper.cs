@@ -30,22 +30,18 @@ namespace Alchemy.Models
 
         void SellPotion(object sender, IntEventArgs e)
         {
-            var shopPotions = World.Instance.Shop.PotionsForSale;
-
             if (World.Instance.Random.Next(0, 100) < 10)
             {
                 Potion potion = null;
                 float value = -1;
-
-                for (int i = 0; i < shopPotions.Count; i++)
+                for (int i = 0; i < World.Instance.Shop.PotionsForSale.Count; i++)
                 {
-                    if (shopPotions[i].Value > value)
+                    if (World.Instance.Shop.PotionsForSale[i].Value > value)
                     {
-                        potion = shopPotions[i];
-                        value = shopPotions[i].Value;
+                        potion = World.Instance.Shop.PotionsForSale[i];
+                        value = World.Instance.Shop.PotionsForSale[i].Value;
                     }
                 }
-            
                 if (potion != null)
                 {
                     World.Instance.Shop.SellPotion(potion);
