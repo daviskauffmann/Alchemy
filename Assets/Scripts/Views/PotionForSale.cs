@@ -8,7 +8,8 @@ namespace Alchemy.Views
     {
         public Potion potion;
 
-        [SerializeField]Text _name = null;
+        [SerializeField]
+        Text _name = null;
 
         void Start()
         {

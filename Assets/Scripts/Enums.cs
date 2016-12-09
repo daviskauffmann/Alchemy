@@ -13,3 +13,11 @@ public enum Quality
     Excellent,
     Perfect
 }
+
+public enum Region
+{
+    Plains,
+    Forest,
+    Desert,
+    Tundra
+}

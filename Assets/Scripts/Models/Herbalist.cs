@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Alchemy.Models
@@ -6,14 +7,25 @@ namespace Alchemy.Models
     [Serializable]
     public class Herbalist : Employee
     {
-        [SerializeField]int _excursions;
-        [SerializeField]int _herbsFound;
-        [SerializeField]int _rareHerbsFound;
+        [SerializeField]
+        Region _regionToSearch;
+        [SerializeField]
+        int _excursions;
+        [SerializeField]
+        int _herbsFound;
+        [SerializeField]
+        int _rareHerbsFound;
+
+        public Region RegionToSearch
+        {
+            get { return _regionToSearch; }
+            set { _regionToSearch = value; }
+        }
 
         public Herbalist(string name, int salary)
             : base("Herbalist", name, salary)
         {
-            
+            _regionToSearch = Region.Plains;
         }
 
         public override void StartWorking()
@@ -32,8 +44,22 @@ namespace Alchemy.Models
         {
             if (World.Instance.Random.Next(0, 100) < 10)
             {
-                var herb = World.Instance.HerbDatabase[World.Instance.Random.Next(World.Instance.HerbDatabase.Length)];
-                World.Instance.Shop.DeliverIngredient(herb);
+                var herbs = new List<Herb>();
+                for (int i = 0; i < World.Instance.HerbDatabase.Length; i++)
+                {
+                    for (int j = 0; j < World.Instance.HerbDatabase[i].Regions.Length; j++)
+                    {
+                        if (World.Instance.HerbDatabase[i].Regions[j] == RegionToSearch)
+                        {
+                            herbs.Add(World.Instance.HerbDatabase[i]);
+                        }
+                    }
+                }
+                if (herbs.Count > 0)
+                {
+                    var herb = herbs[World.Instance.Random.Next(herbs.Count)];
+                    World.Instance.Shop.DeliverIngredient(herb);
+                }
             }
         }
     }

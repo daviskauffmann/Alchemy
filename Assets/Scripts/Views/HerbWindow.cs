@@ -8,8 +8,10 @@ namespace Alchemy.Views
 {
     public class HerbWindow : MonoBehaviour
     {
-        [SerializeField]HerbInShop _herbInShopPrefab = null;
-        [SerializeField]Transform _herbInShopArea = null;
+        [SerializeField]
+        HerbInShop _herbInShopPrefab = null;
+        [SerializeField]
+        Transform _herbInShopArea = null;
         Dictionary<Herb, HerbInShop> _herbInShopGameObjects;
 
         void Awake()

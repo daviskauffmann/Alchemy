@@ -7,13 +7,20 @@ namespace Alchemy.Models
     [Serializable]
     public class Shop
     {
-        [SerializeField]float _gold;
-        [SerializeField]Employees _employees;
-        [SerializeField]List<Flask> _flasks;
-        [SerializeField]List<Solvent> _solvents;
-        [SerializeField]Ingredients _ingredients;
-        [SerializeField]List<Potion> _potionPrototypes;
-        [SerializeField]List<Potion> _potionsForSale;
+        [SerializeField]
+        float _gold;
+        [SerializeField]
+        Employees _employees;
+        [SerializeField]
+        List<Flask> _flasks;
+        [SerializeField]
+        List<Solvent> _solvents;
+        [SerializeField]
+        Ingredients _ingredients;
+        [SerializeField]
+        List<Potion> _potionPrototypes;
+        [SerializeField]
+        List<Potion> _potionsForSale;
 
         public event EventHandler<FloatEventArgs> GoldChanged;
 
@@ -110,7 +117,6 @@ namespace Alchemy.Models
             {
                 return false;
             }
-
             Gold -= prototype.Value;
             bool newEntry = true;
             for (int i = 0; i < Flasks.Count; i++)
@@ -171,7 +177,6 @@ namespace Alchemy.Models
             }
             RemovePotionMaterials(flask, solvent, ingredients);
             OnPotionResearched(potion);
-
             for (int i = 0; i < ingredients.Length; i++)
             {
                 for (int j = 0; j < ingredients[i].Effects.Length; j++)

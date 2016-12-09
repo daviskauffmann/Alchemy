@@ -6,7 +6,8 @@ namespace Alchemy.Models
     [Serializable]
     public class Shopkeeper : Employee
     {
-        [SerializeField]int _charisma;
+        [SerializeField]
+        int _charisma;
 
         public Shopkeeper(string name, int salary)
             : base("Shopkeeper", name, salary)

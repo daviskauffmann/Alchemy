@@ -7,12 +7,18 @@ namespace Alchemy.Models
     [Serializable]
     public class Potion
     {
-        [SerializeField]string _name;
-        [SerializeField]Flask _flask;
-        [SerializeField]Solvent _solvent;
-        [SerializeField]Herb[] _herbs;
-        [SerializeField]Effect[] _effects;
-        [SerializeField]float _value;
+        [SerializeField]
+        string _name;
+        [SerializeField]
+        Flask _flask;
+        [SerializeField]
+        Solvent _solvent;
+        [SerializeField]
+        Herb[] _herbs;
+        [SerializeField]
+        Effect[] _effects;
+        [SerializeField]
+        float _value;
 
         public string Name
         {

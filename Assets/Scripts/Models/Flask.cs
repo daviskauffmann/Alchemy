@@ -6,10 +6,14 @@ namespace Alchemy.Models
     [Serializable]
     public class Flask : ICloneable
     {
-        [SerializeField]string _name;
-        [SerializeField]int _amount;
-        [SerializeField]Quality _quality;
-        [SerializeField]float _value;
+        [SerializeField]
+        string _name;
+        [SerializeField]
+        int _amount;
+        [SerializeField]
+        Quality _quality;
+        [SerializeField]
+        float _value;
 
         public string Name
         {

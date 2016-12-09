@@ -6,7 +6,8 @@ namespace Alchemy.Views
     public class Window : MonoBehaviour, IBeginDragHandler, IDragHandler
     {
         Vector2 _offset;
-        [SerializeField]Transform _content = null;
+        [SerializeField]
+        Transform _content = null;
 
         public void OnBeginDrag(PointerEventData eventData)
         {

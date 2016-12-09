@@ -6,12 +6,18 @@ namespace Alchemy.Models
     [Serializable]
     public abstract class Employee
     {
-        [SerializeField]protected string _title;
-        [SerializeField]protected string _name;
-        [SerializeField]protected string _description;
-        [SerializeField]protected float _health;
-        [SerializeField]protected int _salary;
-        [SerializeField]protected int _daysEmployed;
+        [SerializeField]
+        protected string _title;
+        [SerializeField]
+        protected string _name;
+        [SerializeField]
+        protected string _description;
+        [SerializeField]
+        protected float _health;
+        [SerializeField]
+        protected int _salary;
+        [SerializeField]
+        protected int _daysEmployed;
 
         public string Title
         {

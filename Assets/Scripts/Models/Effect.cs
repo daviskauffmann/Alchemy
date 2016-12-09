@@ -6,8 +6,10 @@ namespace Alchemy.Models
     [Serializable]
     public class Effect : ICloneable
     {
-        [SerializeField]string _name;
-        [SerializeField]bool _discovered;
+        [SerializeField]
+        string _name;
+        [SerializeField]
+        bool _discovered;
 
         public string Name
         {

@@ -7,13 +7,20 @@ namespace Alchemy.Views
 {
     public class PotionWindow : MonoBehaviour
     {
-        [SerializeField]CanvasGroup _potionResearchContent = null;
-        [SerializeField]CanvasGroup _potionPrototypeContent = null;
-        [SerializeField]PotionPrototype _potionPrototypePrefab = null;
-        [SerializeField]Transform _potionPrototypeArea = null;
-        [SerializeField]CanvasGroup _potionForSaleContent = null;
-        [SerializeField]PotionForSale _potionForSalePrefab = null;
-        [SerializeField]Transform _potionForSaleArea = null;
+        [SerializeField]
+        CanvasGroup _potionResearchContent = null;
+        [SerializeField]
+        CanvasGroup _potionPrototypeContent = null;
+        [SerializeField]
+        PotionPrototype _potionPrototypePrefab = null;
+        [SerializeField]
+        Transform _potionPrototypeArea = null;
+        [SerializeField]
+        CanvasGroup _potionForSaleContent = null;
+        [SerializeField]
+        PotionForSale _potionForSalePrefab = null;
+        [SerializeField]
+        Transform _potionForSaleArea = null;
         Dictionary<Potion, PotionForSale> _potionForSaleGameObjects;
 
         void Awake()

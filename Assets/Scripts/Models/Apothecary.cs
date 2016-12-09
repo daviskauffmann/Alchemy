@@ -7,7 +7,8 @@ namespace Alchemy.Models
     [Serializable]
     public class Apothecary : Employee
     {
-        [SerializeField]int _potionsCrafted;
+        [SerializeField]
+        int _potionsCrafted;
 
         public Apothecary(string name, int salary)
             : base("Apothecary", name, salary)

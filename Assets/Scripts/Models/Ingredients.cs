@@ -7,7 +7,8 @@ namespace Alchemy.Models
     [Serializable]
     public class Ingredients
     {
-        [SerializeField]List<Herb> _herbs;
+        [SerializeField]
+        List<Herb> _herbs;
 
         public event EventHandler<HerbEventArgs> HerbAdded;
 

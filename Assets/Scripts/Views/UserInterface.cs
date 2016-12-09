@@ -7,14 +7,22 @@ namespace Alchemy.Views
 {
     public class UserInterface : MonoBehaviour
     {
-        [SerializeField]Text _speed = null;
-        [SerializeField]Text _day = null;
-        [SerializeField]Text _hour = null;
-        [SerializeField]Text _gold = null;
-        [SerializeField]Text _applications = null;
-        [SerializeField]Text _messagePrefab = null;
-        [SerializeField]Transform _messageArea = null;
-        [SerializeField]ScrollRect _messageScrollRect = null;
+        [SerializeField]
+        Text _speed = null;
+        [SerializeField]
+        Text _day = null;
+        [SerializeField]
+        Text _hour = null;
+        [SerializeField]
+        Text _gold = null;
+        [SerializeField]
+        Text _applications = null;
+        [SerializeField]
+        Text _messagePrefab = null;
+        [SerializeField]
+        Transform _messageArea = null;
+        [SerializeField]
+        ScrollRect _messageScrollRect = null;
 
         void Start()
         {

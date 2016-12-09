@@ -6,9 +6,12 @@ namespace Alchemy.Models
     [Serializable]
     public class Solvent : ICloneable
     {
-        [SerializeField]string _name;
-        [SerializeField]int _amount;
-        [SerializeField]int _strength;
+        [SerializeField]
+        string _name;
+        [SerializeField]
+        int _amount;
+        [SerializeField]
+        int _strength;
 
         public string Name
         {

@@ -7,10 +7,14 @@ namespace Alchemy.Models
     [Serializable]
     public class Employees
     {
-        [SerializeField]List<Herbalist> _herbalists;
-        [SerializeField]List<Apothecary> _apothecaries;
-        [SerializeField]List<Shopkeeper> _shopkeepers;
-        [SerializeField]List<Guard> _guards;
+        [SerializeField]
+        List<Herbalist> _herbalists;
+        [SerializeField]
+        List<Apothecary> _apothecaries;
+        [SerializeField]
+        List<Shopkeeper> _shopkeepers;
+        [SerializeField]
+        List<Guard> _guards;
 
         public List<Herbalist> Herbalists
         {

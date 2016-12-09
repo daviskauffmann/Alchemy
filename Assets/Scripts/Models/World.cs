@@ -16,14 +16,21 @@ namespace Alchemy.Models
         Flask[] _flaskDatabase;
         Solvent[] _solventDatabase;
         Herb[] _herbDatabase;
-        [SerializeField]int _speed;
-        [SerializeField]float _time;
+        [SerializeField]
+        int _speed;
+        [SerializeField]
+        float _time;
         float _timePerHour;
-        [SerializeField]int _hour;
-        [SerializeField]int _day;
-        [SerializeField]Shop _shop;
-        [SerializeField]Applicants _applicants;
-        [SerializeField]List<Flask> _flasksForSale;
+        [SerializeField]
+        int _hour;
+        [SerializeField]
+        int _day;
+        [SerializeField]
+        Shop _shop;
+        [SerializeField]
+        Applicants _applicants;
+        [SerializeField]
+        List<Flask> _flasksForSale;
 
         public event EventHandler<IntEventArgs> SpeedChanged;
 
@@ -148,16 +155,57 @@ namespace Alchemy.Models
         public World()
         {
             _instance = this;
-
             _random = new Random();
-            _nameDatabase = new string[] { "Pavel", "Bim", "Olgerd", "Berna", "Herban", "Erdan", "Gilbert", "Ferdinand", "Jaroo", "Elynwyd", "Ketta", "Geldar", "Fenthick", "Desther", "Aribeth" };
+            _nameDatabase = new string[]
+            {
+                "Pavel",
+                "Bim",
+                "Olgerd",
+                "Berna",
+                "Herban",
+                "Erdan",
+                "Gilbert",
+                "Ferdinand",
+                "Jaroo",
+                "Elynwyd",
+                "Ketta",
+                "Geldar",
+                "Fenthick",
+                "Desther",
+                "Aribeth"
+            };
             _flaskDatabase = new Flask[]
             {
-                new Flask("Brittle Flask", Quality.Poor, 5),
-                new Flask("Weak Flask", Quality.Fair, 10),
-                new Flask("Strong Flask", Quality.Good, 20),
-                new Flask("Alchemist's Flask", Quality.Excellent, 50),
-                new Flask("Magical Flask", Quality.Perfect, 100),
+                new Flask
+                (
+                    "Brittle Flask",
+                    Quality.Poor,
+                    5
+                ),
+                new Flask
+                (
+                    "Weak Flask",
+                    Quality.Fair,
+                    10
+                ),
+                new Flask
+                (
+                    "Strong Flask",
+                    Quality.Good,
+                    20
+                ),
+                new Flask
+                (
+                    "Alchemist's Flask",
+                    Quality.Excellent,
+                    50
+                ),
+                new Flask
+                (
+                    "Magical Flask",
+                    Quality.Perfect,
+                    100
+                ),
             };
             _solventDatabase = new Solvent[]
             {
@@ -165,9 +213,57 @@ namespace Alchemy.Models
             };
             _herbDatabase = new Herb[]
             {
-                new Herb("Silverleaf", new Effect[] { new Effect("Restore Health"), new Effect("Restore Mana"), new Effect("Fortify Strength"), new Effect("Fortify Agility") }, Rarity.Common),
-                new Herb("Peacebloom", new Effect[] { new Effect("Restore Mana"), new Effect("Fortify Agility"), new Effect("Resist Fire"), new Effect("Resist Poison") }, Rarity.Uncommon),
-                new Herb("Earthroot", new Effect[] { new Effect("Restore Mana"), new Effect("Fortify Strength"), new Effect("Resist Frost"), new Effect("Resist Poison") }, Rarity.Rare)
+                new Herb
+                (
+                    "Silverleaf",
+                    new Effect[]
+                    {
+                        new Effect("Restore Health"),
+                        new Effect("Restore Mana"),
+                        new Effect("Fortify Strength"),
+                        new Effect("Fortify Agility")
+                    },
+                    Rarity.Common,
+                    new Region[]
+                    {
+                        Region.Plains,
+                        Region.Forest
+                    }
+                ),
+                new Herb
+                (
+                    "Peacebloom",
+                    new Effect[]
+                    {
+                        new Effect("Restore Mana"),
+                        new Effect("Fortify Agility"),
+                        new Effect("Resist Fire"),
+                        new Effect("Resist Poison")
+                    },
+                    Rarity.Uncommon,
+                    new Region[]
+                    {
+                        Region.Forest,
+                        Region.Desert
+                    }
+                ),
+                new Herb
+                (
+                    "Earthroot",
+                    new Effect[]
+                    {
+                        new Effect("Restore Mana"),
+                        new Effect("Fortify Strength"),
+                        new Effect("Resist Frost"),
+                        new Effect("Resist Poison")
+                    },
+                    Rarity.Rare,
+                    new Region[]
+                    {
+                        Region.Desert,
+                        Region.Tundra
+                    }
+                )
             };
             _speed = 1;
             _time = 0;
@@ -188,44 +284,38 @@ namespace Alchemy.Models
 
         public Flask GetFlaskPrototype(string name)
         {
-            Flask flask = null;
             for (int i = 0; i < FlaskDatabase.Length; i++)
             {
                 if (FlaskDatabase[i].Name == name)
                 {
-                    flask = FlaskDatabase[i];
-                    break;
+                    return FlaskDatabase[i];
                 }
             }
-            return flask;
+            return null;
         }
 
         public Solvent GetSolventPrototype(string name)
         {
-            Solvent solvent = null;
             for (int i = 0; i < SolventDatabase.Length; i++)
             {
                 if (SolventDatabase[i].Name == name)
                 {
-                    solvent = SolventDatabase[i];
-                    break;
+                    return SolventDatabase[i];
                 }
             }
-            return solvent;
+            return null;
         }
 
         public Herb GetHerbPrototype(string name)
         {
-            Herb herb = null;
             for (int i = 0; i < HerbDatabase.Length; i++)
             {
                 if (HerbDatabase[i].Name == name)
                 {
-                    herb = HerbDatabase[i];
-                    break;
+                    return HerbDatabase[i];
                 }
             }
-            return herb;
+            return null;
         }
 
         public void ReceiveApplication(Employee applicant)
@@ -268,7 +358,6 @@ namespace Alchemy.Models
             {
                 return;
             }
-
             for (int i = 0; i < FlasksForSale.Count; i++)
             {
                 if (FlasksForSale[i].Name == prototype.Name)

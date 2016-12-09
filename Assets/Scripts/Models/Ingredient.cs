@@ -6,9 +6,12 @@ namespace Alchemy.Models
     [Serializable]
     public abstract class Ingredient : ICloneable
     {
-        [SerializeField]protected string _name;
-        [SerializeField]protected int _amount;
-        [SerializeField]protected Effect[] _effects;
+        [SerializeField]
+        protected string _name;
+        [SerializeField]
+        protected int _amount;
+        [SerializeField]
+        protected Effect[] _effects;
 
         public string Name
         {
