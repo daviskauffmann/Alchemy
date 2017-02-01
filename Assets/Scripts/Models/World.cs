@@ -432,19 +432,19 @@ namespace Alchemy.Models
         void FindRandomApplicant(object sender, IntEventArgs e)
         {
             Employee applicant = null;
-            switch (World.Instance.Random.Next(4))
+            switch (Random.Next(4))
             {
                 case 0:
-                    applicant = new Herbalist(World.Instance.NameDatabase[World.Instance.Random.Next(World.Instance.NameDatabase.Length)], World.Instance.Random.Next(1, 100));
+                    applicant = new Herbalist(NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100));
                     break;
                 case 1:
-                    applicant = new Guard(World.Instance.NameDatabase[World.Instance.Random.Next(World.Instance.NameDatabase.Length)], World.Instance.Random.Next(1, 100));
+                    applicant = new Guard(NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100));
                     break;
                 case 2:
-                    applicant = new Apothecary(World.Instance.NameDatabase[World.Instance.Random.Next(World.Instance.NameDatabase.Length)], World.Instance.Random.Next(1, 100));
+                    applicant = new Apothecary(NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100));
                     break;
                 case 3:
-                    applicant = new Shopkeeper(World.Instance.NameDatabase[World.Instance.Random.Next(World.Instance.NameDatabase.Length)], World.Instance.Random.Next(1, 100));
+                    applicant = new Shopkeeper(NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100));
                     break;
                 default:
                     break;
@@ -457,7 +457,7 @@ namespace Alchemy.Models
 
         void GenerateFlaskForSale(object sender, IntEventArgs e)
         {
-            var flask = FlaskDatabase[World.Instance.Random.Next(FlaskDatabase.Length)];
+            var flask = FlaskDatabase[Random.Next(FlaskDatabase.Length)];
             DisplayFlask(flask);
         }
     }

@@ -72,7 +72,7 @@ namespace Alchemy.Models
                 /*
                 if (ingredients[i] is OtherType)
                 {
-                    herbs.Add((OtherType)ingredients[i].Clone());
+                    otherTypes.Add((OtherType)ingredients[i].Clone());
                 }
                 */
             }
