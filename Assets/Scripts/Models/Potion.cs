@@ -117,7 +117,7 @@ namespace Alchemy.Models
             }
             _name = prefix + " " + name;
 
-            _value = Flask.Value * IngredientCount * World.Instance.Random.Next(1, 5);
+            _value = Flask.Value * IngredientCount;
         }
     }
 }

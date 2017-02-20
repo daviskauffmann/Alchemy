@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Alchemy.Views
+namespace Alchemy.Controllers
 {
     public class Window : MonoBehaviour, IBeginDragHandler, IDragHandler
     {

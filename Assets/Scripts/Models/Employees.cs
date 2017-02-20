@@ -7,6 +7,7 @@ namespace Alchemy.Models
     [Serializable]
     public class Employees
     {
+		World _world;
         [SerializeField]
         List<Herbalist> _herbalists;
         [SerializeField]
@@ -61,14 +62,15 @@ namespace Alchemy.Models
             }
         }
 
-        public Employees()
+        public Employees(World world)
         {
+			_world = world;
             _herbalists = new List<Herbalist>();
             _apothecaries = new List<Apothecary>();
             _shopkeepers = new List<Shopkeeper>();
             _guards = new List<Guard>();
 
-            World.Instance.DayChanged += PayEmployees;
+            _world.DayChanged += PayEmployees;
         }
 
         public void Add(Employee employee)
@@ -119,7 +121,7 @@ namespace Alchemy.Models
         {
             for (int i = 0; i < Total.Length; i++)
             {
-                World.Instance.Shop.Gold -= Total[i].Salary;
+                _world.Shop.Gold -= Total[i].Salary;
             }
         }
     }

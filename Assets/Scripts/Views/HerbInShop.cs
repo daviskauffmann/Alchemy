@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using Alchemy.Models;
 
-namespace Alchemy.Views
+namespace Alchemy.Controllers
 {
     public class HerbInShop : MonoBehaviour
     {
@@ -45,7 +43,7 @@ namespace Alchemy.Views
 
         public void Discard()
         {
-            World.Instance.Shop.DiscardIngredient(World.Instance.GetHerbPrototype(herb.Name));
+            GameManager.World.Shop.DiscardIngredient(GameManager.World.GetHerbPrototype(herb.Name));
         }
     }
 }

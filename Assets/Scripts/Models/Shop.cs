@@ -7,6 +7,7 @@ namespace Alchemy.Models
     [Serializable]
     public class Shop
     {
+		World _world;
         [SerializeField]
         float _gold;
         [SerializeField]
@@ -87,10 +88,11 @@ namespace Alchemy.Models
             get { return _potionsForSale; }
         }
 
-        public Shop()
+        public Shop(World world)
         {
+			_world = world;
             _gold = 10000;
-            _employees = new Employees();
+            _employees = new Employees(_world);
             _flasks = new List<Flask>();
             _solvents = new List<Solvent>();
             _ingredients = new Ingredients();
@@ -100,7 +102,7 @@ namespace Alchemy.Models
 
         public void HireEmployee(Employee employee)
         {
-            World.Instance.Applicants.Remove(employee);
+            _world.Applicants.Remove(employee);
             Employees.Add(employee);
             OnEmployeeHired(employee);
         }
@@ -294,13 +296,13 @@ namespace Alchemy.Models
 
         void RemovePotionMaterials(Flask flask, Solvent solvent, Ingredient[] ingredients)
         {
-            DiscardFlask(World.Instance.GetFlaskPrototype(flask.Name));
+            DiscardFlask(_world.GetFlaskPrototype(flask.Name));
 
             for (int i = 0; i < ingredients.Length; i++)
             {
                 if (ingredients[i] is Herb)
                 {
-                    DiscardIngredient(World.Instance.GetHerbPrototype(ingredients[i].Name));
+                    DiscardIngredient(_world.GetHerbPrototype(ingredients[i].Name));
                 }
             }
         }

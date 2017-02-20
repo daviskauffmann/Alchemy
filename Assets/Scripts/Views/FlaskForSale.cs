@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Alchemy.Models;
 
-namespace Alchemy.Views
+namespace Alchemy.Controllers
 {
     public class FlaskForSale : MonoBehaviour
     {
@@ -53,7 +53,7 @@ namespace Alchemy.Views
 
         public void Buy()
         {
-            World.Instance.SellFlask(World.Instance.GetFlaskPrototype(flask.Name));
+            GameManager.World.SellFlask(GameManager.World.GetFlaskPrototype(flask.Name));
         }
     }
 }

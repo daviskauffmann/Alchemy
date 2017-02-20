@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Alchemy.Models;
 
-namespace Alchemy.Views
+namespace Alchemy.Controllers
 {
     public class EmployeeWindow : MonoBehaviour
     {
@@ -20,12 +20,12 @@ namespace Alchemy.Views
 
         void Start()
         {
-            World.Instance.Shop.EmployeeHired += CreateEmployeeCard;
-            World.Instance.Shop.EmployeeFired += RemoveEmployeeCard;
+            GameManager.World.Shop.EmployeeHired += CreateEmployeeCard;
+            GameManager.World.Shop.EmployeeFired += RemoveEmployeeCard;
 
-            for (int i = 0; i < World.Instance.Shop.Employees.Total.Length; i++)
+            for (int i = 0; i < GameManager.World.Shop.Employees.Total.Length; i++)
             {
-                CreateEmployeeCard(World.Instance.Shop.Employees, new EmployeeEventArgs(World.Instance.Shop.Employees.Total[i]));
+                CreateEmployeeCard(GameManager.World.Shop.Employees, new EmployeeEventArgs(GameManager.World.Shop.Employees.Total[i]));
             }
         }
 

@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using Alchemy.Models;
 
-namespace Alchemy.Views
+namespace Alchemy.Controllers
 {
     public class HerbWindow : MonoBehaviour
     {
@@ -21,12 +19,12 @@ namespace Alchemy.Views
 
         void Start()
         {
-            World.Instance.Shop.Ingredients.HerbAdded += CreateHerbInShop;
-            World.Instance.Shop.Ingredients.HerbRemoved += RemoveHerbInShop;
+            GameManager.World.Shop.Ingredients.HerbAdded += CreateHerbInShop;
+            GameManager.World.Shop.Ingredients.HerbRemoved += RemoveHerbInShop;
 
-            for (int i = 0; i < World.Instance.Shop.Ingredients.Herbs.Count; i++)
+            for (int i = 0; i < GameManager.World.Shop.Ingredients.Herbs.Count; i++)
             {
-                CreateHerbInShop(World.Instance.Shop.Ingredients, new HerbEventArgs(World.Instance.Shop.Ingredients.Herbs[i]));
+                CreateHerbInShop(GameManager.World.Shop.Ingredients, new HerbEventArgs(GameManager.World.Shop.Ingredients.Herbs[i]));
             }
         }
 

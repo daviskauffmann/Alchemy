@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Alchemy.Models;
 
-namespace Alchemy.Views
+namespace Alchemy.Controllers
 {
     public class FlaskWindow : MonoBehaviour
     {
@@ -30,18 +30,18 @@ namespace Alchemy.Views
 
         void Start()
         {
-            World.Instance.FlaskDisplayed += CreateFlaskForSale;
-            World.Instance.FlaskSold += RemoveFlaskForSale;
-            World.Instance.Shop.FlaskBought += CreateFlaskInShop;
-            World.Instance.Shop.FlaskDiscarded += RemoveFlaskInShop;
+            GameManager.World.FlaskDisplayed += CreateFlaskForSale;
+            GameManager.World.FlaskSold += RemoveFlaskForSale;
+            GameManager.World.Shop.FlaskBought += CreateFlaskInShop;
+            GameManager.World.Shop.FlaskDiscarded += RemoveFlaskInShop;
 
-            for (int i = 0; i < World.Instance.FlasksForSale.Count; i++)
+            for (int i = 0; i < GameManager.World.FlasksForSale.Count; i++)
             {
-                CreateFlaskForSale(World.Instance, new FlaskEventArgs(World.Instance.FlasksForSale[i]));
+                CreateFlaskForSale(GameManager.World, new FlaskEventArgs(GameManager.World.FlasksForSale[i]));
             }
-            for (int i = 0; i < World.Instance.Shop.Flasks.Count; i++)
+            for (int i = 0; i < GameManager.World.Shop.Flasks.Count; i++)
             {
-                CreateFlaskInShop(World.Instance.Shop, new FlaskEventArgs(World.Instance.Shop.Flasks[i]));
+                CreateFlaskInShop(GameManager.World.Shop, new FlaskEventArgs(GameManager.World.Shop.Flasks[i]));
             }
 
             ShowFlasksForSale();

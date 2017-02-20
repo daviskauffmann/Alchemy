@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using Alchemy.Models;
 
-namespace Alchemy.Views
+namespace Alchemy.Controllers
 {
     public class EmployeeCard : MonoBehaviour
     {
@@ -42,7 +42,7 @@ namespace Alchemy.Views
 
         public void Fire()
         {
-            World.Instance.Shop.FireEmployee(employee);
+            GameManager.World.Shop.FireEmployee(employee);
         }
     }
 }

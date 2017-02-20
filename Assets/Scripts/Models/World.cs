@@ -9,8 +9,6 @@ namespace Alchemy.Models
     [Serializable]
     public class World
     {
-        static World _instance;
-        
         Random _random;
         string[] _nameDatabase;
         Flask[] _flaskDatabase;
@@ -45,11 +43,6 @@ namespace Alchemy.Models
         public event EventHandler<FlaskEventArgs> FlaskDisplayed;
 
         public event EventHandler<FlaskEventArgs> FlaskSold;
-
-        public static World Instance
-        {
-            get { return _instance; }
-        }
 
         public Random Random
         {
@@ -154,7 +147,6 @@ namespace Alchemy.Models
 
         public World()
         {
-            _instance = this;
             _random = new Random();
             _nameDatabase = new string[]
             {
@@ -211,66 +203,66 @@ namespace Alchemy.Models
             {
 
             };
-            _herbDatabase = new Herb[]
-            {
-                new Herb
-                (
-                    "Silverleaf",
-                    new Effect[]
-                    {
-                        new Effect("Restore Health"),
-                        new Effect("Restore Mana"),
-                        new Effect("Fortify Strength"),
-                        new Effect("Fortify Agility")
-                    },
-                    Rarity.Common,
-                    new Region[]
-                    {
-                        Region.Plains,
-                        Region.Forest
-                    }
-                ),
-                new Herb
-                (
-                    "Peacebloom",
-                    new Effect[]
-                    {
-                        new Effect("Restore Mana"),
-                        new Effect("Fortify Agility"),
-                        new Effect("Resist Fire"),
-                        new Effect("Resist Poison")
-                    },
-                    Rarity.Uncommon,
-                    new Region[]
-                    {
-                        Region.Forest,
-                        Region.Desert
-                    }
-                ),
-                new Herb
-                (
-                    "Earthroot",
-                    new Effect[]
-                    {
-                        new Effect("Restore Mana"),
-                        new Effect("Fortify Strength"),
-                        new Effect("Resist Frost"),
-                        new Effect("Resist Poison")
-                    },
-                    Rarity.Rare,
-                    new Region[]
-                    {
-                        Region.Desert,
-                        Region.Tundra
-                    }
-                )
-            };
+			_herbDatabase = new Herb[]
+			{
+				new Herb
+				(
+					"Silverleaf",
+					new Effect[]
+					{
+						new Effect("Restore Health"),
+						new Effect("Restore Mana"),
+						new Effect("Fortify Strength"),
+						new Effect("Fortify Agility")
+					},
+					Rarity.Common,
+					new Region[]
+					{
+						Region.Plains,
+						Region.Forest
+					}
+				),
+				new Herb
+				(
+					"Peacebloom",
+					new Effect[]
+					{
+						new Effect("Restore Mana"),
+						new Effect("Fortify Agility"),
+						new Effect("Resist Fire"),
+						new Effect("Resist Poison")
+					},
+					Rarity.Uncommon,
+					new Region[]
+					{
+						Region.Forest,
+						Region.Desert
+					}
+				),
+				new Herb
+				(
+					"Earthroot",
+					new Effect[]
+					{
+						new Effect("Restore Mana"),
+						new Effect("Fortify Strength"),
+						new Effect("Resist Frost"),
+						new Effect("Resist Poison")
+					},
+					Rarity.Rare,
+					new Region[]
+					{
+						Region.Desert,
+						Region.Tundra
+					}
+				)
+			};
             _speed = 1;
             _time = 0;
             _timePerHour = 1;
             _hour = 0;
             _day = 1;
-            _shop = new Shop();
+            _shop = new Shop(this);
             _applicants = new Applicants();
             _flasksForSale = new List<Flask>();
 
@@ -435,16 +427,16 @@ namespace Alchemy.Models
             switch (Random.Next(4))
             {
                 case 0:
-                    applicant = new Herbalist(NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100));
+                    applicant = new Herbalist(this, NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100));
                     break;
                 case 1:
-                    applicant = new Guard(NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100));
+                    applicant = new Guard(this, NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100));
                     break;
                 case 2:
-                    applicant = new Apothecary(NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100));
+                    applicant = new Apothecary(this, NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100));
                     break;
                 case 3:
-                    applicant = new Shopkeeper(NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100));
+                    applicant = new Shopkeeper(this, NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100));
                     break;
                 default:
                     break;

@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using Alchemy.Models;
 
-namespace Alchemy.Views
+namespace Alchemy.Controllers
 {
     public class PotionForSale : MonoBehaviour
     {

@@ -22,8 +22,8 @@ namespace Alchemy.Models
             set { _regionToSearch = value; }
         }
 
-        public Herbalist(string name, int salary)
-            : base("Herbalist", name, salary)
+        public Herbalist(World world, string name, int salary)
+            : base(world, "Herbalist", name, salary)
         {
             _regionToSearch = Region.Plains;
         }
@@ -31,34 +31,34 @@ namespace Alchemy.Models
         public override void StartWorking()
         {
             base.StartWorking();
-            World.Instance.HourChanged += FindHerb;
+            _world.HourChanged += FindHerb;
         }
 
         public override void StopWorking()
         {
             base.StopWorking();
-            World.Instance.HourChanged -= FindHerb;
+            _world.HourChanged -= FindHerb;
         }
 
         void FindHerb(object sender, IntEventArgs e)
         {
-            if (World.Instance.Random.Next(0, 100) < 10)
+            if (_world.Random.Next(0, 100) < 10)
             {
                 var herbs = new List<Herb>();
-                for (int i = 0; i < World.Instance.HerbDatabase.Length; i++)
+                for (int i = 0; i < _world.HerbDatabase.Length; i++)
                 {
-                    for (int j = 0; j < World.Instance.HerbDatabase[i].Regions.Length; j++)
+                    for (int j = 0; j < _world.HerbDatabase[i].Regions.Length; j++)
                     {
-                        if (World.Instance.HerbDatabase[i].Regions[j] == RegionToSearch)
+                        if (_world.HerbDatabase[i].Regions[j] == RegionToSearch)
                         {
-                            herbs.Add(World.Instance.HerbDatabase[i]);
+                            herbs.Add(_world.HerbDatabase[i]);
                         }
                     }
                 }
                 if (herbs.Count > 0)
                 {
-                    var herb = herbs[World.Instance.Random.Next(herbs.Count)];
-                    World.Instance.Shop.DeliverIngredient(herb);
+                    var herb = herbs[_world.Random.Next(herbs.Count)];
+                    _world.Shop.DeliverIngredient(herb);
                 }
             }
         }

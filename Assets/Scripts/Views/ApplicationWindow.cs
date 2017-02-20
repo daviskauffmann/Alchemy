@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Alchemy.Models;
 
-namespace Alchemy.Views
+namespace Alchemy.Controllers
 {
     public class ApplicationWindow : MonoBehaviour
     {
@@ -22,15 +22,15 @@ namespace Alchemy.Views
 
         void Start()
         {
-            World.Instance.Applicants.CountChanged += ChangeTitleText;
-            World.Instance.ApplicantReceived += CreateApplication;
-            World.Instance.ApplicantDismissed += RemoveApplication;
-            World.Instance.Shop.EmployeeHired += RemoveApplication;
+            GameManager.World.Applicants.CountChanged += ChangeTitleText;
+            GameManager.World.ApplicantReceived += CreateApplication;
+            GameManager.World.ApplicantDismissed += RemoveApplication;
+            GameManager.World.Shop.EmployeeHired += RemoveApplication;
 
-            ChangeTitleText(World.Instance.Applicants, new IntEventArgs(World.Instance.Applicants.Total.Length));
-            for (int i = 0; i < World.Instance.Applicants.Total.Length; i++)
+            ChangeTitleText(GameManager.World.Applicants, new IntEventArgs(GameManager.World.Applicants.Total.Length));
+            for (int i = 0; i < GameManager.World.Applicants.Total.Length; i++)
             {
-                CreateApplication(World.Instance.Applicants, new EmployeeEventArgs(World.Instance.Applicants.Total[i]));
+                CreateApplication(GameManager.World.Applicants, new EmployeeEventArgs(GameManager.World.Applicants.Total[i]));
             }
         }
 

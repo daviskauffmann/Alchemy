@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using Alchemy.Models;
 
-namespace Alchemy.Views
+namespace Alchemy.Controllers
 {
     public class PotionWindow : MonoBehaviour
     {
@@ -22,54 +21,26 @@ namespace Alchemy.Views
         [SerializeField]
         Transform _potionForSaleArea = null;
         Dictionary<Potion, PotionForSale> _potionForSaleGameObjects;
-		[SerializeField]
-		FlaskInShop _flaskInShopPrefab = null;
-		[SerializeField]
-		Transform _flaskInShopArea = null;
-		Dictionary<Flask, FlaskInShop> _flaskInShopGameObjects;
-		[SerializeField]
-		HerbInShop _herbInShopPrefab = null;
-		[SerializeField]
-		Transform _herbInShopArea = null;
-		Dictionary<Herb, HerbInShop> _herbInShopGameObjects;
 
 		void Awake()
         {
             _potionForSaleGameObjects = new Dictionary<Potion, PotionForSale>();
-			_flaskInShopGameObjects = new Dictionary<Flask, FlaskInShop>();
-			_herbInShopGameObjects = new Dictionary<Herb, HerbInShop>();
 		}
 
         void Start()
         {
-            World.Instance.Shop.PotionResearched += CreatePotionPrototype;
-            World.Instance.Shop.PotionCreated += CreatePotionForSale;
-            World.Instance.Shop.PotionSold += RemovePotionForSale;
+            GameManager.World.Shop.PotionResearched += CreatePotionPrototype;
+            GameManager.World.Shop.PotionCreated += CreatePotionForSale;
+            GameManager.World.Shop.PotionSold += RemovePotionForSale;
 
-			for (int i = 0; i < World.Instance.Shop.PotionPrototypes.Count; i++)
+			for (int i = 0; i < GameManager.World.Shop.PotionPrototypes.Count; i++)
             {
-                CreatePotionPrototype(World.Instance.Shop, new PotionEventArgs(World.Instance.Shop.PotionPrototypes[i]));
+                CreatePotionPrototype(GameManager.World.Shop, new PotionEventArgs(GameManager.World.Shop.PotionPrototypes[i]));
             }
-            for (int i = 0; i < World.Instance.Shop.PotionsForSale.Count; i++)
+            for (int i = 0; i < GameManager.World.Shop.PotionsForSale.Count; i++)
             {
-                CreatePotionForSale(World.Instance.Shop, new PotionEventArgs(World.Instance.Shop.PotionsForSale[i]));
+                CreatePotionForSale(GameManager.World.Shop, new PotionEventArgs(GameManager.World.Shop.PotionsForSale[i]));
             }
-
-			World.Instance.Shop.FlaskBought += CreateFlaskInShop;
-			World.Instance.Shop.FlaskDiscarded += RemoveFlaskInShop;
-
-			for (int i = 0; i < World.Instance.Shop.Flasks.Count; i++)
-			{
-				CreateFlaskInShop(World.Instance.Shop, new FlaskEventArgs(World.Instance.Shop.Flasks[i]));
-			}
-
-			World.Instance.Shop.Ingredients.HerbAdded += CreateHerbInShop;
-			World.Instance.Shop.Ingredients.HerbRemoved += RemoveHerbInShop;
-
-			for (int i = 0; i < World.Instance.Shop.Ingredients.Herbs.Count; i++)
-			{
-				CreateHerbInShop(World.Instance.Shop.Ingredients, new HerbEventArgs(World.Instance.Shop.Ingredients.Herbs[i]));
-			}
 
 			ShowPotionResearch();
         }
@@ -124,45 +95,5 @@ namespace Alchemy.Views
             Destroy(_potionForSaleGameObjects[e.Potion].gameObject);
             _potionForSaleGameObjects.Remove(e.Potion);
         }
-
-		void CreateFlaskInShop(object sender, FlaskEventArgs e)
-		{
-			if (!_flaskInShopGameObjects.ContainsKey(e.Flask))
-			{
-				var flaskInShopGameObject = Instantiate<FlaskInShop>(_flaskInShopPrefab);
-				flaskInShopGameObject.transform.SetParent(_flaskInShopArea);
-				flaskInShopGameObject.flask = e.Flask;
-				_flaskInShopGameObjects.Add(e.Flask, flaskInShopGameObject);
-			}
-		}
-
-		void RemoveFlaskInShop(object sender, FlaskEventArgs e)
-		{
-			if (e.Flask.Amount < 1)
-			{
-				Destroy(_flaskInShopGameObjects[e.Flask].gameObject);
-				_flaskInShopGameObjects.Remove(e.Flask);
-			}
-		}
-
-		void CreateHerbInShop(object sender, HerbEventArgs e)
-		{
-			if (!_herbInShopGameObjects.ContainsKey(e.Herb))
-			{
-				var herbInShopGameObject = Instantiate<HerbInShop>(_herbInShopPrefab);
-				herbInShopGameObject.transform.SetParent(_herbInShopArea);
-				herbInShopGameObject.herb = e.Herb;
-				_herbInShopGameObjects.Add(e.Herb, herbInShopGameObject);
-			}
-		}
-
-		void RemoveHerbInShop(object sender, HerbEventArgs e)
-		{
-			if (e.Herb.Amount < 1)
-			{
-				Destroy(_herbInShopGameObjects[e.Herb].gameObject);
-				_herbInShopGameObjects.Remove(e.Herb);
-			}
-		}
 	}
 }

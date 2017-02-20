@@ -6,7 +6,12 @@ namespace Alchemy.Controllers
 {
     public class GameManager : MonoBehaviour
     {
-        World _world;
+		static World _world;
+
+		public static World World
+		{
+			get { return _world; }
+		}
 
         void Awake()
         {
@@ -22,9 +27,10 @@ namespace Alchemy.Controllers
 
         void Start()
         {
-            for (int i = 0; i < World.Instance.Shop.Employees.Total.Length; i++)
+            for (int i = 0; i < _world.Shop.Employees.Total.Length; i++)
             {
-                World.Instance.Shop.Employees.Total[i].StartWorking();
+				_world.Shop.Employees.Total[i].World = _world;
+				_world.Shop.Employees.Total[i].StartWorking();
             }
         }
 

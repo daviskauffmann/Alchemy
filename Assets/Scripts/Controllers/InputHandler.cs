@@ -13,24 +13,24 @@ namespace Alchemy.Controllers
         {
             if (Input.GetButtonDown("Increase Game Speed"))
             {
-                World.Instance.Speed += 1;
+                GameManager.World.Speed += 1;
             }
 
             if (Input.GetButtonDown("Decrease Game Speed"))
             {
-                World.Instance.Speed -= 1;
+                GameManager.World.Speed -= 1;
             }
 
             if (Input.GetButtonDown("Jump") && EventSystem.current.currentSelectedGameObject == null)
             {
-                if (World.Instance.Speed != 0)
+                if (GameManager.World.Speed != 0)
                 {
-                    _previousGameSpeed = World.Instance.Speed;
-                    World.Instance.Speed = 0;
+                    _previousGameSpeed = GameManager.World.Speed;
+                    GameManager.World.Speed = 0;
                 }
                 else
                 {
-                    World.Instance.Speed = _previousGameSpeed;
+                    GameManager.World.Speed = _previousGameSpeed;
                 }
             }
 
@@ -38,19 +38,19 @@ namespace Alchemy.Controllers
             {
                 for (int i = 0; i < 100; i++)
                 {
-                    var herb = World.Instance.HerbDatabase[World.Instance.Random.Next(World.Instance.HerbDatabase.Length)];
-                    World.Instance.Shop.DeliverIngredient(herb);
+                    var herb = GameManager.World.HerbDatabase[GameManager.World.Random.Next(GameManager.World.HerbDatabase.Length)];
+                    GameManager.World.Shop.DeliverIngredient(herb);
                 }
                 for (int i = 0; i < 100; i++)
                 {
-                    var flask = (Flask)World.Instance.FlaskDatabase[World.Instance.Random.Next(World.Instance.FlaskDatabase.Length)].Clone();
-                    World.Instance.Shop.PurchaseFlask(flask);
+                    var flask = (Flask)GameManager.World.FlaskDatabase[GameManager.World.Random.Next(GameManager.World.FlaskDatabase.Length)].Clone();
+                    GameManager.World.Shop.PurchaseFlask(flask);
                 }
             }
 
             if (Input.GetKeyDown(KeyCode.F5))
             {
-                File.WriteAllText("game.json", JsonUtility.ToJson(World.Instance));
+                File.WriteAllText("game.json", JsonUtility.ToJson(GameManager.World));
             }
         }
     }

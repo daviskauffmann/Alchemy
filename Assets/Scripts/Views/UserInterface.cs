@@ -1,9 +1,7 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using Alchemy.Models;
 
-namespace Alchemy.Views
+namespace Alchemy.Controllers
 {
     public class UserInterface : MonoBehaviour
     {
@@ -26,31 +24,31 @@ namespace Alchemy.Views
 
         void Start()
         {
-            World.Instance.SpeedChanged += ChangeSpeedText;
-            World.Instance.HourChanged += ChangeHourText;
-            World.Instance.DayChanged += ChangeDayText;
-            World.Instance.FlaskDisplayed += LogFlaskDisplayed;
-            World.Instance.FlaskSold += LogFlaskSold;
-            World.Instance.Shop.GoldChanged += ChangeGoldText;
-            World.Instance.Applicants.CountChanged += ChangeApplicationText;
-            World.Instance.ApplicantReceived += LogApplicantReceived;
-            World.Instance.ApplicantDismissed += LogApplicantDismissed;
-            World.Instance.Shop.EmployeeHired += LogEmployeeHired;
-            World.Instance.Shop.EmployeeFired += LogEmployeeFired;
-            World.Instance.Shop.Ingredients.HerbAdded += LogHerbFound;
-            World.Instance.Shop.Ingredients.HerbRemoved += LogHerbDiscarded;
-            World.Instance.Shop.FlaskBought += LogFlaskBought;
-            World.Instance.Shop.FlaskDiscarded += LogFlaskDiscarded;
-            World.Instance.Shop.EffectDiscovered += LogEffectDiscovered;
-            World.Instance.Shop.PotionResearched += LogPotionResearched;
-            World.Instance.Shop.PotionCreated += LogPotionCreated;
-            World.Instance.Shop.PotionSold += LogPotionSold;
+            GameManager.World.SpeedChanged += ChangeSpeedText;
+            GameManager.World.HourChanged += ChangeHourText;
+            GameManager.World.DayChanged += ChangeDayText;
+            GameManager.World.FlaskDisplayed += LogFlaskDisplayed;
+            GameManager.World.FlaskSold += LogFlaskSold;
+            GameManager.World.Shop.GoldChanged += ChangeGoldText;
+            GameManager.World.Applicants.CountChanged += ChangeApplicationText;
+            GameManager.World.ApplicantReceived += LogApplicantReceived;
+            GameManager.World.ApplicantDismissed += LogApplicantDismissed;
+            GameManager.World.Shop.EmployeeHired += LogEmployeeHired;
+            GameManager.World.Shop.EmployeeFired += LogEmployeeFired;
+            GameManager.World.Shop.Ingredients.HerbAdded += LogHerbFound;
+            GameManager.World.Shop.Ingredients.HerbRemoved += LogHerbDiscarded;
+            GameManager.World.Shop.FlaskBought += LogFlaskBought;
+            GameManager.World.Shop.FlaskDiscarded += LogFlaskDiscarded;
+            GameManager.World.Shop.EffectDiscovered += LogEffectDiscovered;
+            GameManager.World.Shop.PotionResearched += LogPotionResearched;
+            GameManager.World.Shop.PotionCreated += LogPotionCreated;
+            GameManager.World.Shop.PotionSold += LogPotionSold;
 
-            ChangeSpeedText(World.Instance, new IntEventArgs(World.Instance.Speed));
-            ChangeHourText(World.Instance, new IntEventArgs(World.Instance.Hour));
-            ChangeDayText(World.Instance, new IntEventArgs(World.Instance.Day));
-            ChangeGoldText(World.Instance.Shop, new FloatEventArgs(World.Instance.Shop.Gold));
-            ChangeApplicationText(World.Instance.Applicants, new IntEventArgs(World.Instance.Applicants.Total.Length));
+            ChangeSpeedText(GameManager.World, new IntEventArgs(GameManager.World.Speed));
+            ChangeHourText(GameManager.World, new IntEventArgs(GameManager.World.Hour));
+            ChangeDayText(GameManager.World, new IntEventArgs(GameManager.World.Day));
+            ChangeGoldText(GameManager.World.Shop, new FloatEventArgs(GameManager.World.Shop.Gold));
+            ChangeApplicationText(GameManager.World.Applicants, new IntEventArgs(GameManager.World.Applicants.Total.Length));
         }
 
         void Log(string value) //FIXME
@@ -62,7 +60,7 @@ namespace Alchemy.Views
             }
             var message = Instantiate<Text>(_messagePrefab);
             message.transform.SetParent(_messageArea);
-            message.text = string.Format("[Day: {0} Hour: {1}] {2}", World.Instance.Day, World.Instance.Hour, value);
+            message.text = string.Format("[Day: {0} Hour: {1}] {2}", GameManager.World.Day, GameManager.World.Hour, value);
             if (scrollDown)
             {
                 Canvas.ForceUpdateCanvases();

@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using Alchemy.Models;
 
-namespace Alchemy.Views
+namespace Alchemy.Controllers
 {
     public class Application : MonoBehaviour
     {
@@ -42,12 +42,12 @@ namespace Alchemy.Views
 
         public void Dismiss()
         {
-            World.Instance.DismissApplication(applicant);
+            GameManager.World.DismissApplication(applicant);
         }
 
         public void Hire()
         {
-            World.Instance.Shop.HireEmployee(applicant);
+            GameManager.World.Shop.HireEmployee(applicant);
         }
     }
 }

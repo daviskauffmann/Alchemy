@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Alchemy.Models;
 
-namespace Alchemy.Views
+namespace Alchemy.Controllers
 {
     public class FlaskInShop : MonoBehaviour
     {
@@ -50,7 +50,7 @@ namespace Alchemy.Views
 
         public void Discard()
         {
-            World.Instance.Shop.DiscardFlask(World.Instance.GetFlaskPrototype(flask.Name));
+            GameManager.World.Shop.DiscardFlask(GameManager.World.GetFlaskPrototype(flask.Name));
         }
     }
 }
