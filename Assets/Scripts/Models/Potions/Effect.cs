@@ -7,31 +7,31 @@ namespace Alchemy.Models
     public class Effect : ICloneable
     {
         [SerializeField]
-        string _name;
+        string name;
         [SerializeField]
-        bool _discovered;
-
-        public string Name
-        {
-            get { return _name; }
-        }
-
-        public bool Discovered
-        {
-            get { return _discovered; }
-            set { _discovered = value; }
-        }
+        bool discovered;
 
         public Effect(string name)
         {
-            _name = name;
-            _discovered = false;
+            this.name = name;
+            discovered = false;
         }
 
-        public virtual object Clone()
+		public string Name
+		{
+			get { return name; }
+		}
+
+		public bool Discovered
+		{
+			get { return discovered; }
+			set { discovered = value; }
+		}
+
+		public virtual object Clone()
         {
             var clone = (Effect)MemberwiseClone();
-            clone._discovered = false;
+            clone.discovered = false;
             return clone;
         }
 

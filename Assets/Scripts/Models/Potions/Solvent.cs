@@ -7,35 +7,36 @@ namespace Alchemy.Models
     public class Solvent : ICloneable
     {
         [SerializeField]
-        string _name;
+        string name;
         [SerializeField]
-        int _amount;
-        [SerializeField]
-        int _strength;
+        int strength;
+		[SerializeField]
+		int amount;
 
-        public string Name
+		public Solvent(string name, int strength)
         {
-            get { return _name; }
+            this.name = name;
+            this.strength = strength;
+			amount = -1;
         }
 
-        public int Amount
-        {
-            get { return _amount; }
-            set { _amount = value; }
-        }
+		public string Name
+		{
+			get { return name; }
+		}
 
-        public int Strength
-        {
-            get { return _strength; }
-        }
+		public int Strength
+		{
+			get { return strength; }
+		}
 
-        public Solvent(string name, int strength)
-        {
-            _name = name;
-            _strength = strength;
-        }
+		public int Amount
+		{
+			get { return amount; }
+			set { amount = value; }
+		}
 
-        public object Clone()
+		public object Clone()
         {
             var clone = (Solvent)MemberwiseClone();
             clone.Amount = -1;

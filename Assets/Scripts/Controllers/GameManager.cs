@@ -6,37 +6,42 @@ namespace Alchemy.Controllers
 {
     public class GameManager : MonoBehaviour
     {
-		static World _world;
+		public World __world;
+
+		static World world;
 
 		public static World World
 		{
-			get { return _world; }
+			get { return world; }
 		}
 
         void Awake()
         {
             if (File.Exists("game.json"))
             {
-                _world = JsonUtility.FromJson<World>(File.ReadAllText("game.json"));
-            }
-            else
+				world = JsonUtility.FromJson<World>(File.ReadAllText("game.json"));
+			}
+			else
             {
-                _world = new World();
+                world = new World();
             }
         }
 
-        void Start()
-        {
-            for (int i = 0; i < _world.Shop.Employees.Total.Length; i++)
-            {
-				_world.Shop.Employees.Total[i].World = _world;
-				_world.Shop.Employees.Total[i].StartWorking();
-            }
-        }
+		void Start()
+		{
+			for (int i = 0; i < world.Shop.Employees.Total.Length; i++)
+			{
+				world.Shop.Employees.Total[i].World = world;
+				world.Shop.Employees.Total[i].StartWorking();
+			}
 
-        void Update()
+			// DEBUG
+			__world = world;
+		}
+
+		void Update()
         {
-            _world.Time += _world.Speed * Time.deltaTime;
+            world.Time += world.Speed * Time.deltaTime;
         }
     }
 }

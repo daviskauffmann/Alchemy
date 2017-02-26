@@ -7,7 +7,7 @@ namespace Alchemy.Controllers
 {
     public class InputHandler : MonoBehaviour
     {
-        int _previousGameSpeed;
+        int previousGameSpeed;
 
         void Update()
         {
@@ -25,12 +25,12 @@ namespace Alchemy.Controllers
             {
                 if (GameManager.World.Speed != 0)
                 {
-                    _previousGameSpeed = GameManager.World.Speed;
+                    previousGameSpeed = GameManager.World.Speed;
                     GameManager.World.Speed = 0;
                 }
                 else
                 {
-                    GameManager.World.Speed = _previousGameSpeed;
+                    GameManager.World.Speed = previousGameSpeed;
                 }
             }
 

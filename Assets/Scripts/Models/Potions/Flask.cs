@@ -7,44 +7,44 @@ namespace Alchemy.Models
     public class Flask : ICloneable
     {
         [SerializeField]
-        string _name;
+        string name;
         [SerializeField]
-        int _amount;
+        Quality quality;
         [SerializeField]
-        Quality _quality;
-        [SerializeField]
-        float _value;
+        float value;
+		[SerializeField]
+		int amount;
 
-        public string Name
+		public Flask(string name, Quality quality, float value)
         {
-            get { return _name; }
-        }
+            this.name = name;
+            this.quality = quality;
+            this.value = value;
+			amount = -1;
+		}
 
-        public int Amount
-        {
-            get { return _amount; }
-            set { _amount = value; }
-        }
+		public string Name
+		{
+			get { return name; }
+		}
 
-        public Quality Quality
-        {
-            get { return _quality; }
-        }
+		public Quality Quality
+		{
+			get { return quality; }
+		}
 
-        public float Value
-        {
-            get { return _value; }
-        }
+		public float Value
+		{
+			get { return value; }
+		}
 
-        public Flask(string name, Quality quality, float value)
-        {
-            _name = name;
-            _amount = -1;
-            _quality = quality;
-            _value = value;
-        }
+		public int Amount
+		{
+			get { return amount; }
+			set { amount = value; }
+		}
 
-        public object Clone()
+		public object Clone()
         {
             var clone = (Flask)MemberwiseClone();
             clone.Amount = -1;

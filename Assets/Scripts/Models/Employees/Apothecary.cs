@@ -8,7 +8,7 @@ namespace Alchemy.Models
     public class Apothecary : Employee
     {
         [SerializeField]
-        int _potionsCrafted;
+        int potionsCrafted;
 
         public Apothecary(World world, string name, int salary)
             : base(world, "Apothecary", name, salary)
@@ -19,29 +19,29 @@ namespace Alchemy.Models
         public override void StartWorking()
         {
             base.StartWorking();
-            _world.HourChanged += CreatePotion;
+            world.HourChanged += CreatePotion;
         }
 
         public override void StopWorking()
         {
             base.StopWorking();
-            _world.HourChanged -= CreatePotion;
+            world.HourChanged -= CreatePotion;
         }
 
         void CreatePotion(object sender, IntEventArgs e)
         {
-            if (_world.Random.Next(0, 100) < 10)
+            if (world.Random.Next(0, 100) < 10)
             {
-                for (int i = 0; i < _world.Shop.PotionPrototypes.Count; i++)
+                for (int i = 0; i < world.Shop.PotionPrototypes.Count; i++)
                 {
                     Flask flask = null;
-                    for (int j = 0; j < _world.Shop.Flasks.Count; j++)
+                    for (int j = 0; j < world.Shop.Flasks.Count; j++)
                     {
-                        if (_world.Shop.Flasks[j].Amount > 0)
+                        if (world.Shop.Flasks[j].Amount > 0)
                         {
-                            if (_world.Shop.Flasks[j].Name == _world.Shop.PotionPrototypes[i].Flask.Name)
+                            if (world.Shop.Flasks[j].Name == world.Shop.PotionPrototypes[i].Flask.Name)
                             {
-                                flask = _world.Shop.Flasks[j];
+                                flask = world.Shop.Flasks[j];
                                 break;
                             }
                         }
@@ -54,26 +54,27 @@ namespace Alchemy.Models
                     Solvent solvent = null;
 
                     var ingredients = new List<Ingredient>();
-                    for (int j = 0; j < _world.Shop.PotionPrototypes[i].Herbs.Length; j++)
+                    for (int j = 0; j < world.Shop.PotionPrototypes[i].Herbs.Length; j++)
                     {
-                        for (int k = 0; k < _world.Shop.Ingredients.Herbs.Count; k++)
+                        for (int k = 0; k < world.Shop.Ingredients.Herbs.Count; k++)
                         {
-                            if (_world.Shop.Ingredients.Herbs[k].Amount > 0)
+                            if (world.Shop.Ingredients.Herbs[k].Amount > 0)
                             {
-                                if (_world.Shop.Ingredients.Herbs[k].Name == _world.Shop.PotionPrototypes[i].Herbs[j].Name)
+                                if (world.Shop.Ingredients.Herbs[k].Name == world.Shop.PotionPrototypes[i].Herbs[j].Name)
                                 {
-                                    ingredients.Add(_world.Shop.Ingredients.Herbs[k]);
+                                    ingredients.Add(world.Shop.Ingredients.Herbs[k]);
                                     break;
                                 }
                             }
                         }
                     }
-                    if (ingredients.Count != _world.Shop.PotionPrototypes[i].IngredientCount)
+                    if (ingredients.Count != world.Shop.PotionPrototypes[i].IngredientCount)
                     {
                         continue;
                     }
 
-                    _world.Shop.CreatePotion(flask, solvent, ingredients.ToArray());
+                    world.Shop.CreatePotion(flask, solvent, ingredients.ToArray(), this);
+					potionsCrafted++;
                     break;
                 }
             }

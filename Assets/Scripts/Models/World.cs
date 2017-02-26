@@ -9,146 +9,31 @@ namespace Alchemy.Models
     [Serializable]
     public class World
     {
-        Random _random;
-        string[] _nameDatabase;
-        Flask[] _flaskDatabase;
-        Solvent[] _solventDatabase;
-        Herb[] _herbDatabase;
+        Random random;
+        string[] nameDatabase;
+        Flask[] flaskDatabase;
+        Solvent[] solventDatabase;
+        Herb[] herbDatabase;
         [SerializeField]
-        int _speed;
+        int speed;
         [SerializeField]
-        float _time;
-        float _timePerHour;
+        float time;
+        float timePerHour;
         [SerializeField]
-        int _hour;
+        int hour;
         [SerializeField]
-        int _day;
+        int day;
         [SerializeField]
-        Shop _shop;
+        Shop shop;
         [SerializeField]
-        Applicants _applicants;
-        [SerializeField]
-        List<Flask> _flasksForSale;
-
-        public event EventHandler<IntEventArgs> SpeedChanged;
-
-        public event EventHandler<IntEventArgs> HourChanged;
-
-        public event EventHandler<IntEventArgs> DayChanged;
-
-        public event EventHandler<EmployeeEventArgs> ApplicantReceived;
-
-        public event EventHandler<EmployeeEventArgs> ApplicantDismissed;
-
-        public event EventHandler<FlaskEventArgs> FlaskDisplayed;
-
-        public event EventHandler<FlaskEventArgs> FlaskSold;
-
-        public Random Random
-        {
-            get { return _random; }
-        }
-
-        public string[] NameDatabase
-        { 
-            get { return _nameDatabase; }
-        }
-
-        public Flask[] FlaskDatabase
-        {
-            get { return _flaskDatabase; }
-        }
-
-        public Solvent[] SolventDatabase
-        {
-            get { return _solventDatabase; }
-        }
-
-        public Herb[] HerbDatabase
-        {
-            get { return _herbDatabase; }
-        }
-
-        public int Speed
-        {
-            get { return _speed; }
-            set
-            { 
-                if (_speed != value)
-                {
-                    _speed = value;
-                    OnSpeedChanged(_speed);
-                }
-            }
-        }
-
-        public float Time
-        {
-            get { return _time; }
-            set
-            {
-                if (_time != value)
-                {
-                    _time = value;
-                    if (_time >= _timePerHour)
-                    {
-                        Hour++;
-                        _time = 0;
-                    }
-                }
-            }
-        }
-
-        public int Hour
-        {
-            get { return _hour; }
-            set
-            {
-                if (_hour != value)
-                {
-                    _hour = value;
-                    if (_hour >= 24)
-                    {
-                        Day++;
-                        _hour = 0;
-                    }
-                    OnHourChanged(_hour);
-                }
-            }
-        }
-
-        public int Day
-        {
-            get { return _day; }
-            set
-            {
-                if (_day != value)
-                {
-                    _day = value; 
-                    OnDayChanged(_day);
-                }
-            }
-        }
-
-        public Shop Shop
-        {
-            get { return _shop; }
-        }
-
-        public Applicants Applicants
-        {
-            get { return _applicants; }
-        }
-
-        public List<Flask> FlasksForSale
-        {
-            get { return _flasksForSale; }
-        }
+        Applicants applicants;
+		[SerializeField]
+		List<Flask> flasksForSale;
 
         public World()
         {
-            _random = new Random();
-            _nameDatabase = new string[]
+            random = new Random();
+            nameDatabase = new string[]
             {
                 "Pavel",
                 "Bim",
@@ -166,7 +51,7 @@ namespace Alchemy.Models
                 "Desther",
                 "Aribeth"
             };
-            _flaskDatabase = new Flask[]
+            flaskDatabase = new Flask[]
             {
                 new Flask
                 (
@@ -199,11 +84,11 @@ namespace Alchemy.Models
                     100
                 ),
             };
-            _solventDatabase = new Solvent[]
+            solventDatabase = new Solvent[]
             {
 
             };
-			_herbDatabase = new Herb[]
+			herbDatabase = new Herb[]
 			{
 				new Herb
 				(
@@ -257,14 +142,14 @@ namespace Alchemy.Models
 					}
 				)
 			};
-            _speed = 1;
-            _time = 0;
-            _timePerHour = 1;
-            _hour = 0;
-            _day = 1;
-            _shop = new Shop(this);
-            _applicants = new Applicants();
-            _flasksForSale = new List<Flask>();
+            speed = 1;
+            time = 0;
+            timePerHour = 1;
+            hour = 0;
+            day = 1;
+            shop = new Shop(this);
+            applicants = new Applicants(this);
+            flasksForSale = new List<Flask>();
 
             DayChanged += FindRandomApplicant;
             DayChanged += GenerateFlaskForSale;
@@ -274,7 +159,122 @@ namespace Alchemy.Models
             };
         }
 
-        public Flask GetFlaskPrototype(string name)
+		public event EventHandler<IntEventArgs> SpeedChanged;
+
+		public event EventHandler<IntEventArgs> HourChanged;
+
+		public event EventHandler<IntEventArgs> DayChanged;
+
+		public event EventHandler<EmployeeEventArgs> ApplicantReceived;
+
+		public event EventHandler<EmployeeEventArgs> ApplicantDismissed;
+
+		public event EventHandler<FlaskEventArgs> FlaskDisplayed;
+
+		public event EventHandler<FlaskEventArgs> FlaskSold;
+
+		public Random Random
+		{
+			get { return random; }
+		}
+
+		public string[] NameDatabase
+		{
+			get { return nameDatabase; }
+		}
+
+		public Flask[] FlaskDatabase
+		{
+			get { return flaskDatabase; }
+		}
+
+		public Solvent[] SolventDatabase
+		{
+			get { return solventDatabase; }
+		}
+
+		public Herb[] HerbDatabase
+		{
+			get { return herbDatabase; }
+		}
+
+		public int Speed
+		{
+			get { return speed; }
+			set
+			{
+				if (speed != value)
+				{
+					speed = value;
+					OnSpeedChanged(speed);
+				}
+			}
+		}
+
+		public float Time
+		{
+			get { return time; }
+			set
+			{
+				if (time != value)
+				{
+					time = value;
+					if (time >= timePerHour)
+					{
+						Hour++;
+						time = 0;
+					}
+				}
+			}
+		}
+
+		public int Hour
+		{
+			get { return hour; }
+			set
+			{
+				if (hour != value)
+				{
+					hour = value;
+					if (hour >= 24)
+					{
+						Day++;
+						hour = 0;
+					}
+					OnHourChanged(hour);
+				}
+			}
+		}
+
+		public int Day
+		{
+			get { return day; }
+			set
+			{
+				if (day != value)
+				{
+					day = value;
+					OnDayChanged(day);
+				}
+			}
+		}
+
+		public Shop Shop
+		{
+			get { return shop; }
+		}
+
+		public Applicants Applicants
+		{
+			get { return applicants; }
+		}
+
+		public List<Flask> FlasksForSale
+		{
+			get { return flasksForSale; }
+		}
+
+		public Flask GetFlaskPrototype(string name)
         {
             for (int i = 0; i < FlaskDatabase.Length; i++)
             {
@@ -310,7 +310,33 @@ namespace Alchemy.Models
             return null;
         }
 
-        public void ReceiveApplication(Employee applicant)
+		void FindRandomApplicant(object sender, IntEventArgs e)
+		{
+			Employee applicant = null;
+			switch (Random.Next(4))
+			{
+				case 0:
+					applicant = new Herbalist(this, NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100));
+					break;
+				case 1:
+					applicant = new Guard(this, NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100));
+					break;
+				case 2:
+					applicant = new Apothecary(this, NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100));
+					break;
+				case 3:
+					applicant = new Shopkeeper(this, NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100));
+					break;
+				default:
+					break;
+			}
+			if (applicant != null)
+			{
+				ReceiveApplication(applicant);
+			}
+		}
+
+		public void ReceiveApplication(Employee applicant)
         {
             Applicants.Add(applicant);
             OnApplicantReceived(applicant);
@@ -322,7 +348,13 @@ namespace Alchemy.Models
             OnApplicantDismissed(applicant);
         }
 
-        public void DisplayFlask(Flask prototype)
+		void GenerateFlaskForSale(object sender, IntEventArgs e)
+		{
+			var flask = FlaskDatabase[Random.Next(FlaskDatabase.Length)];
+			DisplayFlask(flask);
+		}
+
+		public void DisplayFlask(Flask prototype)
         {
             bool newEntry = true;
             for (int i = 0; i < FlasksForSale.Count; i++)
@@ -369,7 +401,7 @@ namespace Alchemy.Models
         {
             if (SpeedChanged != null)
             {
-                SpeedChanged(this, new IntEventArgs(value));
+                SpeedChanged(this, new IntEventArgs() { value = value });
             }
         }
 
@@ -377,7 +409,7 @@ namespace Alchemy.Models
         {
             if (HourChanged != null)
             {
-                HourChanged(this, new IntEventArgs(value));
+                HourChanged(this, new IntEventArgs() { value = value });
             }
         }
 
@@ -385,23 +417,23 @@ namespace Alchemy.Models
         {
             if (DayChanged != null)
             {
-                DayChanged(this, new IntEventArgs(value));
+                DayChanged(this, new IntEventArgs() { value = value });
             }
         }
 
-        protected virtual void OnApplicantReceived(Employee employee)
+        protected virtual void OnApplicantReceived(Employee applicant)
         {
             if (ApplicantReceived != null)
             {
-                ApplicantReceived(this, new EmployeeEventArgs(employee));
+                ApplicantReceived(this, new EmployeeEventArgs() { employee = applicant });
             }
         }
 
-        protected virtual void OnApplicantDismissed(Employee employee)
+        protected virtual void OnApplicantDismissed(Employee applicant)
         {
             if (ApplicantDismissed != null)
             {
-                ApplicantDismissed(this, new EmployeeEventArgs(employee));
+                ApplicantDismissed(this, new EmployeeEventArgs() { employee = applicant });
             }
         }
 
@@ -409,7 +441,7 @@ namespace Alchemy.Models
         {
             if (FlaskDisplayed != null)
             {
-                FlaskDisplayed(this, new FlaskEventArgs(flask));
+                FlaskDisplayed(this, new FlaskEventArgs() { flask = flask });
             }
         }
 
@@ -417,40 +449,8 @@ namespace Alchemy.Models
         {
             if (FlaskSold != null)
             {
-                FlaskSold(this, new FlaskEventArgs(flask));
+                FlaskSold(this, new FlaskEventArgs() { flask = flask });
             }
-        }
-
-        void FindRandomApplicant(object sender, IntEventArgs e)
-        {
-            Employee applicant = null;
-            switch (Random.Next(4))
-            {
-                case 0:
-                    applicant = new Herbalist(this, NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100));
-                    break;
-                case 1:
-                    applicant = new Guard(this, NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100));
-                    break;
-                case 2:
-                    applicant = new Apothecary(this, NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100));
-                    break;
-                case 3:
-                    applicant = new Shopkeeper(this, NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100));
-                    break;
-                default:
-                    break;
-            }
-            if (applicant != null)
-            {
-                ReceiveApplication(applicant);
-            }
-        }
-
-        void GenerateFlaskForSale(object sender, IntEventArgs e)
-        {
-            var flask = FlaskDatabase[Random.Next(FlaskDatabase.Length)];
-            DisplayFlask(flask);
         }
     }
 }

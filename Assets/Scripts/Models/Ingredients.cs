@@ -8,36 +8,36 @@ namespace Alchemy.Models
     public class Ingredients
     {
         [SerializeField]
-        List<Herb> _herbs;
-
-        public event EventHandler<HerbEventArgs> HerbAdded;
-
-        public event EventHandler<HerbEventArgs> HerbRemoved;
-
-        public List<Herb> Herbs
-        {
-            get { return _herbs; }
-        }
-
-        public Ingredient[] Total
-        {
-            get
-            {
-                var total = new List<Ingredient>();
-                for (int i = 0; i < _herbs.Count; i++)
-                {
-                    total.Add(_herbs[i]);
-                }
-                return total.ToArray();
-            }
-        }
+        List<Herb> herbs;
 
         public Ingredients()
         {
-            _herbs = new List<Herb>();
+            herbs = new List<Herb>();
         }
 
-        public void Add(Ingredient prototype)
+		public event EventHandler<HerbEventArgs> HerbAdded;
+
+		public event EventHandler<HerbEventArgs> HerbRemoved;
+
+		public List<Herb> Herbs
+		{
+			get { return herbs; }
+		}
+
+		public Ingredient[] Total
+		{
+			get
+			{
+				var total = new List<Ingredient>();
+				for (int i = 0; i < herbs.Count; i++)
+				{
+					total.Add(herbs[i]);
+				}
+				return total.ToArray();
+			}
+		}
+
+		public void Add(Ingredient prototype)
         {
             if (prototype is Herb)
             {
@@ -86,7 +86,7 @@ namespace Alchemy.Models
         {
             if (HerbAdded != null)
             {
-                HerbAdded(this, new HerbEventArgs(herb));
+                HerbAdded(this, new HerbEventArgs() { herb = herb });
             }
         }
 
@@ -94,7 +94,7 @@ namespace Alchemy.Models
         {
             if (HerbRemoved != null)
             {
-                HerbRemoved(this, new HerbEventArgs(herb));
+                HerbRemoved(this, new HerbEventArgs() { herb = herb });
             }
         }
     }

@@ -8,44 +8,44 @@ namespace Alchemy.Models
     public class Herbalist : Employee
     {
         [SerializeField]
-        Region _regionToSearch;
+        Region regionToSearch;
         [SerializeField]
-        int _excursions;
+        int excursions;
         [SerializeField]
-        int _herbsFound;
+        int herbsFound;
         [SerializeField]
-        int _rareHerbsFound;
-
-        public Region RegionToSearch
-        {
-            get { return _regionToSearch; }
-            set { _regionToSearch = value; }
-        }
+        int rareHerbsFound;
 
         public Herbalist(World world, string name, int salary)
             : base(world, "Herbalist", name, salary)
         {
-            _regionToSearch = Region.Plains;
+            regionToSearch = Region.Plains;
         }
 
-        public override void StartWorking()
+		public Region RegionToSearch
+		{
+			get { return regionToSearch; }
+			set { regionToSearch = value; }
+		}
+
+		public override void StartWorking()
         {
             base.StartWorking();
-            _world.HourChanged += FindHerb;
+            world.HourChanged += FindHerb;
         }
 
         public override void StopWorking()
         {
             base.StopWorking();
-            _world.HourChanged -= FindHerb;
+            world.HourChanged -= FindHerb;
         }
 
         void FindHerb(object sender, IntEventArgs e)
         {
-            if (_world.Random.Next(0, 100) < 10)
+            if (world.Random.Next(0, 100) < 10)
             {
                 var herbs = new List<Herb>();
-                for (int i = 0; i < _world.HerbDatabase.Length; i++)
+                for (int i = 0; i < world.HerbDatabase.Length; i++)
                 {
 					/*for (int j = 0; j < _world.HerbDatabase[i].Regions.Length; j++)
                     {
@@ -54,14 +54,16 @@ namespace Alchemy.Models
                             herbs.Add(_world.HerbDatabase[i]);
                         }
                     }*/
-					herbs.Add(_world.HerbDatabase[i]);
+					herbs.Add(world.HerbDatabase[i]);
 				}
                 if (herbs.Count > 0)
                 {
-                    var herb = herbs[_world.Random.Next(herbs.Count)];
-                    _world.Shop.DeliverIngredient(herb);
+                    var herb = herbs[world.Random.Next(herbs.Count)];
+                    world.Shop.DeliverIngredient(herb);
+					herbsFound++;
                 }
             }
-        }
+			excursions++;
+		}
     }
 }

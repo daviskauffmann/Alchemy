@@ -7,13 +7,13 @@ namespace Alchemy.Models
     public class Guard : Employee
     {
         [SerializeField]
-        int _strength;
+        int strength;
         [SerializeField]
-        int _kills;
+        int kills;
         [SerializeField]
-        int _thievesKilled;
+        int thievesKilled;
         [SerializeField]
-        int _innocentsKilled;
+        int innocentsKilled;
 
         public Guard(World world, string name, int salary)
             : base(world, "Guard", name, salary)

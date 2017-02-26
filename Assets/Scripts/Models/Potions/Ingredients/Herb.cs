@@ -7,25 +7,25 @@ namespace Alchemy.Models
     public class Herb : Ingredient
     {
         [SerializeField]
-        Rarity _rarity;
+        Rarity rarity;
         [SerializeField]
-        Region[] _regions;
-
-        public Rarity Rarity
-        {
-            get { return _rarity; }
-        }
-
-        public Region[] Regions
-        {
-            get { return _regions; }
-        }
+        Region[] regions;
 
         public Herb(string name, Effect[] effects, Rarity rarity, Region[] regions)
             : base(name, effects)
         {
-            _rarity = rarity;
-            _regions = regions;
+            this.rarity = rarity;
+            this.regions = regions;
         }
-    }
+
+		public Rarity Rarity
+		{
+			get { return rarity; }
+		}
+
+		public Region[] Regions
+		{
+			get { return regions; }
+		}
+	}
 }

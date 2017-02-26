@@ -7,43 +7,43 @@ namespace Alchemy.Models
     public abstract class Ingredient : ICloneable
     {
         [SerializeField]
-        protected string _name;
+        protected string name;
         [SerializeField]
-        protected int _amount;
-        [SerializeField]
-        protected Effect[] _effects;
+        protected Effect[] effects;
+		[SerializeField]
+		protected int amount;
 
-        public string Name
+		protected Ingredient(string name, Effect[] effects)
         {
-            get { return _name; }
-        }
+            this.name = name;
+            this.effects = effects;
+			amount = -1;
+		}
 
-        public int Amount
-        {
-            get { return _amount; }
-            set { _amount = value; }
-        }
+		public string Name
+		{
+			get { return name; }
+		}
 
-        public Effect[] Effects
-        {
-            get { return _effects; }
-        }
+		public Effect[] Effects
+		{
+			get { return effects; }
+		}
 
-        protected Ingredient(string name, Effect[] effects)
-        {
-            _name = name;
-            _amount = -1;
-            _effects = effects;
-        }
+		public int Amount
+		{
+			get { return amount; }
+			set { amount = value; }
+		}
 
-        public virtual object Clone()
+		public virtual object Clone()
         {
             var ingredient = (Ingredient)MemberwiseClone();
             ingredient.Amount = -1;
-            ingredient._effects = new Effect[_effects.Length];
-            for (int i = 0; i < _effects.Length; i++)
+            ingredient.effects = new Effect[effects.Length];
+            for (int i = 0; i < effects.Length; i++)
             {
-                ingredient._effects[i] = (Effect)_effects[i].Clone();
+                ingredient.effects[i] = (Effect)effects[i].Clone();
             }
             return ingredient;
         }

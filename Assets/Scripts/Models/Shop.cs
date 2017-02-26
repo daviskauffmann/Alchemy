@@ -7,102 +7,102 @@ namespace Alchemy.Models
     [Serializable]
     public class Shop
     {
-		World _world;
+		World world;
         [SerializeField]
-        float _gold;
+        float gold;
         [SerializeField]
-        Employees _employees;
+        Employees employees;
         [SerializeField]
-        List<Flask> _flasks;
+        List<Flask> flasks;
         [SerializeField]
-        List<Solvent> _solvents;
+        List<Solvent> solvents;
         [SerializeField]
-        Ingredients _ingredients;
+        Ingredients ingredients;
         [SerializeField]
-        List<Potion> _potionPrototypes;
+        List<Potion> potionPrototypes;
         [SerializeField]
-        List<Potion> _potionsForSale;
-
-        public event EventHandler<FloatEventArgs> GoldChanged;
-
-        public event EventHandler<EmployeeEventArgs> EmployeeHired;
-
-        public event EventHandler<EmployeeEventArgs> EmployeeFired;
-
-        public event EventHandler<IngredientEventArgs> IngredientDelivered;
-
-        public event EventHandler<IngredientEventArgs> IngredientDiscarded;
-
-        public event EventHandler<FlaskEventArgs> FlaskBought;
-
-        public event EventHandler<FlaskEventArgs> FlaskDiscarded;
-
-        public event EventHandler<EffectEventArgs> EffectDiscovered;
-
-        public event EventHandler<PotionEventArgs> PotionResearched;
-
-        public event EventHandler<PotionEventArgs> PotionCreated;
-
-        public event EventHandler<PotionEventArgs> PotionSold;
-
-        public float Gold
-        {
-            get { return _gold; }
-            set
-            {
-                if (_gold != value)
-                {
-                    _gold = value;
-                    OnGoldChanged(_gold);
-                }
-            }
-        }
-
-        public Employees Employees
-        {
-            get { return _employees; }
-        }
-
-        public List<Flask> Flasks
-        {
-            get { return _flasks; }
-        }
-
-        public List<Solvent> Solvents
-        {
-            get { return _solvents; }
-        }
-
-        public Ingredients Ingredients
-        {
-            get { return _ingredients; }
-        }
-
-        public List<Potion> PotionPrototypes
-        {
-            get { return _potionPrototypes; }
-        }
-
-        public List<Potion> PotionsForSale
-        {
-            get { return _potionsForSale; }
-        }
+        List<Potion> potionsForSale;
 
         public Shop(World world)
         {
-			_world = world;
-            _gold = 10000;
-            _employees = new Employees(_world);
-            _flasks = new List<Flask>();
-            _solvents = new List<Solvent>();
-            _ingredients = new Ingredients();
-            _potionPrototypes = new List<Potion>();
-            _potionsForSale = new List<Potion>();
+			this.world = world;
+			gold = 10000;
+			employees = new Employees(this.world);
+			flasks = new List<Flask>();
+			solvents = new List<Solvent>();
+			ingredients = new Ingredients();
+			potionPrototypes = new List<Potion>();
+			potionsForSale = new List<Potion>();
         }
 
-        public void HireEmployee(Employee employee)
+		public event EventHandler<FloatEventArgs> GoldChanged;
+
+		public event EventHandler<EmployeeEventArgs> EmployeeHired;
+
+		public event EventHandler<EmployeeEventArgs> EmployeeFired;
+
+		public event EventHandler<IngredientEventArgs> IngredientDelivered;
+
+		public event EventHandler<IngredientEventArgs> IngredientDiscarded;
+
+		public event EventHandler<FlaskEventArgs> FlaskBought;
+
+		public event EventHandler<FlaskEventArgs> FlaskDiscarded;
+
+		public event EventHandler<EffectEventArgs> EffectDiscovered;
+
+		public event EventHandler<PotionEventArgs> PotionResearched;
+
+		public event EventHandler<PotionEventArgs> PotionCreated;
+
+		public event EventHandler<PotionEventArgs> PotionSold;
+
+		public float Gold
+		{
+			get { return gold; }
+			set
+			{
+				if (gold != value)
+				{
+					gold = value;
+					OnGoldChanged(gold);
+				}
+			}
+		}
+
+		public Employees Employees
+		{
+			get { return employees; }
+		}
+
+		public List<Flask> Flasks
+		{
+			get { return flasks; }
+		}
+
+		public List<Solvent> Solvents
+		{
+			get { return solvents; }
+		}
+
+		public Ingredients Ingredients
+		{
+			get { return ingredients; }
+		}
+
+		public List<Potion> PotionPrototypes
+		{
+			get { return potionPrototypes; }
+		}
+
+		public List<Potion> PotionsForSale
+		{
+			get { return potionsForSale; }
+		}
+
+		public void HireEmployee(Employee employee)
         {
-            _world.Applicants.Remove(employee);
+            world.Applicants.Remove(employee);
             Employees.Add(employee);
             OnEmployeeHired(employee);
         }
@@ -191,34 +191,61 @@ namespace Alchemy.Models
             }
         }
 
-        public void CreatePotion(Flask flask, Solvent solvent, Ingredient[] ingredients)
+		bool AddPotionPrototype(Potion potion)
+		{
+			for (int i = 0; i < PotionPrototypes.Count; i++)
+			{
+				if (potion.Name == PotionPrototypes[i].Name)
+				{
+					return false;
+				}
+			}
+
+			PotionPrototypes.Add(potion);
+			return true;
+		}
+
+		public void CreatePotion(Flask flask, Solvent solvent, Ingredient[] ingredients, Apothecary apothecary)
         {
             var potion = new Potion(flask, solvent, ingredients);
             PotionsForSale.Add(potion);
             RemovePotionMaterials(flask, solvent, ingredients);
-            OnPotionCreated(potion);
+            OnPotionCreated(potion, apothecary);
         }
 
-        public void SellPotion(Potion potion)
+		void RemovePotionMaterials(Flask flask, Solvent solvent, Ingredient[] ingredients)
+		{
+			DiscardFlask(world.GetFlaskPrototype(flask.Name));
+
+			for (int i = 0; i < ingredients.Length; i++)
+			{
+				if (ingredients[i] is Herb)
+				{
+					DiscardIngredient(world.GetHerbPrototype(ingredients[i].Name));
+				}
+			}
+		}
+
+		public void SellPotion(Potion potion, Shopkeeper shopkeeper)
         {
             Gold += potion.Value;
             PotionsForSale.Remove(potion);
-            OnPotionSold(potion);
+            OnPotionSold(potion, shopkeeper);
         }
 
         protected virtual void OnGoldChanged(float value)
         {
             if (GoldChanged != null)
             {
-                GoldChanged(this, new FloatEventArgs(value));
+				GoldChanged(this, new FloatEventArgs() { value = value });
             }
         }
 
         protected virtual void OnEmployeeHired(Employee employee)
         {
-            if (EmployeeHired != null)
-            {
-                EmployeeHired(this, new EmployeeEventArgs(employee));
+			if (EmployeeHired != null)
+			{
+				EmployeeHired(this, new EmployeeEventArgs() { employee = employee });
             }
         }
 
@@ -226,7 +253,7 @@ namespace Alchemy.Models
         {
             if (EmployeeFired != null)
             {
-                EmployeeFired(this, new EmployeeEventArgs(employee));
+                EmployeeFired(this, new EmployeeEventArgs() { employee = employee });
             }
         }
 
@@ -234,7 +261,7 @@ namespace Alchemy.Models
         {
             if (IngredientDelivered != null)
             {
-                IngredientDelivered(this, new IngredientEventArgs(ingredient));
+                IngredientDelivered(this, new IngredientEventArgs() { ingredient = ingredient });
             }
         }
 
@@ -242,7 +269,7 @@ namespace Alchemy.Models
         {
             if (IngredientDiscarded != null)
             {
-                IngredientDiscarded(this, new IngredientEventArgs(ingredient));
+                IngredientDiscarded(this, new IngredientEventArgs() { ingredient = ingredient });
             }
         }
 
@@ -250,7 +277,7 @@ namespace Alchemy.Models
         {
             if (FlaskBought != null)
             {
-                FlaskBought(this, new FlaskEventArgs(flask));
+                FlaskBought(this, new FlaskEventArgs() { flask = flask });
             }
         }
 
@@ -258,7 +285,7 @@ namespace Alchemy.Models
         {
             if (FlaskDiscarded != null)
             {
-                FlaskDiscarded(this, new FlaskEventArgs(flask));
+                FlaskDiscarded(this, new FlaskEventArgs() { flask = flask });
             }
         }
 
@@ -266,7 +293,7 @@ namespace Alchemy.Models
         {
             if (EffectDiscovered != null)
             {
-                EffectDiscovered(this, new EffectEventArgs(effect, ingredient));
+                EffectDiscovered(this, new EffectEventArgs() { effect = effect, ingredient = ingredient });
             }
         }
 
@@ -274,51 +301,24 @@ namespace Alchemy.Models
         {
             if (PotionResearched != null)
             {
-                PotionResearched(this, new PotionEventArgs(potion));
+                PotionResearched(this, new PotionEventArgs() { potion = potion });
             }
         }
 
-        protected virtual void OnPotionCreated(Potion potion)
+        protected virtual void OnPotionCreated(Potion potion, Apothecary apothecary)
         {
             if (PotionCreated != null)
             {
-                PotionCreated(this, new PotionEventArgs(potion));
+                PotionCreated(this, new PotionEventArgs() { potion = potion, employee = apothecary });
             }
         }
 
-        protected virtual void OnPotionSold(Potion potion)
+		protected virtual void OnPotionSold(Potion potion, Shopkeeper shopkeeper)
         {
             if (PotionSold != null)
             {
-                PotionSold(this, new PotionEventArgs(potion));
+                PotionSold(this, new PotionEventArgs() { potion = potion, employee = shopkeeper });
             }
-        }
-
-        void RemovePotionMaterials(Flask flask, Solvent solvent, Ingredient[] ingredients)
-        {
-            DiscardFlask(_world.GetFlaskPrototype(flask.Name));
-
-            for (int i = 0; i < ingredients.Length; i++)
-            {
-                if (ingredients[i] is Herb)
-                {
-                    DiscardIngredient(_world.GetHerbPrototype(ingredients[i].Name));
-                }
-            }
-        }
-
-        bool AddPotionPrototype(Potion potion)
-        {
-            for (int i = 0; i < PotionPrototypes.Count; i++)
-            {
-                if (potion.Name == PotionPrototypes[i].Name)
-                {
-                    return false;
-                }
-            }
-
-            PotionPrototypes.Add(potion);
-            return true;
         }
     }
 }
