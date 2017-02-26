@@ -1,36 +1,19 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using System;
+using UnityEngine;
 
 namespace Alchemy.Controllers
 {
     public class UserInterface : MonoBehaviour
     {
-        [SerializeField]
-        Text _speed = null;
-        [SerializeField]
-        Text _day = null;
-        [SerializeField]
-        Text _hour = null;
-        [SerializeField]
-        Text _gold = null;
-        [SerializeField]
-        Text _applications = null;
-        [SerializeField]
-        Text _messagePrefab = null;
-        [SerializeField]
-        Transform _messageArea = null;
-        [SerializeField]
-        ScrollRect _messageScrollRect = null;
-
         void Start()
         {
-            GameManager.World.SpeedChanged += ChangeSpeedText;
-            GameManager.World.HourChanged += ChangeHourText;
-            GameManager.World.DayChanged += ChangeDayText;
+            GameManager.World.SpeedChanged += LogSpeedChanged;
+            GameManager.World.HourChanged += LogHourChanged;
+            GameManager.World.DayChanged += LogDayChanged;
             GameManager.World.FlaskDisplayed += LogFlaskDisplayed;
             GameManager.World.FlaskSold += LogFlaskSold;
-            GameManager.World.Shop.GoldChanged += ChangeGoldText;
-            GameManager.World.Applicants.CountChanged += ChangeApplicationText;
+            GameManager.World.Shop.GoldChanged += LogGoldChanged;
+            GameManager.World.Applicants.CountChanged += LogApplicantsCountChanged;
             GameManager.World.ApplicantReceived += LogApplicantReceived;
             GameManager.World.ApplicantDismissed += LogApplicantDismissed;
             GameManager.World.Shop.EmployeeHired += LogEmployeeHired;
@@ -43,58 +26,34 @@ namespace Alchemy.Controllers
             GameManager.World.Shop.PotionResearched += LogPotionResearched;
             GameManager.World.Shop.PotionCreated += LogPotionCreated;
             GameManager.World.Shop.PotionSold += LogPotionSold;
-
-            ChangeSpeedText(GameManager.World, new IntEventArgs(GameManager.World.Speed));
-            ChangeHourText(GameManager.World, new IntEventArgs(GameManager.World.Hour));
-            ChangeDayText(GameManager.World, new IntEventArgs(GameManager.World.Day));
-            ChangeGoldText(GameManager.World.Shop, new FloatEventArgs(GameManager.World.Shop.Gold));
-            ChangeApplicationText(GameManager.World.Applicants, new IntEventArgs(GameManager.World.Applicants.Total.Length));
         }
 
-        void Log(string value) //FIXME
-        {
-            bool scrollDown = false;
-            if (_messageScrollRect.verticalNormalizedPosition == 0)
-            {
-                scrollDown = true;
-            }
-            var message = Instantiate<Text>(_messagePrefab);
-            message.transform.SetParent(_messageArea);
-            message.text = string.Format("[Day: {0} Hour: {1}] {2}", GameManager.World.Day, GameManager.World.Hour, value);
-            if (scrollDown)
-            {
-                Canvas.ForceUpdateCanvases();
-                _messageScrollRect.verticalNormalizedPosition = 0;
-            }
-            Destroy(message, 30);
-        }
+		void LogSpeedChanged(object sender, IntEventArgs e)
+		{
+			Debug.Log(string.Format("Speed changed to {0}", e.Value));
+		}
 
-        void ChangeSpeedText(object sender, IntEventArgs e)
-        {
-            _speed.text = string.Format("Speed: {0}", e.Value == 0 ? "PAUSED" : e.Value.ToString());
-        }
+		void LogHourChanged(object sender, IntEventArgs e)
+		{
+			Debug.Log(string.Format("Hour changed to {0}", e.Value));
+		}
 
-        void ChangeHourText(object sender, IntEventArgs e)
-        {
-            _hour.text = string.Format("Hour: {0}", e.Value);
-        }
+		void LogDayChanged(object sender, IntEventArgs e)
+		{
+			Debug.Log(string.Format("Day changed to {0}", e.Value));
+		}
 
-        void ChangeDayText(object sender, IntEventArgs e)
-        {
-            _day.text = string.Format("Day: {0}", e.Value);
-        }
+		void LogGoldChanged(object sender, FloatEventArgs e)
+		{
+			Debug.Log(string.Format("Gold changed to {0}", e.Value));
+		}
 
-        void ChangeGoldText(object sender, FloatEventArgs e)
-        {
-            _gold.text = string.Format("Gold: {0}", (int)e.Value);
-        }
+		void LogApplicantsCountChanged(object sender, IntEventArgs e)
+		{
+			Debug.Log(string.Format("Applicants count changed to {0}", e.Value));
+		}
 
-        void ChangeApplicationText(object sender, IntEventArgs e)
-        {
-            _applications.text = string.Format("Applications {0}", e.Value == 0 ? string.Empty : string.Format("({0})", e.Value));
-        }
-
-        void LogApplicantReceived(object sender, EmployeeEventArgs e)
+		void LogApplicantReceived(object sender, EmployeeEventArgs e)
         {
             Debug.Log(string.Format("{0} the {1} has applied for a job", e.Employee.Name, e.Employee.Title)); 
         }
