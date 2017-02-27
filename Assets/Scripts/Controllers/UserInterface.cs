@@ -34,7 +34,8 @@ namespace Alchemy.Controllers
 		{
 			if (Input.GetKeyDown(KeyCode.A))
 			{
-				CreateAlert("Title", "Subtitle", "This is an alert", new InputData[] {
+				CreateAlert("Title", "Subtitle", "This is an alert", new InputData[]
+				{
 					new DropdownData()
 					{
 						options = new List<Dropdown.OptionData>()
@@ -79,16 +80,60 @@ namespace Alchemy.Controllers
 					}
 				}, (window) =>
 				{
-					window.title.text = Time.deltaTime.ToString();
 					Debug.Log("Alert refreshed");
 				}, (window) =>
 				{
 					Debug.Log("Alert closed");
 				});
 			}
+
+			if (Input.GetKeyDown(KeyCode.E))
+			{
+				string name = "";
+				var alert = CreateAlert("Name", "Enter your name", "", new InputData[]
+				{
+					new InputFieldData()
+					{
+						onValueChanged = (value) =>
+						{
+							name = value;
+						},
+						onEndEdit = (value) =>
+						{
+							name = value;
+						}
+					}
+				}, new ButtonData[]
+				{
+					
+				}, (window) =>
+				{
+
+				}, (window) =>
+				{
+
+				});
+				AddButton(alert, new ButtonData()
+				{
+					text = "Cancel",
+					onClick = () =>
+					{
+						alert.onClose.Invoke(alert);
+					}
+				});
+				AddButton(alert, new ButtonData()
+				{
+					text = "Ok",
+					onClick = () =>
+					{
+						this.name = name;
+						alert.onClose.Invoke(alert);
+					}
+				});
+			}
 		}
 
-		public void CreateAlert(string title, string subtitle, string message, InputData[] inputs, ButtonData[] buttons, UnityAction<Window> onUpdate, UnityAction<Window> onClose)
+		public Alert CreateAlert(string title, string subtitle, string message, InputData[] inputs, ButtonData[] buttons, UnityAction<Window> onUpdate, UnityAction<Window> onClose)
 		{
 			var alert = Instantiate(alertPrefab);
 			alert.transform.SetParent(canvas.transform);
@@ -101,29 +146,48 @@ namespace Alchemy.Controllers
 				if (inputData is DropdownData)
 				{
 					var dropdownData = (DropdownData)inputData;
-					var dropdown = Instantiate(dropdownPrefab);
-					dropdown.transform.SetParent(alert.inputs);
-					dropdown.options = dropdownData.options;
-					dropdown.onValueChanged.AddListener(dropdownData.onValueChanged);
+					AddDropdown(alert, dropdownData);
 				}
 				if (inputData is InputFieldData)
 				{
 					var inputFieldData = (InputFieldData)inputData;
-					var inputField = Instantiate(inputFieldPrefab);
-					inputField.transform.SetParent(alert.inputs);
-					inputField.onValueChanged.AddListener(inputFieldData.onValueChanged);
-					inputField.onEndEdit.AddListener(inputFieldData.onEndEdit);
+					AddInputField(alert, inputFieldData);
 				}
 			}
 			foreach (var buttonData in buttons)
 			{
-				var button = Instantiate(buttonPrefab);
-				button.transform.SetParent(alert.buttons);
-				button.GetComponentInChildren<Text>().text = buttonData.text;
-				button.onClick.AddListener(buttonData.onClick);
+				AddButton(alert, buttonData);
 			}
 			alert.onUpdate.AddListener(onUpdate);
 			alert.onClose.AddListener(onClose);
+			return alert;
+		}
+
+		public Dropdown AddDropdown(Alert alert, DropdownData dropdownData)
+		{
+			var dropdown = Instantiate(dropdownPrefab);
+			dropdown.transform.SetParent(alert.inputs);
+			dropdown.options = dropdownData.options;
+			dropdown.onValueChanged.AddListener(dropdownData.onValueChanged);
+			return dropdown;
+		}
+
+		public InputField AddInputField(Alert alert, InputFieldData inputFieldData)
+		{
+			var inputField = Instantiate(inputFieldPrefab);
+			inputField.transform.SetParent(alert.inputs);
+			inputField.onValueChanged.AddListener(inputFieldData.onValueChanged);
+			inputField.onEndEdit.AddListener(inputFieldData.onEndEdit);
+			return inputField;
+		}
+
+		public Button AddButton(Alert alert, ButtonData buttonData)
+		{
+			var button = Instantiate(buttonPrefab);
+			button.transform.SetParent(alert.buttons);
+			button.GetComponentInChildren<Text>().text = buttonData.text;
+			button.onClick.AddListener(buttonData.onClick);
+			return button;
 		}
 	}
 
