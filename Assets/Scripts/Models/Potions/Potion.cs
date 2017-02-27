@@ -119,4 +119,10 @@ namespace Alchemy.Models
 			get { return value; }
 		}
 	}
+
+	public class PotionEventArgs : EventArgs
+	{
+		public Potion potion;
+		public Employee employee;
+	}
 }

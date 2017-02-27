@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Alchemy.Models;
+using UnityEngine;
 
 namespace Alchemy.Controllers
 {
@@ -6,7 +7,7 @@ namespace Alchemy.Controllers
     {
         void Start()
         {
-            GameManager.World.SpeedChanged += LogSpeedChanged;
+            /*GameManager.World.SpeedChanged += LogSpeedChanged;
             GameManager.World.HourChanged += LogHourChanged;
             GameManager.World.DayChanged += LogDayChanged;
             GameManager.World.FlaskDisplayed += LogFlaskDisplayed;
@@ -24,7 +25,7 @@ namespace Alchemy.Controllers
             GameManager.World.Shop.EffectDiscovered += LogEffectDiscovered;
             GameManager.World.Shop.PotionResearched += LogPotionResearched;
             GameManager.World.Shop.PotionCreated += LogPotionCreated;
-            GameManager.World.Shop.PotionSold += LogPotionSold;
+            GameManager.World.Shop.PotionSold += LogPotionSold;*/
         }
 
 		void LogSpeedChanged(object sender, IntEventArgs e)

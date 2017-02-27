@@ -28,4 +28,24 @@ namespace Alchemy.Models
 			get { return regions; }
 		}
 	}
+
+	public enum Rarity
+	{
+		Common,
+		Uncommon,
+		Rare
+	}
+
+	public enum Region
+	{
+		Plains,
+		Forest,
+		Desert,
+		Tundra
+	}
+
+	public class HerbEventArgs : EventArgs
+	{
+		public Herb herb;
+	}
 }

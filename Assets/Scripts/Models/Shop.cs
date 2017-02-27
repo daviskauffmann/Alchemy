@@ -200,7 +200,6 @@ namespace Alchemy.Models
 					return false;
 				}
 			}
-
 			PotionPrototypes.Add(potion);
 			return true;
 		}
@@ -216,7 +215,6 @@ namespace Alchemy.Models
 		void RemovePotionMaterials(Flask flask, Solvent solvent, Ingredient[] ingredients)
 		{
 			DiscardFlask(world.GetFlaskPrototype(flask.Name));
-
 			for (int i = 0; i < ingredients.Length; i++)
 			{
 				if (ingredients[i] is Herb)

@@ -51,4 +51,18 @@ namespace Alchemy.Models
             return clone;
         }
     }
+
+	public enum Quality
+	{
+		Poor,
+		Fair,
+		Good,
+		Excellent,
+		Perfect
+	}
+
+	public class FlaskEventArgs : EventArgs
+	{
+		public Flask flask;
+	}
 }

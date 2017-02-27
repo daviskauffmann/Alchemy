@@ -44,4 +44,10 @@ namespace Alchemy.Models
             return null;
         }
     }
+
+	public class EffectEventArgs : EventArgs
+	{
+		public Effect effect;
+		public Ingredient ingredient;
+	}
 }

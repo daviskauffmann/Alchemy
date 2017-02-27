@@ -79,4 +79,9 @@ namespace Alchemy.Models
             daysEmployed++;
         }
     }
+
+	public class EmployeeEventArgs : EventArgs
+	{
+		public Employee employee;
+	}
 }

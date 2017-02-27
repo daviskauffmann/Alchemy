@@ -48,4 +48,9 @@ namespace Alchemy.Models
             return ingredient;
         }
     }
+
+	public class IngredientEventArgs : EventArgs
+	{
+		public Ingredient ingredient;
+	}
 }
