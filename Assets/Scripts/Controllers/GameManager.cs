@@ -6,15 +6,14 @@ namespace Alchemy.Controllers
 {
     public class GameManager : MonoBehaviour
     {
-		static World world;
+		public static GameManager instance;
 
-		public static World World
-		{
-			get { return world; }
-		}
+		public World world;
 		
         void Awake()
         {
+			instance = this;
+
             if (File.Exists("game.json"))
             {
 				world = JsonUtility.FromJson<World>(File.ReadAllText("game.json"));
@@ -33,6 +32,27 @@ namespace Alchemy.Controllers
                 world = new World();
             }
         }
+
+		void Start()
+		{
+			world.DayChanged += (sender, e) =>
+			{
+				var alert = UserInterface.CreateAlert(new AlertData()
+				{
+					title = "Notice",
+					message = "Day changed to " + e.value + "\n" +
+					"You have " + world.Shop.Gold + " gold",
+				});
+				alert.AddButton(new ButtonData()
+				{
+					text = "Ok",
+					onClick = () =>
+					{
+						alert.onClose.Invoke(alert);
+					}
+				});
+			};
+		}
 
 		void Update()
         {

@@ -30,6 +30,20 @@ namespace Alchemy.Models
 		[SerializeField]
 		List<Flask> flasksForSale;
 
+		public event EventHandler<IntEventArgs> SpeedChanged;
+
+		public event EventHandler<IntEventArgs> HourChanged;
+
+		public event EventHandler<IntEventArgs> DayChanged;
+
+		public event EventHandler<EmployeeEventArgs> ApplicantReceived;
+
+		public event EventHandler<EmployeeEventArgs> ApplicantDismissed;
+
+		public event EventHandler<FlaskEventArgs> FlaskDisplayed;
+
+		public event EventHandler<FlaskEventArgs> FlaskSold;
+
 		public World()
 		{
 			random = new Random();
@@ -142,20 +156,6 @@ namespace Alchemy.Models
 				Shop.Gold += 1000;
 			};
 		}
-
-		public event EventHandler<IntEventArgs> SpeedChanged;
-
-		public event EventHandler<IntEventArgs> HourChanged;
-
-		public event EventHandler<IntEventArgs> DayChanged;
-
-		public event EventHandler<EmployeeEventArgs> ApplicantReceived;
-
-		public event EventHandler<EmployeeEventArgs> ApplicantDismissed;
-
-		public event EventHandler<FlaskEventArgs> FlaskDisplayed;
-
-		public event EventHandler<FlaskEventArgs> FlaskSold;
 
 		public Random Random
 		{
@@ -408,16 +408,16 @@ namespace Alchemy.Models
 
 	public class StringEventArgs : EventArgs
 	{
-		public string value;
+		public string value { get; set; }
 	}
 
 	public class FloatEventArgs : EventArgs
 	{
-		public float value;
+		public float value { get; set; }
 	}
 
 	public class IntEventArgs : EventArgs
 	{
-		public int value;
+		public int value { get; set; }
 	}
 }

@@ -23,18 +23,6 @@ namespace Alchemy.Models
         [SerializeField]
         List<Potion> potionsForSale;
 
-        public Shop(World world)
-        {
-			this.world = world;
-			gold = 10000;
-			employees = new Employees(this.world);
-			flasks = new List<Flask>();
-			solvents = new List<Solvent>();
-			ingredients = new Ingredients();
-			potionPrototypes = new List<Potion>();
-			potionsForSale = new List<Potion>();
-        }
-
 		public event EventHandler<FloatEventArgs> GoldChanged;
 
 		public event EventHandler<EmployeeEventArgs> EmployeeHired;
@@ -56,6 +44,18 @@ namespace Alchemy.Models
 		public event EventHandler<PotionEventArgs> PotionCreated;
 
 		public event EventHandler<PotionEventArgs> PotionSold;
+
+		public Shop(World world)
+        {
+			this.world = world;
+			gold = 10000;
+			employees = new Employees(this.world);
+			flasks = new List<Flask>();
+			solvents = new List<Solvent>();
+			ingredients = new Ingredients();
+			potionPrototypes = new List<Potion>();
+			potionsForSale = new List<Potion>();
+        }
 
 		public float Gold
 		{

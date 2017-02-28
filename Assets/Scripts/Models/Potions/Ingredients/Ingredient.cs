@@ -51,6 +51,6 @@ namespace Alchemy.Models
 
 	public class IngredientEventArgs : EventArgs
 	{
-		public Ingredient ingredient;
+		public Ingredient ingredient { get; set; }
 	}
 }

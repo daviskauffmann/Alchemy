@@ -47,7 +47,7 @@ namespace Alchemy.Models
 
 	public class EffectEventArgs : EventArgs
 	{
-		public Effect effect;
-		public Ingredient ingredient;
+		public Effect effect { get; set; }
+		public Ingredient ingredient { get; set; }
 	}
 }

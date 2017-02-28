@@ -14,21 +14,17 @@ namespace Alchemy.Controllers
 		public WindowEvent onUpdate;
 		public WindowEvent onClose;
 
-		Vector2 offset;
-		bool active = true;
+		protected bool active = true;
 
-		void Awake()
+		Vector2 offset;
+
+		protected virtual void Awake()
 		{
 			onUpdate = new WindowEvent();
 			onClose = new WindowEvent();
-
-			onClose.AddListener((window) =>
-			{
-				Destroy(gameObject);
-			});
 		}
 
-		void Start()
+		protected virtual void Start()
 		{
 			close.onClick.AddListener(() =>
 			{
@@ -39,9 +35,13 @@ namespace Alchemy.Controllers
 				active = !active;
 				content.SetActive(active);
 			});
+			onClose.AddListener((window) =>
+			{
+				Destroy(gameObject);
+			});
 		}
 
-		void Update()
+		protected virtual void Update()
 		{
 			if (active)
 			{

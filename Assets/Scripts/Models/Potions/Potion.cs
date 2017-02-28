@@ -122,7 +122,7 @@ namespace Alchemy.Models
 
 	public class PotionEventArgs : EventArgs
 	{
-		public Potion potion;
-		public Employee employee;
+		public Potion potion { get; set; }
+		public Employee employee { get; set; }
 	}
 }

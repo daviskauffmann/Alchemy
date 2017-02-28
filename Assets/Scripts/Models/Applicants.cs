@@ -17,7 +17,9 @@ namespace Alchemy.Models
         [SerializeField]
         List<Guard> guards;
 
-        public Applicants(World world)
+		public event EventHandler<IntEventArgs> CountChanged;
+
+		public Applicants(World world)
         {
 			this.world = world;
             herbalists = new List<Herbalist>();
@@ -25,8 +27,6 @@ namespace Alchemy.Models
             shopkeepers = new List<Shopkeeper>();
             guards = new List<Guard>();
         }
-
-		public event EventHandler<IntEventArgs> CountChanged;
 
 		public List<Herbalist> Herbalists
 		{

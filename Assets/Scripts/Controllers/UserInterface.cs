@@ -7,6 +7,8 @@ namespace Alchemy.Controllers
 {
 	public class UserInterface : MonoBehaviour
 	{
+		public static UserInterface instance;
+		
 		[SerializeField]
 		Canvas canvas;
 		[SerializeField]
@@ -29,188 +31,227 @@ namespace Alchemy.Controllers
 		Window windowPrefab;
 		[SerializeField]
 		Alert alertPrefab;
+		[SerializeField]
+		Checklist checklistPrefab;
 
-		void Update()
+		void Awake()
 		{
-			if (Input.GetKeyDown(KeyCode.A))
-			{
-				CreateAlert("Title", "Subtitle", "This is an alert", new InputData[]
-				{
-					new DropdownData()
-					{
-						options = new List<Dropdown.OptionData>()
-						{
-							new Dropdown.OptionData("Option A"),
-							new Dropdown.OptionData("Option B"),
-							new Dropdown.OptionData("Option C")
-						},
-						onValueChanged = (value) =>
-						{
-							Debug.Log(value);
-						}
-					},
-					new InputFieldData()
-					{
-						onValueChanged = (value) =>
-						{
-							Debug.Log(value);
-						},
-						onEndEdit = (value) =>
-						{
-							Debug.Log(value);
-						}
-					}
-				}, new ButtonData[]
-				{
-					new ButtonData()
-					{
-						text = "Button 1",
-						onClick = () =>
-						{
-							Debug.Log("Button 1 Clicked");
-						}
-					},
-					new ButtonData()
-					{
-						text = "Button 2",
-						onClick = () =>
-						{
-							Debug.Log("Button 2 Clicked");
-						}
-					}
-				}, (window) =>
-				{
-					Debug.Log("Alert refreshed");
-				}, (window) =>
-				{
-					Debug.Log("Alert closed");
-				});
-			}
-
-			if (Input.GetKeyDown(KeyCode.E))
-			{
-				string name = "";
-				var alert = CreateAlert("Name", "Enter your name", "", new InputData[]
-				{
-					new InputFieldData()
-					{
-						onValueChanged = (value) =>
-						{
-							name = value;
-						},
-						onEndEdit = (value) =>
-						{
-							name = value;
-						}
-					}
-				}, new ButtonData[]
-				{
-					
-				}, (window) =>
-				{
-
-				}, (window) =>
-				{
-
-				});
-				AddButton(alert, new ButtonData()
-				{
-					text = "Cancel",
-					onClick = () =>
-					{
-						alert.onClose.Invoke(alert);
-					}
-				});
-				AddButton(alert, new ButtonData()
-				{
-					text = "Ok",
-					onClick = () =>
-					{
-						this.name = name;
-						alert.onClose.Invoke(alert);
-					}
-				});
-			}
+			instance = this;
 		}
 
-		public Alert CreateAlert(string title, string subtitle, string message, InputData[] inputs, ButtonData[] buttons, UnityAction<Window> onUpdate, UnityAction<Window> onClose)
+		public static Button CreateButton(ButtonData buttonData)
 		{
-			var alert = Instantiate(alertPrefab);
-			alert.transform.SetParent(canvas.transform);
-			alert.transform.localPosition = Vector2.zero;
-			alert.title.text = title;
-			alert.subtitle.text = subtitle;
-			alert.message.text = message;
-			foreach (var inputData in inputs)
+			var button = Instantiate(instance.buttonPrefab, instance.canvas.transform, false);
+			button.GetComponentInChildren<Text>().text = buttonData.text;
+			if (buttonData.onClick != null)
 			{
-				if (inputData is DropdownData)
-				{
-					var dropdownData = (DropdownData)inputData;
-					AddDropdown(alert, dropdownData);
-				}
-				if (inputData is InputFieldData)
-				{
-					var inputFieldData = (InputFieldData)inputData;
-					AddInputField(alert, inputFieldData);
-				}
+				button.onClick.AddListener(buttonData.onClick);
 			}
-			foreach (var buttonData in buttons)
-			{
-				AddButton(alert, buttonData);
-			}
-			alert.onUpdate.AddListener(onUpdate);
-			alert.onClose.AddListener(onClose);
-			return alert;
+			return button;
 		}
 
-		public Dropdown AddDropdown(Alert alert, DropdownData dropdownData)
+		public static Toggle CreateToggle(ToggleData toggleData)
 		{
-			var dropdown = Instantiate(dropdownPrefab);
-			dropdown.transform.SetParent(alert.inputs);
-			dropdown.options = dropdownData.options;
-			dropdown.onValueChanged.AddListener(dropdownData.onValueChanged);
+			var toggle = Instantiate(instance.togglePrefab, instance.canvas.transform, false);
+			toggle.GetComponentInChildren<Text>().text = toggleData.text;
+			toggle.isOn = toggleData.isOn;
+			if (toggleData.onValueChanged != null)
+			{
+				toggle.onValueChanged.AddListener(toggleData.onValueChanged);
+			}
+			return toggle;
+		}
+
+		public static Slider CreateSlider(SliderData sliderData)
+		{
+			var slider = Instantiate(instance.sliderPrefab, instance.canvas.transform, false);
+			return slider;
+		}
+
+		public static Dropdown CreateDropdown(DropdownData dropdownData)
+		{
+			var dropdown = Instantiate(instance.dropdownPrefab, instance.canvas.transform, false);
+			if (dropdownData.options != null)
+			{
+				dropdown.options = dropdownData.options;
+			}
+			if (dropdownData.onValueChanged != null)
+			{
+				dropdown.onValueChanged.AddListener(dropdownData.onValueChanged);
+			}
 			return dropdown;
 		}
 
-		public InputField AddInputField(Alert alert, InputFieldData inputFieldData)
+		public static InputField CreateInputField(InputFieldData inputFieldData)
 		{
-			var inputField = Instantiate(inputFieldPrefab);
-			inputField.transform.SetParent(alert.inputs);
-			inputField.onValueChanged.AddListener(inputFieldData.onValueChanged);
-			inputField.onEndEdit.AddListener(inputFieldData.onEndEdit);
+			var inputField = Instantiate(instance.inputFieldPrefab, instance.canvas.transform, false);
+			if (inputFieldData.onValueChanged != null)
+			{
+				inputField.onValueChanged.AddListener(inputFieldData.onValueChanged);
+			}
+			if (inputFieldData.onEndEdit != null)
+			{
+				inputField.onEndEdit.AddListener(inputFieldData.onEndEdit);
+			}
 			return inputField;
 		}
 
-		public Button AddButton(Alert alert, ButtonData buttonData)
+		public static Window CreateWindow(WindowData windowData)
 		{
-			var button = Instantiate(buttonPrefab);
-			button.transform.SetParent(alert.buttons);
-			button.GetComponentInChildren<Text>().text = buttonData.text;
-			button.onClick.AddListener(buttonData.onClick);
-			return button;
+			var window = Instantiate(instance.windowPrefab, instance.canvas.transform, false);
+			window.title.text = windowData.title;
+			if (windowData.onUpdate != null)
+			{
+				window.onUpdate.AddListener(windowData.onUpdate);
+			}
+			if (windowData.onClose != null)
+			{
+				window.onClose.AddListener(windowData.onClose);
+			}
+			return window;
+		}
+
+		public static Alert CreateAlert(AlertData alertData)
+		{
+			var alert = Instantiate(instance.alertPrefab, instance.canvas.transform, false);
+			alert.title.text = alertData.title;
+			if (alertData.onUpdate != null)
+			{
+				alert.onUpdate.AddListener(alertData.onUpdate);
+			}
+			if (alertData.onClose != null)
+			{
+				alert.onClose.AddListener(alertData.onClose);
+			}
+			alert.message.text = alertData.message;
+			if (alertData.inputs != null)
+			{
+				foreach (var inputData in alertData.inputs)
+				{
+					if (inputData is ToggleData)
+					{
+						var toggleData = (ToggleData)inputData;
+						alert.AddToggle(toggleData);
+					}
+					if (inputData is SliderData)
+					{
+						var sliderData = (SliderData)inputData;
+						alert.AddSlider(sliderData);
+					}
+					if (inputData is DropdownData)
+					{
+						var dropdownData = (DropdownData)inputData;
+						alert.AddDropdown(dropdownData);
+					}
+					if (inputData is InputFieldData)
+					{
+						var inputFieldData = (InputFieldData)inputData;
+						alert.AddInputField(inputFieldData);
+					}
+				}
+			}
+			if (alertData.buttons != null)
+			{
+				foreach (var buttonData in alertData.buttons)
+				{
+					alert.AddButton(buttonData);
+				}
+			}
+			return alert;
+		}
+
+		public static Checklist CreateChecklist(ChecklistData checklistData)
+		{
+			var checklist = Instantiate(instance.checklistPrefab, instance.canvas.transform, false);
+			checklist.title.text = checklistData.title;
+			if (checklistData.onUpdate != null)
+			{
+				checklist.onUpdate.AddListener(checklistData.onUpdate);
+			}
+			if (checklistData.onClose != null)
+			{
+				checklist.onClose.AddListener(checklistData.onClose);
+			}
+			if (checklistData.toggles != null)
+			{
+				foreach (var toggleData in checklistData.toggles)
+				{
+					checklist.AddToggle(toggleData);
+				}
+			}
+			if (checklistData.onClickOk != null)
+			{
+				checklist.ok.onClick.AddListener(checklistData.onClickOk);
+			}
+			return checklist;
 		}
 	}
 
 	public struct ButtonData
 	{
-		public string text;
-		public UnityAction onClick;
+		public string text { get; set; }
+		public UnityAction onClick { get; set; }
 	}
 
-	public interface InputData
+	public interface IInputData
 	{
 
 	}
 
-	public struct DropdownData : InputData
+	public struct ToggleData : IInputData
 	{
-		public List<Dropdown.OptionData> options;
-		public UnityAction<int> onValueChanged;
+		public string text { get; set; }
+		public bool isOn { get; set; }
+		public UnityAction<bool> onValueChanged { get; set; }
 	}
 
-	public struct InputFieldData : InputData
+	public struct SliderData : IInputData
 	{
-		public UnityAction<string> onValueChanged;
-		public UnityAction<string> onEndEdit;
+
+	}
+
+	public struct DropdownData : IInputData
+	{
+		public List<Dropdown.OptionData> options { get; set; }
+		public UnityAction<int> onValueChanged { get; set; }
+	}
+
+	public struct InputFieldData : IInputData
+	{
+		public UnityAction<string> onValueChanged { get; set; }
+		public UnityAction<string> onEndEdit { get; set; }
+	}
+
+	public interface IWindowData
+	{
+		string title { get; set; }
+		UnityAction<Window> onUpdate { get; set; }
+		UnityAction<Window> onClose { get; set; }
+	}
+
+	public struct WindowData : IWindowData
+	{
+		public string title { get; set; }
+		public UnityAction<Window> onUpdate { get; set; }
+		public UnityAction<Window> onClose { get; set; }
+	}
+
+	public struct AlertData : IWindowData
+	{
+		public string title { get; set; }
+		public string message { get; set; }
+		public IInputData[] inputs { get; set; }
+		public ButtonData[] buttons { get; set; }
+		public UnityAction<Window> onUpdate { get; set; }
+		public UnityAction<Window> onClose { get; set; }
+	}
+
+	public struct ChecklistData : IWindowData
+	{
+		public string title { get; set; }
+		public UnityAction<Window> onUpdate { get; set; }
+		public UnityAction<Window> onClose { get; set; }
+		public ToggleData[] toggles;
+		public UnityAction onClickOk { get; set; }
 	}
 }

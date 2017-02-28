@@ -63,6 +63,6 @@ namespace Alchemy.Models
 
 	public class FlaskEventArgs : EventArgs
 	{
-		public Flask flask;
+		public Flask flask { get; set; }
 	}
 }

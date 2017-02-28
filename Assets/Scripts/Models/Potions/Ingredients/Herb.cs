@@ -46,6 +46,6 @@ namespace Alchemy.Models
 
 	public class HerbEventArgs : EventArgs
 	{
-		public Herb herb;
+		public Herb herb { get; set; }
 	}
 }

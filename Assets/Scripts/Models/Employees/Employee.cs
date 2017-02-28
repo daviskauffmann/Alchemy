@@ -66,15 +66,15 @@ namespace Alchemy.Models
 
 		public virtual void StartWorking()
         {
-            world.DayChanged += IncrementDaysEmployed;
+            world.DayChanged += DayChanged;
         }
 
         public virtual void StopWorking()
         {
-            world.DayChanged -= IncrementDaysEmployed;
+            world.DayChanged -= DayChanged;
         }
 
-        protected void IncrementDaysEmployed(object sender, IntEventArgs e)
+        void DayChanged(object sender, IntEventArgs e)
         {
             daysEmployed++;
         }
@@ -82,6 +82,6 @@ namespace Alchemy.Models
 
 	public class EmployeeEventArgs : EventArgs
 	{
-		public Employee employee;
+		public Employee employee { get; set; }
 	}
 }
