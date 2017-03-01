@@ -3,24 +3,21 @@ using UnityEngine;
 
 namespace Alchemy.Models
 {
-    [Serializable]
-    public class Flask : ICloneable
-    {
-        [SerializeField]
-        string name;
-        [SerializeField]
-        Quality quality;
-        [SerializeField]
-        float value;
+	[Serializable]
+	public class Flask : ICloneable
+	{
 		[SerializeField]
-		int amount;
+		string name;
+		[SerializeField]
+		Quality quality;
+		[SerializeField]
+		float value;
 
 		public Flask(string name, Quality quality, float value)
-        {
-            this.name = name;
-            this.quality = quality;
-            this.value = value;
-			amount = -1;
+		{
+			this.name = name;
+			this.quality = quality;
+			this.value = value;
 		}
 
 		public string Name
@@ -38,19 +35,12 @@ namespace Alchemy.Models
 			get { return value; }
 		}
 
-		public int Amount
-		{
-			get { return amount; }
-			set { amount = value; }
-		}
-
 		public object Clone()
-        {
-            var clone = (Flask)MemberwiseClone();
-            clone.Amount = -1;
-            return clone;
-        }
-    }
+		{
+			var clone = (Flask)MemberwiseClone();
+			return clone;
+		}
+	}
 
 	public enum Quality
 	{

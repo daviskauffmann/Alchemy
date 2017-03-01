@@ -8,7 +8,7 @@ namespace Alchemy.Controllers
 	public class UserInterface : MonoBehaviour
 	{
 		public static UserInterface instance;
-		
+
 		[SerializeField]
 		Canvas canvas;
 		[SerializeField]

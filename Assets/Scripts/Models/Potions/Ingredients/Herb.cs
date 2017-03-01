@@ -3,20 +3,20 @@ using UnityEngine;
 
 namespace Alchemy.Models
 {
-    [Serializable]
-    public class Herb : Ingredient
-    {
-        [SerializeField]
-        Rarity rarity;
-        [SerializeField]
-        Region[] regions;
+	[Serializable]
+	public class Herb : Ingredient
+	{
+		[SerializeField]
+		Rarity rarity;
+		[SerializeField]
+		Region[] regions;
 
-        public Herb(string name, Effect[] effects, Rarity rarity, Region[] regions)
-            : base(name, effects)
-        {
-            this.rarity = rarity;
-            this.regions = regions;
-        }
+		public Herb(string name, Effect[] effects, Rarity rarity, Region[] regions)
+			: base(name, effects)
+		{
+			this.rarity = rarity;
+			this.regions = regions;
+		}
 
 		public Rarity Rarity
 		{

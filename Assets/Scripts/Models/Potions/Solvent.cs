@@ -3,22 +3,19 @@ using UnityEngine;
 
 namespace Alchemy.Models
 {
-    [Serializable]
-    public class Solvent : ICloneable
-    {
-        [SerializeField]
-        string name;
-        [SerializeField]
-        int strength;
+	[Serializable]
+	public class Solvent : ICloneable
+	{
 		[SerializeField]
-		int amount;
+		string name;
+		[SerializeField]
+		int strength;
 
 		public Solvent(string name, int strength)
-        {
-            this.name = name;
-            this.strength = strength;
-			amount = -1;
-        }
+		{
+			this.name = name;
+			this.strength = strength;
+		}
 
 		public string Name
 		{
@@ -30,17 +27,10 @@ namespace Alchemy.Models
 			get { return strength; }
 		}
 
-		public int Amount
-		{
-			get { return amount; }
-			set { amount = value; }
-		}
-
 		public object Clone()
-        {
-            var clone = (Solvent)MemberwiseClone();
-            clone.Amount = -1;
-            return clone;
-        }
-    }
+		{
+			var clone = (Solvent)MemberwiseClone();
+			return clone;
+		}
+	}
 }

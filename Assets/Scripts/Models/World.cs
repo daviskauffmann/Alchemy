@@ -122,7 +122,8 @@ namespace Alchemy.Models
 			applicants = new Applicants(this);
 			flasksForSale = new List<Flask>();
 
-			DayChanged += (sender, e) => {
+			DayChanged += (sender, e) =>
+			{
 				Employee applicant = null;
 				switch (Random.Next(4))
 				{
@@ -148,7 +149,7 @@ namespace Alchemy.Models
 			};
 			DayChanged += (sender, e) =>
 			{
-				var flask = FlaskDatabase[Random.Next(FlaskDatabase.Length)];
+				var flask = (Flask)FlaskDatabase[Random.Next(FlaskDatabase.Length)].Clone();
 				DisplayFlask(flask);
 			};
 			DayChanged += (sender, e) =>
@@ -258,42 +259,6 @@ namespace Alchemy.Models
 			get { return flasksForSale; }
 		}
 
-		public Flask GetFlaskPrototype(string name)
-		{
-			for (int i = 0; i < FlaskDatabase.Length; i++)
-			{
-				if (FlaskDatabase[i].Name == name)
-				{
-					return FlaskDatabase[i];
-				}
-			}
-			return null;
-		}
-
-		public Solvent GetSolventPrototype(string name)
-		{
-			for (int i = 0; i < SolventDatabase.Length; i++)
-			{
-				if (SolventDatabase[i].Name == name)
-				{
-					return SolventDatabase[i];
-				}
-			}
-			return null;
-		}
-
-		public Herb GetHerbPrototype(string name)
-		{
-			for (int i = 0; i < HerbDatabase.Length; i++)
-			{
-				if (HerbDatabase[i].Name == name)
-				{
-					return HerbDatabase[i];
-				}
-			}
-			return null;
-		}
-
 		public void ReceiveApplication(Employee applicant)
 		{
 			Applicants.Add(applicant);
@@ -306,47 +271,21 @@ namespace Alchemy.Models
 			OnApplicantDismissed(applicant);
 		}
 
-		public void DisplayFlask(Flask prototype)
+		public void DisplayFlask(Flask flask)
 		{
-			bool newEntry = true;
-			for (int i = 0; i < FlasksForSale.Count; i++)
-			{
-				if (FlasksForSale[i].Name == prototype.Name)
-				{
-					FlasksForSale[i].Amount++;
-					OnFlaskDisplayed(FlasksForSale[i]);
-					newEntry = false;
-					break;
-				}
-			}
-			if (newEntry)
-			{
-				var flask = (Flask)prototype.Clone();
-				flask.Amount = 1;
-				FlasksForSale.Add(flask);
-				OnFlaskDisplayed(flask);
-			}
+			FlasksForSale.Add(flask);
+			OnFlaskDisplayed(flask);
 		}
 
-		public void SellFlask(Flask prototype)
+		public void SellFlask(Flask flask)
 		{
-			if (!Shop.PurchaseFlask(prototype))
+			if (!Shop.PurchaseFlask(flask))
 			{
 				return;
 			}
-			for (int i = 0; i < FlasksForSale.Count; i++)
-			{
-				if (FlasksForSale[i].Name == prototype.Name)
-				{
-					FlasksForSale[i].Amount--;
-					if (FlasksForSale[i].Amount < 0)
-					{
-						FlasksForSale[i].Amount = 0;
-					}
-					OnFlaskSold(FlasksForSale[i]);
-					break;
-				}
-			}
+
+			FlasksForSale.Remove(flask);
+			OnFlaskSold(flask);
 		}
 
 		protected virtual void OnSpeedChanged(int value)

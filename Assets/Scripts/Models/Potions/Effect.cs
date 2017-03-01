@@ -3,47 +3,37 @@ using UnityEngine;
 
 namespace Alchemy.Models
 {
-    [Serializable]
-    public class Effect : ICloneable
-    {
-        [SerializeField]
-        string name;
-        [SerializeField]
-        bool discovered;
+	[Serializable]
+	public class Effect : ICloneable
+	{
+		[SerializeField]
+		string name;
 
-        public Effect(string name)
-        {
-            this.name = name;
-            discovered = false;
-        }
+		public Effect(string name)
+		{
+			this.name = name;
+		}
 
 		public string Name
 		{
 			get { return name; }
 		}
 
-		public bool Discovered
+		public virtual object Clone()
 		{
-			get { return discovered; }
-			set { discovered = value; }
+			var clone = (Effect)MemberwiseClone();
+			return clone;
 		}
 
-		public virtual object Clone()
-        {
-            var clone = (Effect)MemberwiseClone();
-            clone.discovered = false;
-            return clone;
-        }
-
-        public Effect Combine(Effect other)
-        {
-            if (Name == other.Name)
-            {
-                return (Effect)Clone();
-            }
-            return null;
-        }
-    }
+		public Effect Combine(Effect other)
+		{
+			if (Name == other.Name)
+			{
+				return (Effect)Clone();
+			}
+			return null;
+		}
+	}
 
 	public class EffectEventArgs : EventArgs
 	{
