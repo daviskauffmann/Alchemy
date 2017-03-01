@@ -14,6 +14,8 @@ namespace Alchemy.Controllers
 		[SerializeField]
 		Text textPrefab;
 		[SerializeField]
+		Text resizingTextPrefab;
+		[SerializeField]
 		Button buttonPrefab;
 		[SerializeField]
 		Toggle togglePrefab;
@@ -33,10 +35,40 @@ namespace Alchemy.Controllers
 		Alert alertPrefab;
 		[SerializeField]
 		Checklist checklistPrefab;
+		[SerializeField]
+		Radiolist radiolistPrefab;
+
+		[SerializeField]
+		Text messages;
 
 		void Awake()
 		{
 			instance = this;
+		}
+
+		void Start()
+		{
+			// TEST
+			GameManager.instance.world.ApplicantReceived += (sender, e) =>
+			{
+				var color = "";
+				switch (e.employee.Title)
+				{
+					case "Apothecary":
+						color = "aqua";
+						break;
+					case "Guard":
+						color = "red";
+						break;
+					case "Herbalist":
+						color = "green";
+						break;
+					case "Shopkeeper":
+						color = "yellow";
+						break;
+				}
+				messages.text += e.employee.Name + " the <color=" + color + ">" + e.employee.Title + "</color> has applied for a job." + "\n";
+			};
 		}
 
 		public static Button CreateButton(ButtonData buttonData)
@@ -185,6 +217,32 @@ namespace Alchemy.Controllers
 			}
 			return checklist;
 		}
+
+		public static Radiolist CreateRadiolist(RadiolistData radiolistData)
+		{
+			var radiolist = Instantiate(instance.radiolistPrefab, instance.canvas.transform, false);
+			radiolist.title.text = radiolistData.title;
+			if (radiolistData.onUpdate != null)
+			{
+				radiolist.onUpdate.AddListener(radiolistData.onUpdate);
+			}
+			if (radiolistData.onClose != null)
+			{
+				radiolist.onClose.AddListener(radiolistData.onClose);
+			}
+			if (radiolistData.toggles != null)
+			{
+				foreach (var toggleData in radiolistData.toggles)
+				{
+					radiolist.AddToggle(toggleData);
+				}
+			}
+			if (radiolistData.onClickOk != null)
+			{
+				radiolist.ok.onClick.AddListener(radiolistData.onClickOk);
+			}
+			return radiolist;
+		}
 	}
 
 	public struct ButtonData
@@ -247,6 +305,15 @@ namespace Alchemy.Controllers
 	}
 
 	public struct ChecklistData : IWindowData
+	{
+		public string title { get; set; }
+		public UnityAction<Window> onUpdate { get; set; }
+		public UnityAction<Window> onClose { get; set; }
+		public ToggleData[] toggles;
+		public UnityAction onClickOk { get; set; }
+	}
+
+	public struct RadiolistData : IWindowData
 	{
 		public string title { get; set; }
 		public UnityAction<Window> onUpdate { get; set; }

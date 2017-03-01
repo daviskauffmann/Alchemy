@@ -45,7 +45,7 @@ namespace Alchemy.Controllers
 				}
 				for (int i = 0; i < 100; i++)
 				{
-					var flask = (Flask)GameManager.instance.world.FlaskDatabase[GameManager.instance.world.Random.Next(GameManager.instance.world.FlaskDatabase.Length)].Clone();
+					var flask = GameManager.instance.world.FlaskDatabase[GameManager.instance.world.Random.Next(GameManager.instance.world.FlaskDatabase.Length)];
 					GameManager.instance.world.Shop.PurchaseFlask(flask);
 				}
 			}
@@ -159,6 +159,43 @@ namespace Alchemy.Controllers
 				foreach (var thing in things)
 				{
 					checklist.AddToggle(new ToggleData()
+					{
+						text = thing.name,
+						isOn = thing.value,
+						onValueChanged = (value) =>
+						{
+							thing.value = value;
+						}
+					});
+				}
+			}
+
+			if (Input.GetKeyDown(KeyCode.C))
+			{
+				var things = new BoolThing[10];
+				for (int i = 0; i < things.Length; i++)
+				{
+					things[i] = new BoolThing()
+					{
+						name = "Thing " + i,
+						value = false
+					};
+				}
+
+				var radiolist = UserInterface.CreateRadiolist(new RadiolistData()
+				{
+					title = "Radiolist",
+					onClickOk = () =>
+					{
+						foreach (var thing in things)
+						{
+							Debug.Log(thing.name + " is " + thing.value);
+						}
+					}
+				});
+				foreach (var thing in things)
+				{
+					radiolist.AddToggle(new ToggleData()
 					{
 						text = thing.name,
 						isOn = thing.value,
