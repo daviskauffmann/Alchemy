@@ -34,9 +34,7 @@ namespace Alchemy.Controllers
 		[SerializeField]
 		Alert alertPrefab;
 		[SerializeField]
-		ToggleList toggleListPrefab;
-		[SerializeField]
-		RadioList radioListPrefab;
+		List listPrefab;
 
 		[SerializeField]
 		Text messages;
@@ -94,14 +92,14 @@ namespace Alchemy.Controllers
 			return toggle;
 		}
 
-		public static Toggle CreateRadio(ToggleData toggleData)
+		public static Toggle CreateRadio(RadioData radioData)
 		{
 			var radio = Instantiate(instance.radioPrefab, instance.canvas.transform, false);
-			radio.GetComponentInChildren<Text>().text = toggleData.text;
-			radio.isOn = toggleData.isOn;
-			if (toggleData.onValueChanged != null)
+			radio.GetComponentInChildren<Text>().text = radioData.text;
+			radio.isOn = radioData.isOn;
+			if (radioData.onValueChanged != null)
 			{
-				radio.onValueChanged.AddListener(toggleData.onValueChanged);
+				radio.onValueChanged.AddListener(radioData.onValueChanged);
 			}
 			return radio;
 		}
@@ -204,57 +202,65 @@ namespace Alchemy.Controllers
 			return alert;
 		}
 
-		public static ToggleList CreateToggleList(ToggleListData toggleListData)
+		public static List CreateList(ListData listData)
 		{
-			var toggleList = Instantiate(instance.toggleListPrefab, instance.canvas.transform, false);
-			toggleList.title.text = toggleListData.title;
-			if (toggleListData.onUpdate != null)
+			var list = Instantiate(instance.listPrefab, instance.canvas.transform, false);
+			list.title.text = listData.title;
+			if (listData.onUpdate != null)
 			{
-				toggleList.onUpdate.AddListener(toggleListData.onUpdate);
+				list.onUpdate.AddListener(listData.onUpdate);
 			}
-			if (toggleListData.onClose != null)
+			if (listData.onClose != null)
 			{
-				toggleList.onClose.AddListener(toggleListData.onClose);
+				list.onClose.AddListener(listData.onClose);
 			}
-			if (toggleListData.toggles != null)
+			if (listData.elements != null)
 			{
-				foreach (var toggleData in toggleListData.toggles)
+				foreach (var element in listData.elements)
 				{
-					toggleList.AddToggle(toggleData);
+					if (element is ToggleData)
+					{
+						var toggleData = (ToggleData)element;
+						list.AddToggle(toggleData);
+					}
+					else if (element is RadioData)
+					{
+						var radioData = (RadioData)element;
+						list.AddRadio(radioData);
+					}
 				}
 			}
-			if (toggleListData.onClickOk != null)
+			if (listData.buttons != null)
 			{
-				toggleList.done.onClick.AddListener(toggleListData.onClickOk);
+				foreach (var buttonData in listData.buttons)
+				{
+					list.AddButton(buttonData);
+				}
 			}
-			return toggleList;
+			return list;
 		}
+	}
 
-		public static RadioList CreateRadioList(ToggleListData radioListData)
-		{
-			var radioList = Instantiate(instance.radioListPrefab, instance.canvas.transform, false);
-			radioList.title.text = radioListData.title;
-			if (radioListData.onUpdate != null)
-			{
-				radioList.onUpdate.AddListener(radioListData.onUpdate);
-			}
-			if (radioListData.onClose != null)
-			{
-				radioList.onClose.AddListener(radioListData.onClose);
-			}
-			if (radioListData.toggles != null)
-			{
-				foreach (var toggleData in radioListData.toggles)
-				{
-					radioList.AddToggle(toggleData);
-				}
-			}
-			if (radioListData.onClickOk != null)
-			{
-				radioList.done.onClick.AddListener(radioListData.onClickOk);
-			}
-			return radioList;
-		}
+	public interface IWindowData
+	{
+		string title { get; set; }
+		UnityAction<Window> onUpdate { get; set; }
+		UnityAction<Window> onClose { get; set; }
+	}
+
+	public interface IInputData
+	{
+
+	}
+
+	public interface IListData
+	{
+
+	}
+
+	public struct TextData : IListData
+	{
+		public string text { get; set; }
 	}
 
 	public struct ButtonData
@@ -263,12 +269,14 @@ namespace Alchemy.Controllers
 		public UnityAction onClick { get; set; }
 	}
 
-	public interface IInputData
+	public struct ToggleData : IInputData, IListData
 	{
-
+		public string text { get; set; }
+		public bool isOn { get; set; }
+		public UnityAction<bool> onValueChanged { get; set; }
 	}
 
-	public struct ToggleData : IInputData
+	public struct RadioData : IInputData, IListData
 	{
 		public string text { get; set; }
 		public bool isOn { get; set; }
@@ -292,13 +300,6 @@ namespace Alchemy.Controllers
 		public UnityAction<string> onEndEdit { get; set; }
 	}
 
-	public interface IWindowData
-	{
-		string title { get; set; }
-		UnityAction<Window> onUpdate { get; set; }
-		UnityAction<Window> onClose { get; set; }
-	}
-
 	public struct WindowData : IWindowData
 	{
 		public string title { get; set; }
@@ -309,19 +310,19 @@ namespace Alchemy.Controllers
 	public struct AlertData : IWindowData
 	{
 		public string title { get; set; }
+		public UnityAction<Window> onUpdate { get; set; }
+		public UnityAction<Window> onClose { get; set; }
 		public string message { get; set; }
 		public IInputData[] inputs { get; set; }
 		public ButtonData[] buttons { get; set; }
-		public UnityAction<Window> onUpdate { get; set; }
-		public UnityAction<Window> onClose { get; set; }
 	}
 
-	public struct ToggleListData : IWindowData
+	public struct ListData : IWindowData
 	{
 		public string title { get; set; }
 		public UnityAction<Window> onUpdate { get; set; }
 		public UnityAction<Window> onClose { get; set; }
-		public ToggleData[] toggles;
-		public UnityAction onClickOk { get; set; }
+		public IListData[] elements;
+		public ButtonData[] buttons { get; set; }
 	}
 }

@@ -10,33 +10,34 @@ namespace Alchemy.Controllers
 		public Text title;
 		public Button minimize;
 		public Button close;
+		public RectTransform widthController;
+		public RectTransform heightController;
 		public GameObject content;
 		public WindowEvent onUpdate;
 		public WindowEvent onClose;
 
-		protected bool active = true;
-
+		bool active = true;
 		Vector2 offset;
 
 		public float Width
 		{
-			get { return GetComponent<RectTransform>().rect.width; }
-			set { GetComponent<RectTransform>().sizeDelta = new Vector2(value, Height); }
+			get { return widthController.rect.width; }
+			set { widthController.sizeDelta = new Vector2(value, widthController.rect.height); }
 		}
 
-		public virtual float Height
+		public float Height
 		{
-			get { return content.GetComponent<RectTransform>().rect.height; }
-			set { content.GetComponent<RectTransform>().sizeDelta = new Vector2(Width, value); }
+			get { return heightController.rect.height; }
+			set { heightController.sizeDelta = new Vector2(heightController.rect.width, value); }
 		}
 
-		protected virtual void Awake()
+		void Awake()
 		{
 			onUpdate = new WindowEvent();
 			onClose = new WindowEvent();
 		}
 
-		protected virtual void Start()
+		void Start()
 		{
 			close.onClick.AddListener(() =>
 			{
@@ -53,7 +54,7 @@ namespace Alchemy.Controllers
 			});
 		}
 
-		protected virtual void Update()
+		void Update()
 		{
 			if (active)
 			{

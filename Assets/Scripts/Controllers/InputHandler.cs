@@ -175,10 +175,22 @@ namespace Alchemy.Controllers
 					};
 				}
 
-				var checklist = UserInterface.CreateToggleList(new ToggleListData()
+				var checklist = UserInterface.CreateList(new ListData()
 				{
-					title = "Toggle List",
-					onClickOk = () =>
+					title = "Toggle List"
+				});
+				checklist.AddButton(new ButtonData()
+				{
+					text = "Cancel",
+					onClick = () =>
+					{
+						checklist.onClose.Invoke(checklist);
+					}
+				});
+				checklist.AddButton(new ButtonData()
+				{
+					text = "Done",
+					onClick = () =>
 					{
 						foreach (var thing in things)
 						{
@@ -212,10 +224,22 @@ namespace Alchemy.Controllers
 					};
 				}
 
-				var radiolist = UserInterface.CreateRadioList(new ToggleListData()
+				var radiolist = UserInterface.CreateList(new ListData()
 				{
-					title = "Radio List",
-					onClickOk = () =>
+					title = "Radio List"
+				});
+				radiolist.AddButton(new ButtonData()
+				{
+					text = "Cancel",
+					onClick = () =>
+					{
+						radiolist.onClose.Invoke(radiolist);
+					}
+				});
+				radiolist.AddButton(new ButtonData()
+				{
+					text = "Done",
+					onClick = () =>
 					{
 						foreach (var thing in things)
 						{
@@ -225,7 +249,7 @@ namespace Alchemy.Controllers
 				});
 				foreach (var thing in things)
 				{
-					radiolist.AddToggle(new ToggleData()
+					radiolist.AddRadio(new RadioData()
 					{
 						text = thing.name,
 						isOn = thing.value,
