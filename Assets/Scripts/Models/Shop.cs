@@ -7,7 +7,6 @@ namespace Alchemy.Models
 	[Serializable]
 	public class Shop
 	{
-		World world;
 		[SerializeField]
 		float gold;
 		[SerializeField]
@@ -43,11 +42,10 @@ namespace Alchemy.Models
 
 		public event EventHandler<PotionEventArgs> PotionSold;
 
-		public Shop(World world)
+		public Shop()
 		{
-			this.world = world;
 			gold = 10000;
-			employees = new Employees(this.world);
+			employees = new Employees();
 			flasks = new List<Flask>();
 			solvents = new List<Solvent>();
 			ingredients = new Ingredients();
@@ -100,7 +98,7 @@ namespace Alchemy.Models
 
 		public void HireEmployee(Employee employee)
 		{
-			world.Applicants.Remove(employee);
+			World.Instance.Applicants.Remove(employee);
 			Employees.Add(employee);
 
 			OnEmployeeHired(employee);
@@ -155,6 +153,7 @@ namespace Alchemy.Models
 			{
 				return;
 			}
+
 			RemovePotionMaterials(flask, solvent, ingredients);
 
 			OnPotionResearched(potion);
@@ -177,8 +176,9 @@ namespace Alchemy.Models
 		public void CreatePotion(Flask flask, Solvent solvent, Ingredient[] ingredients, Apothecary apothecary)
 		{
 			var potion = new Potion(flask, solvent, ingredients);
-			RemovePotionMaterials(flask, solvent, ingredients);
 			PotionsForSale.Add(potion);
+
+			RemovePotionMaterials(flask, solvent, ingredients);
 
 			OnPotionCreated(potion, apothecary);
 		}
@@ -186,19 +186,19 @@ namespace Alchemy.Models
 		void RemovePotionMaterials(Flask flask, Solvent solvent, Ingredient[] ingredients)
 		{
 			DiscardFlask(flask);
+			//DiscardSolvent(solvent);
 			for (int i = 0; i < ingredients.Length; i++)
 			{
-				if (ingredients[i] is Herb)
-				{
-					DiscardIngredient(ingredients[i]);
-				}
+				DiscardIngredient(ingredients[i]);
 			}
 		}
 
 		public void SellPotion(Potion potion, Shopkeeper shopkeeper)
 		{
 			Gold += potion.Value;
+
 			PotionsForSale.Remove(potion);
+
 			OnPotionSold(potion, shopkeeper);
 		}
 

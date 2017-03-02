@@ -15,8 +15,8 @@ namespace Alchemy.Models
 		[SerializeField]
 		int innocentsKilled;
 
-		public Guard(World world, string name, int salary)
-			: base(world, "Guard", name, salary)
+		public Guard(string name, int salary)
+			: base("Guard", name, salary)
 		{
 
 		}

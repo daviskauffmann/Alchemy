@@ -18,6 +18,18 @@ namespace Alchemy.Controllers
 
 		Vector2 offset;
 
+		public float Width
+		{
+			get { return GetComponent<RectTransform>().rect.width; }
+			set { GetComponent<RectTransform>().sizeDelta = new Vector2(value, Height); }
+		}
+
+		public virtual float Height
+		{
+			get { return content.GetComponent<RectTransform>().rect.height; }
+			set { content.GetComponent<RectTransform>().sizeDelta = new Vector2(Width, value); }
+		}
+
 		protected virtual void Awake()
 		{
 			onUpdate = new WindowEvent();

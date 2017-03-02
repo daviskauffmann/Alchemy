@@ -11,8 +11,8 @@ namespace Alchemy.Models
 		[SerializeField]
 		int potionsSold;
 
-		public Shopkeeper(World world, string name, int salary)
-			: base(world, "Shopkeeper", name, salary)
+		public Shopkeeper(string name, int salary)
+			: base("Shopkeeper", name, salary)
 		{
 
 		}
@@ -20,34 +20,32 @@ namespace Alchemy.Models
 		public override void StartWorking()
 		{
 			base.StartWorking();
-
-			world.HourChanged += SellPotion;
+			World.Instance.HourChanged += SellPotion;
 		}
 
 		public override void StopWorking()
 		{
 			base.StopWorking();
-
-			world.HourChanged -= SellPotion;
+			World.Instance.HourChanged -= SellPotion;
 		}
 
 		void SellPotion(object sender, IntEventArgs e)
 		{
-			if (world.Random.Next(0, 100) < 10)
+			if (World.Instance.Random.Next(0, 100) < 10)
 			{
 				Potion potion = null;
 				float value = -1;
-				for (int i = 0; i < world.Shop.PotionsForSale.Count; i++)
+				for (int i = 0; i < World.Instance.Shop.PotionsForSale.Count; i++)
 				{
-					if (world.Shop.PotionsForSale[i].Value > value)
+					if (World.Instance.Shop.PotionsForSale[i].Value > value)
 					{
-						potion = world.Shop.PotionsForSale[i];
-						value = world.Shop.PotionsForSale[i].Value;
+						potion = World.Instance.Shop.PotionsForSale[i];
+						value = World.Instance.Shop.PotionsForSale[i].Value;
 					}
 				}
 				if (potion != null)
 				{
-					world.Shop.SellPotion(potion, this);
+					World.Instance.Shop.SellPotion(potion, this);
 					potionsSold++;
 				}
 			}

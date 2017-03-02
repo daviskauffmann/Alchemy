@@ -14,11 +14,11 @@ namespace Alchemy.Controllers
 		[SerializeField]
 		Text textPrefab;
 		[SerializeField]
-		Text resizingTextPrefab;
-		[SerializeField]
 		Button buttonPrefab;
 		[SerializeField]
 		Toggle togglePrefab;
+		[SerializeField]
+		Toggle radioPrefab;
 		[SerializeField]
 		Slider sliderPrefab;
 		[SerializeField]
@@ -34,9 +34,9 @@ namespace Alchemy.Controllers
 		[SerializeField]
 		Alert alertPrefab;
 		[SerializeField]
-		Checklist checklistPrefab;
+		ToggleList toggleListPrefab;
 		[SerializeField]
-		Radiolist radiolistPrefab;
+		RadioList radioListPrefab;
 
 		[SerializeField]
 		Text messages;
@@ -92,6 +92,18 @@ namespace Alchemy.Controllers
 				toggle.onValueChanged.AddListener(toggleData.onValueChanged);
 			}
 			return toggle;
+		}
+
+		public static Toggle CreateRadio(ToggleData toggleData)
+		{
+			var radio = Instantiate(instance.radioPrefab, instance.canvas.transform, false);
+			radio.GetComponentInChildren<Text>().text = toggleData.text;
+			radio.isOn = toggleData.isOn;
+			if (toggleData.onValueChanged != null)
+			{
+				radio.onValueChanged.AddListener(toggleData.onValueChanged);
+			}
+			return radio;
 		}
 
 		public static Slider CreateSlider(SliderData sliderData)
@@ -192,56 +204,56 @@ namespace Alchemy.Controllers
 			return alert;
 		}
 
-		public static Checklist CreateChecklist(ChecklistData checklistData)
+		public static ToggleList CreateToggleList(ToggleListData toggleListData)
 		{
-			var checklist = Instantiate(instance.checklistPrefab, instance.canvas.transform, false);
-			checklist.title.text = checklistData.title;
-			if (checklistData.onUpdate != null)
+			var toggleList = Instantiate(instance.toggleListPrefab, instance.canvas.transform, false);
+			toggleList.title.text = toggleListData.title;
+			if (toggleListData.onUpdate != null)
 			{
-				checklist.onUpdate.AddListener(checklistData.onUpdate);
+				toggleList.onUpdate.AddListener(toggleListData.onUpdate);
 			}
-			if (checklistData.onClose != null)
+			if (toggleListData.onClose != null)
 			{
-				checklist.onClose.AddListener(checklistData.onClose);
+				toggleList.onClose.AddListener(toggleListData.onClose);
 			}
-			if (checklistData.toggles != null)
+			if (toggleListData.toggles != null)
 			{
-				foreach (var toggleData in checklistData.toggles)
+				foreach (var toggleData in toggleListData.toggles)
 				{
-					checklist.AddToggle(toggleData);
+					toggleList.AddToggle(toggleData);
 				}
 			}
-			if (checklistData.onClickOk != null)
+			if (toggleListData.onClickOk != null)
 			{
-				checklist.ok.onClick.AddListener(checklistData.onClickOk);
+				toggleList.done.onClick.AddListener(toggleListData.onClickOk);
 			}
-			return checklist;
+			return toggleList;
 		}
 
-		public static Radiolist CreateRadiolist(RadiolistData radiolistData)
+		public static RadioList CreateRadioList(ToggleListData radioListData)
 		{
-			var radiolist = Instantiate(instance.radiolistPrefab, instance.canvas.transform, false);
-			radiolist.title.text = radiolistData.title;
-			if (radiolistData.onUpdate != null)
+			var radioList = Instantiate(instance.radioListPrefab, instance.canvas.transform, false);
+			radioList.title.text = radioListData.title;
+			if (radioListData.onUpdate != null)
 			{
-				radiolist.onUpdate.AddListener(radiolistData.onUpdate);
+				radioList.onUpdate.AddListener(radioListData.onUpdate);
 			}
-			if (radiolistData.onClose != null)
+			if (radioListData.onClose != null)
 			{
-				radiolist.onClose.AddListener(radiolistData.onClose);
+				radioList.onClose.AddListener(radioListData.onClose);
 			}
-			if (radiolistData.toggles != null)
+			if (radioListData.toggles != null)
 			{
-				foreach (var toggleData in radiolistData.toggles)
+				foreach (var toggleData in radioListData.toggles)
 				{
-					radiolist.AddToggle(toggleData);
+					radioList.AddToggle(toggleData);
 				}
 			}
-			if (radiolistData.onClickOk != null)
+			if (radioListData.onClickOk != null)
 			{
-				radiolist.ok.onClick.AddListener(radiolistData.onClickOk);
+				radioList.done.onClick.AddListener(radioListData.onClickOk);
 			}
-			return radiolist;
+			return radioList;
 		}
 	}
 
@@ -304,16 +316,7 @@ namespace Alchemy.Controllers
 		public UnityAction<Window> onClose { get; set; }
 	}
 
-	public struct ChecklistData : IWindowData
-	{
-		public string title { get; set; }
-		public UnityAction<Window> onUpdate { get; set; }
-		public UnityAction<Window> onClose { get; set; }
-		public ToggleData[] toggles;
-		public UnityAction onClickOk { get; set; }
-	}
-
-	public struct RadiolistData : IWindowData
+	public struct ToggleListData : IWindowData
 	{
 		public string title { get; set; }
 		public UnityAction<Window> onUpdate { get; set; }

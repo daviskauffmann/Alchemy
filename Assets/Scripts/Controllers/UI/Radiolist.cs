@@ -4,17 +4,17 @@ using UnityEngine.UI;
 
 namespace Alchemy.Controllers
 {
-	public class Radiolist : Window
+	public class RadioList : Window
 	{
 		public Transform toggles;
 		public ToggleGroup toggleGroup;
-		public Button ok;
-		public UnityEvent onClickOk;
+		public Button done;
+		public UnityEvent onClickDone;
 
 		protected override void Start()
 		{
 			base.Start();
-			ok.onClick.AddListener(() =>
+			done.onClick.AddListener(() =>
 			{
 				onClose.Invoke(this);
 			});
@@ -22,7 +22,7 @@ namespace Alchemy.Controllers
 
 		public Toggle AddToggle(ToggleData toggleData)
 		{
-			var toggle = UserInterface.CreateToggle(toggleData);
+			var toggle = UserInterface.CreateRadio(toggleData);
 			toggle.transform.SetParent(toggles);
 			toggle.group = toggleGroup;
 			return toggle;

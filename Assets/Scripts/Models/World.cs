@@ -9,6 +9,8 @@ namespace Alchemy.Models
 	[Serializable]
 	public class World
 	{
+		static World instance;
+
 		Random random;
 		string[] nameDatabase;
 		Flask[] flaskDatabase;
@@ -46,6 +48,7 @@ namespace Alchemy.Models
 
 		public World()
 		{
+			instance = this;
 			random = new Random();
 			nameDatabase = new string[]
 			{
@@ -118,8 +121,8 @@ namespace Alchemy.Models
 			timePerHour = 1;
 			hour = 0;
 			day = 1;
-			shop = new Shop(this);
-			applicants = new Applicants(this);
+			shop = new Shop();
+			applicants = new Applicants();
 			flasksForSale = new List<Flask>();
 
 			DayChanged += (sender, e) =>
@@ -128,16 +131,16 @@ namespace Alchemy.Models
 				switch (Random.Next(4))
 				{
 					case 0:
-						applicant = new Herbalist(this, NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100));
+						applicant = new Herbalist(NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100));
 						break;
 					case 1:
-						applicant = new Guard(this, NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100));
+						applicant = new Guard(NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100));
 						break;
 					case 2:
-						applicant = new Apothecary(this, NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100));
+						applicant = new Apothecary(NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100));
 						break;
 					case 3:
-						applicant = new Shopkeeper(this, NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100));
+						applicant = new Shopkeeper(NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100));
 						break;
 					default:
 						break;
@@ -156,6 +159,11 @@ namespace Alchemy.Models
 			{
 				Shop.Gold += 1000;
 			};
+		}
+
+		public static World Instance
+		{
+			get { return instance; }
 		}
 
 		public Random Random
@@ -262,18 +270,21 @@ namespace Alchemy.Models
 		public void ReceiveApplication(Employee applicant)
 		{
 			Applicants.Add(applicant);
+
 			OnApplicantReceived(applicant);
 		}
 
 		public void DismissApplication(Employee applicant)
 		{
 			Applicants.Remove(applicant);
+
 			OnApplicantDismissed(applicant);
 		}
 
 		public void DisplayFlask(Flask flask)
 		{
 			FlasksForSale.Add(flask);
+
 			OnFlaskDisplayed(flask);
 		}
 
@@ -285,6 +296,7 @@ namespace Alchemy.Models
 			}
 
 			FlasksForSale.Remove(flask);
+
 			OnFlaskSold(flask);
 		}
 

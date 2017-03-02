@@ -6,7 +6,6 @@ namespace Alchemy.Models
 	[Serializable]
 	public abstract class Employee
 	{
-		protected World world;
 		[SerializeField]
 		protected string title;
 		[SerializeField]
@@ -20,18 +19,11 @@ namespace Alchemy.Models
 		[SerializeField]
 		protected int daysEmployed;
 
-		protected Employee(World world, string title, string name, int salary)
+		protected Employee(string title, string name, int salary)
 		{
-			this.world = world;
 			this.title = title;
 			this.name = name;
 			this.salary = salary;
-		}
-
-		public World World
-		{
-			get { return world; }
-			set { world = value; }
 		}
 
 		public string Title
@@ -66,12 +58,12 @@ namespace Alchemy.Models
 
 		public virtual void StartWorking()
 		{
-			world.DayChanged += DayChanged;
+			World.Instance.DayChanged += DayChanged;
 		}
 
 		public virtual void StopWorking()
 		{
-			world.DayChanged -= DayChanged;
+			World.Instance.DayChanged -= DayChanged;
 		}
 
 		void DayChanged(object sender, IntEventArgs e)

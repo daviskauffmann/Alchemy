@@ -62,19 +62,19 @@ namespace Alchemy.Controllers
 				}
 
 				{
-					var apothecary = new Apothecary(GameManager.instance.world, "Apothecary", 10);
+					var apothecary = new Apothecary("Apothecary", 10);
 					GameManager.instance.world.ReceiveApplication(apothecary);
 					GameManager.instance.world.Shop.HireEmployee(apothecary);
 				}
 
 				{
-					var herbalist = new Herbalist(GameManager.instance.world, "Herbalist", 10);
+					var herbalist = new Herbalist("Herbalist", 10);
 					GameManager.instance.world.ReceiveApplication(herbalist);
 					GameManager.instance.world.Shop.HireEmployee(herbalist);
 				}
 
 				{
-					var shopkeeper = new Shopkeeper(GameManager.instance.world, "Shopkeeper", 10);
+					var shopkeeper = new Shopkeeper("Shopkeeper", 10);
 					GameManager.instance.world.ReceiveApplication(shopkeeper);
 					GameManager.instance.world.Shop.HireEmployee(shopkeeper);
 				}
@@ -175,9 +175,9 @@ namespace Alchemy.Controllers
 					};
 				}
 
-				var checklist = UserInterface.CreateChecklist(new ChecklistData()
+				var checklist = UserInterface.CreateToggleList(new ToggleListData()
 				{
-					title = "Checklist",
+					title = "Toggle List",
 					onClickOk = () =>
 					{
 						foreach (var thing in things)
@@ -212,9 +212,9 @@ namespace Alchemy.Controllers
 					};
 				}
 
-				var radiolist = UserInterface.CreateRadiolist(new RadiolistData()
+				var radiolist = UserInterface.CreateRadioList(new ToggleListData()
 				{
-					title = "Radiolist",
+					title = "Radio List",
 					onClickOk = () =>
 					{
 						foreach (var thing in things)

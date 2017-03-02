@@ -7,7 +7,6 @@ namespace Alchemy.Models
 	[Serializable]
 	public class Applicants
 	{
-		World world;
 		[SerializeField]
 		List<Apothecary> apothecaries;
 		[SerializeField]
@@ -19,9 +18,8 @@ namespace Alchemy.Models
 
 		public event EventHandler<IntEventArgs> CountChanged;
 
-		public Applicants(World world)
+		public Applicants()
 		{
-			this.world = world;
 			apothecaries = new List<Apothecary>();
 			guards = new List<Guard>();
 			herbalists = new List<Herbalist>();

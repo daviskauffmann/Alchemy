@@ -4,16 +4,16 @@ using UnityEngine.UI;
 
 namespace Alchemy.Controllers
 {
-	public class Checklist : Window
+	public class ToggleList : Window
 	{
 		public Transform toggles;
-		public Button ok;
-		public UnityEvent onClickOk;
+		public Button done;
+		public UnityEvent onClickDone;
 
 		protected override void Start()
 		{
 			base.Start();
-			ok.onClick.AddListener(() =>
+			done.onClick.AddListener(() =>
 			{
 				onClose.Invoke(this);
 			});
