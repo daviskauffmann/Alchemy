@@ -1,43 +1,48 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Alchemy.Models
-{
-	[Serializable]
-	public class Effect : ICloneable
-	{
-		[SerializeField]
-		string name;
+namespace Alchemy.Models {
+    [Serializable]
+    public class Effect : ICloneable {
+        [SerializeField]
+        string name;
+        [SerializeField]
+        int magnitude;
 
-		public Effect(string name)
-		{
-			this.name = name;
-		}
+        public Effect(string name, int magnitude) {
+            this.name = name;
+            this.magnitude = magnitude;
+        }
 
-		public string Name
-		{
-			get { return name; }
-		}
+        public string Name {
+            get { return name; }
+        }
 
-		public virtual object Clone()
-		{
-			var clone = (Effect)MemberwiseClone();
-			return clone;
-		}
+        public int Magnitude {
+            get { return magnitude; }
+        }
 
-		public Effect Combine(Effect other)
-		{
-			if (Name == other.Name)
-			{
-				return (Effect)Clone();
-			}
-			return null;
-		}
-	}
+        public virtual object Clone() {
+            var clone = (Effect)MemberwiseClone();
 
-	public class EffectEventArgs : EventArgs
-	{
-		public Effect effect { get; set; }
-		public Ingredient ingredient { get; set; }
-	}
+            return clone;
+        }
+
+        public Effect Combine(Effect other) {
+            if (Name == other.Name) {
+                var clone = (Effect)Clone();
+
+                clone.magnitude = magnitude + other.magnitude;
+
+                return clone;
+            }
+
+            return null;
+        }
+    }
+
+    public class EffectEventArgs : EventArgs {
+        public Effect effect { get; set; }
+        public Ingredient ingredient { get; set; }
+    }
 }

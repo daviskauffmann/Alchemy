@@ -2,125 +2,116 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Alchemy.Models
-{
-	[Serializable]
-	public class Potion
-	{
-		[SerializeField]
-		string name;
-		[SerializeField]
-		Flask flask;
-		[SerializeField]
-		Solvent solvent;
-		[SerializeField]
-		Herb[] herbs;
-		[SerializeField]
-		Effect[] effects;
-		[SerializeField]
-		float value;
+namespace Alchemy.Models {
+    [Serializable]
+    public class Potion {
+        [SerializeField]
+        string name;
+        [SerializeField]
+        Flask flask;
+        [SerializeField]
+        Solvent solvent;
+        [SerializeField]
+        Herb[] herbs;
+        [SerializeField]
+        Effect[] effects;
+        [SerializeField]
+        float value;
 
-		public Potion(Flask flask, Solvent solvent, Ingredient[] ingredients)
-		{
-			this.name = "";
-			this.flask = flask;
-			this.solvent = /*(Solvent)*/solvent/*.Clone()*/;
-			var herbs = new List<Herb>();
-			//var otherTypes = new List<OtherType>();
-			for (int i = 0; i < ingredients.Length; i++)
-			{
-				if (ingredients[i] is Herb)
-				{
-					herbs.Add((Herb)ingredients[i].Clone());
-				}
-				/*
-                if (ingredients[i] is OtherType)
-                {
-                    otherTypes.Add((OtherType)ingredients[i].Clone());
+        public Potion(Flask flask, Solvent solvent, Ingredient[] ingredients) {
+            this.name = "";
+
+            this.flask = flask;
+
+            this.solvent = /*(Solvent)*/solvent/*.Clone()*/;
+
+            var herbs = new List<Herb>();
+            // var otherTypes = new List<OtherType>();
+
+            foreach (var ingredient in ingredients) {
+                if (ingredient is Herb) {
+                    herbs.Add((Herb)ingredient.Clone());
                 }
-                */
-			}
-			this.herbs = herbs.ToArray();
-			//_otherTypes = otherTypes.ToArray();
+                // if (ingredients[i] is OtherType)
+                // {
+                //     otherTypes.Add((OtherType)ingredients[i].Clone());
+                // }
+            }
 
-			var effectsToCheck = new Queue<Effect>();
-			for (int i = 0; i < ingredients.Length; i++)
-			{
-				for (int j = 0; j < ingredients[i].Effects.Length; j++)
-				{
-					effectsToCheck.Enqueue(ingredients[i].Effects[j]);
-				}
-			}
+            this.herbs = herbs.ToArray();
+            //this.otherTypes = otherTypes.ToArray();
 
-			var effects = new List<Effect>();
-			while (effectsToCheck.Count > 0)
-			{
-				var currentEffect = effectsToCheck.Dequeue();
-				foreach (var effect in effectsToCheck)
-				{
-					var combinedEffect = currentEffect.Combine(effect);
-					if (combinedEffect != null)
-					{
-						effects.Add(combinedEffect);
-					}
-				}
-			}
-			this.effects = effects.ToArray();
+            var effectsToCheck = new Queue<Effect>();
 
-			var prefix = flask.Quality.ToString();
-			var name = "Potion of ";
-			for (int i = 0; i < this.effects.Length; i++)
-			{
-				name += this.effects[i].Name;
-				if (i < this.effects.Length - 1)
-				{
-					name += ", ";
-				}
-			}
-			this.name = prefix + " " + name;
+            foreach (var ingredient in ingredients) {
+                foreach (var effect in ingredient.Effects) {
+                    effectsToCheck.Enqueue(effect);
+                }
+            }
 
-			value = flask.Value * ingredients.Length;
-		}
+            var effects = new List<Effect>();
 
-		public string Name
-		{
-			get { return name; }
-		}
+            while (effectsToCheck.Count > 0) {
+                var currentEffect = effectsToCheck.Dequeue();
 
-		public Flask Flask
-		{
-			get { return flask; }
-		}
+                foreach (var effect in effectsToCheck) {
+                    var combinedEffect = currentEffect.Combine(effect);
 
-		public Solvent Solvent
-		{
-			get { return solvent; }
-		}
+                    if (combinedEffect != null) {
+                        effects.Add(combinedEffect);
+                    }
+                }
+            }
 
-		public Herb[] Herbs
-		{
-			get { return herbs; }
-		}
+            this.effects = effects.ToArray();
 
-		public int IngredientCount
-		{
-			get { return herbs.Length; }
-		}
+            var prefix = flask.Quality.ToString();
+            var name = "Potion of ";
 
-		public Effect[] Effects
-		{
-			get { return effects; }
-		}
+            for (int i = 0; i < this.effects.Length; i++) {
+                name += this.effects[i].Name;
 
-		public float Value
-		{
-			get { return value; }
-		}
-	}
+                if (i < this.effects.Length - 1) {
+                    name += ", ";
+                }
+            }
 
-	public class PotionEventArgs : EventArgs
-	{
-		public Potion potion { get; set; }
-		public Employee employee { get; set; }
-	}
+            this.name = prefix + " " + name;
+
+            value = flask.Value * ingredients.Length;
+        }
+
+        public string Name {
+            get { return name; }
+        }
+
+        public Flask Flask {
+            get { return flask; }
+        }
+
+        public Solvent Solvent {
+            get { return solvent; }
+        }
+
+        public Herb[] Herbs {
+            get { return herbs; }
+        }
+
+        public int IngredientCount {
+            get { return herbs.Length; }
+        }
+
+        public Effect[] Effects {
+            get { return effects; }
+        }
+
+        public float Value {
+            get { return value; }
+        }
+    }
+
+    public class PotionEventArgs : EventArgs {
+        public Potion potion { get; set; }
+        public Employee employee { get; set; }
+    }
 }
