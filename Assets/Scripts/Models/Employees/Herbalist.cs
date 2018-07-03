@@ -42,22 +42,26 @@ namespace Alchemy.Models {
 
             excursions++;
 
-            var herbs = new List<Herb>();
+            var herbPrototypes = new List<Herb>();
 
-            foreach (var herb in World.Instance.HerbDatabase) {
-                herbs.Add((Herb)herb.Clone());
-
+            foreach (var herbPrototype in World.Instance.HerbDatabase) {
                 // foreach (var region in herb.Regions) {
                 //     if (region == regionToSearch) {
-                //         herbs.Add((Herb)herb.Clone());
+                herbPrototypes.Add(herbPrototype);
                 //     }
                 // }
             }
 
-            if (herbs.Count > 0) {
+            if (herbPrototypes.Count > 0) {
                 herbsFound++;
 
-                var herb = herbs[World.Instance.Random.Next(herbs.Count)];
+                var herbPrototype = herbPrototypes[World.Instance.Random.Next(herbPrototypes.Count)];
+                var herb = (Herb)herbPrototype.Clone();
+
+                foreach (var effect in herb.Effects) {
+                    float magnitude = effect.Magnitude * (World.Instance.Random.Next(1, 10) / 10.0f);
+                    effect.Magnitude = Mathf.RoundToInt(magnitude);
+                }
 
                 World.Instance.Shop.DeliverIngredient(herb);
             }

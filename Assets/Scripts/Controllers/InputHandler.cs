@@ -28,6 +28,23 @@ namespace Alchemy.Controllers {
             }
 
             if (Input.GetKeyDown(KeyCode.Z)) {
+                var apothecary = new Apothecary("Apothecary", 10);
+
+                GameManager.Instance.World.ReceiveApplication(apothecary);
+                GameManager.Instance.World.Shop.HireEmployee(apothecary);
+
+                var herbalist = new Herbalist("Herbalist", 10);
+
+                GameManager.Instance.World.ReceiveApplication(herbalist);
+                GameManager.Instance.World.Shop.HireEmployee(herbalist);
+
+                var shopkeeper = new Shopkeeper("Shopkeeper", 10);
+
+                GameManager.Instance.World.ReceiveApplication(shopkeeper);
+                GameManager.Instance.World.Shop.HireEmployee(shopkeeper);
+            }
+
+            if (Input.GetKeyDown(KeyCode.X)) {
                 for (int i = 0; i < 10; i++) {
                     var herb = (Herb)GameManager.Instance.World.HerbDatabase[GameManager.Instance.World.Random.Next(GameManager.Instance.World.HerbDatabase.Length)].Clone();
 
@@ -39,37 +56,17 @@ namespace Alchemy.Controllers {
 
                     GameManager.Instance.World.Shop.PurchaseFlask(flask);
                 }
+            }
 
-                {
-                    var flask = GameManager.Instance.World.Shop.Flasks[GameManager.Instance.World.Random.Next(GameManager.Instance.World.Shop.Flasks.Count)];
-                    var ingredients = new Ingredient[] {
+            if (Input.GetKeyDown(KeyCode.C)) {
+                var flask = GameManager.Instance.World.Shop.Flasks[GameManager.Instance.World.Random.Next(GameManager.Instance.World.Shop.Flasks.Count)];
+                var ingredients = new Ingredient[] {
                         GameManager.Instance.World.Shop.Ingredients[GameManager.Instance.World.Random.Next(GameManager.Instance.World.Shop.Ingredients.Length)],
                         GameManager.Instance.World.Shop.Ingredients[GameManager.Instance.World.Random.Next(GameManager.Instance.World.Shop.Ingredients.Length)]
                     };
 
-                    GameManager.Instance.World.Shop.ResearchPotion(flask, null, ingredients);
-                }
+                GameManager.Instance.World.Shop.ResearchPotion(flask, null, ingredients);
 
-                {
-                    var apothecary = new Apothecary("Apothecary", 10);
-
-                    GameManager.Instance.World.ReceiveApplication(apothecary);
-                    GameManager.Instance.World.Shop.HireEmployee(apothecary);
-                }
-
-                {
-                    var herbalist = new Herbalist("Herbalist", 10);
-
-                    GameManager.Instance.World.ReceiveApplication(herbalist);
-                    GameManager.Instance.World.Shop.HireEmployee(herbalist);
-                }
-
-                {
-                    var shopkeeper = new Shopkeeper("Shopkeeper", 10);
-
-                    GameManager.Instance.World.ReceiveApplication(shopkeeper);
-                    GameManager.Instance.World.Shop.HireEmployee(shopkeeper);
-                }
             }
 
             if (Input.GetKeyDown(KeyCode.F5)) {

@@ -15,6 +15,7 @@ namespace Alchemy.Models {
 
         public int Magnitude {
             get { return magnitude; }
+            set { magnitude = value; }
         }
 
         public Effect(string name, int magnitude) {
@@ -32,7 +33,7 @@ namespace Alchemy.Models {
             if (Name == other.Name) {
                 var clone = (Effect)Clone();
 
-                clone.magnitude = magnitude + other.magnitude;
+                clone.Magnitude = Magnitude + other.Magnitude;
 
                 return clone;
             }

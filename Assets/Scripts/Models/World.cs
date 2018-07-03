@@ -268,11 +268,14 @@ namespace Alchemy.Models {
             DayChanged += (sender, e) => {
                 Employee applicant = null;
 
+                string name = NameDatabase[Random.Next(NameDatabase.Length)];
+                int salary = Random.Next(1, 100);
+
                 switch (Random.Next(4)) {
-                    case 0: applicant = new Herbalist(NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100)); break;
-                    case 1: applicant = new Guard(NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100)); break;
-                    case 2: applicant = new Apothecary(NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100)); break;
-                    case 3: applicant = new Shopkeeper(NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100)); break;
+                    case 0: applicant = new Herbalist(name, salary); break;
+                    case 1: applicant = new Guard(name, salary); break;
+                    case 2: applicant = new Apothecary(name, salary); break;
+                    case 3: applicant = new Shopkeeper(name, salary); break;
                 }
 
                 if (applicant != null) {
