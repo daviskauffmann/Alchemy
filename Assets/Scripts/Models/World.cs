@@ -26,7 +26,13 @@ namespace Alchemy.Models {
         [SerializeField]
         Shop shop;
         [SerializeField]
-        Applicants applicants;
+        List<Apothecary> apothecaries;
+        [SerializeField]
+        List<Guard> guards;
+        [SerializeField]
+        List<Herbalist> herbalists;
+        [SerializeField]
+        List<Shopkeeper> shopkeepers;
         [SerializeField]
         List<Flask> flasksForSale;
 
@@ -39,6 +45,8 @@ namespace Alchemy.Models {
         public event EventHandler<EmployeeEventArgs> ApplicantReceived;
 
         public event EventHandler<EmployeeEventArgs> ApplicantDismissed;
+
+        public event EventHandler<IntEventArgs> ApplicantCountChanged;
 
         public event EventHandler<FlaskEventArgs> FlaskDisplayed;
 
@@ -121,37 +129,33 @@ namespace Alchemy.Models {
             hour = 0;
             day = 1;
             shop = new Shop();
-            applicants = new Applicants();
+            apothecaries = new List<Apothecary>();
+            guards = new List<Guard>();
+            herbalists = new List<Herbalist>();
+            shopkeepers = new List<Shopkeeper>();
             flasksForSale = new List<Flask>();
 
             DayChanged += (sender, e) => {
                 Employee applicant = null;
 
                 switch (Random.Next(4)) {
-                    case 0:
-                        applicant = new Herbalist(NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100));
-                        break;
-                    case 1:
-                        applicant = new Guard(NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100));
-                        break;
-                    case 2:
-                        applicant = new Apothecary(NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100));
-                        break;
-                    case 3:
-                        applicant = new Shopkeeper(NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100));
-                        break;
-                    default:
-                        break;
+                    case 0: applicant = new Herbalist(NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100)); break;
+                    case 1: applicant = new Guard(NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100)); break;
+                    case 2: applicant = new Apothecary(NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100)); break;
+                    case 3: applicant = new Shopkeeper(NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100)); break;
                 }
 
                 if (applicant != null) {
                     ReceiveApplication(applicant);
                 }
             };
+
             DayChanged += (sender, e) => {
                 var flask = (Flask)FlaskDatabase[Random.Next(FlaskDatabase.Length)].Clone();
+
                 DisplayFlask(flask);
             };
+
             DayChanged += (sender, e) => {
                 Shop.Gold += 1000;
             };
@@ -239,8 +243,44 @@ namespace Alchemy.Models {
             get { return shop; }
         }
 
-        public Applicants Applicants {
-            get { return applicants; }
+        public List<Apothecary> Apothecaries {
+            get { return apothecaries; }
+        }
+
+        public List<Guard> Guards {
+            get { return guards; }
+        }
+
+        public List<Herbalist> Herbalists {
+            get { return herbalists; }
+        }
+
+        public List<Shopkeeper> Shopkeepers {
+            get { return shopkeepers; }
+        }
+
+        public Employee[] Applicants {
+            get {
+                var applicants = new List<Employee>();
+
+                foreach (var apothecary in Apothecaries) {
+                    applicants.Add(apothecary);
+                }
+
+                foreach (var guard in Guards) {
+                    applicants.Add(guard);
+                }
+
+                foreach (var herbalist in Herbalists) {
+                    applicants.Add(herbalist);
+                }
+
+                foreach (var shopkeeper in Shopkeepers) {
+                    applicants.Add(shopkeeper);
+                }
+
+                return applicants.ToArray();
+            }
         }
 
         public List<Flask> FlasksForSale {
@@ -248,13 +288,33 @@ namespace Alchemy.Models {
         }
 
         public void ReceiveApplication(Employee applicant) {
-            Applicants.Add(applicant);
+            if (applicant is Apothecary) {
+                apothecaries.Add((Apothecary)applicant);
+            } else if (applicant is Guard) {
+                guards.Add((Guard)applicant);
+            } else if (applicant is Herbalist) {
+                herbalists.Add((Herbalist)applicant);
+            } else if (applicant is Shopkeeper) {
+                shopkeepers.Add((Shopkeeper)applicant);
+            }
+
+            OnApplicantCountChanged(Applicants.Length);
 
             OnApplicantReceived(applicant);
         }
 
         public void DismissApplication(Employee applicant) {
-            Applicants.Remove(applicant);
+            if (applicant is Apothecary) {
+                apothecaries.Remove((Apothecary)applicant);
+            } else if (applicant is Guard) {
+                guards.Remove((Guard)applicant);
+            } else if (applicant is Herbalist) {
+                herbalists.Remove((Herbalist)applicant);
+            } else if (applicant is Shopkeeper) {
+                shopkeepers.Remove((Shopkeeper)applicant);
+            }
+
+            OnApplicantCountChanged(Applicants.Length);
 
             OnApplicantDismissed(applicant);
         }
@@ -302,6 +362,12 @@ namespace Alchemy.Models {
         protected virtual void OnApplicantDismissed(Employee applicant) {
             if (ApplicantDismissed != null) {
                 ApplicantDismissed(this, new EmployeeEventArgs() { employee = applicant });
+            }
+        }
+
+        protected virtual void OnApplicantCountChanged(int value) {
+            if (ApplicantCountChanged != null) {
+                ApplicantCountChanged(this, new IntEventArgs() { value = value });
             }
         }
 

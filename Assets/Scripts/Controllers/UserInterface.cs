@@ -34,33 +34,8 @@ namespace Alchemy.Controllers {
         [SerializeField]
         List listPrefab;
 
-        [SerializeField]
-        Text messages;
-
         void Awake() {
             instance = this;
-        }
-
-        void Start() {
-            // TEST
-            GameManager.instance.world.ApplicantReceived += (sender, e) => {
-                var color = "";
-                switch (e.employee.Title) {
-                    case "Apothecary":
-                        color = "aqua";
-                        break;
-                    case "Guard":
-                        color = "red";
-                        break;
-                    case "Herbalist":
-                        color = "green";
-                        break;
-                    case "Shopkeeper":
-                        color = "yellow";
-                        break;
-                }
-                messages.text += e.employee.Name + " the <color=" + color + ">" + e.employee.Title + "</color> has applied for a job." + "\n";
-            };
         }
 
         public static Button CreateButton(ButtonData buttonData) {

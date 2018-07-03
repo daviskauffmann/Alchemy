@@ -16,14 +16,14 @@ namespace Alchemy.Controllers {
             GameManager.instance.world.Shop.GoldChanged += (sender, e) => {
                 Debug.Log(string.Format("Gold changed to {0}", e.value));
             };
-            GameManager.instance.world.Applicants.CountChanged += (sender, e) => {
-                Debug.Log(string.Format("Applicants count changed to {0}", e.value));
-            };
             GameManager.instance.world.ApplicantReceived += (sender, e) => {
                 Debug.Log(string.Format("{0} the {1} has applied for a job", e.employee.Name, e.employee.Title));
             };
             GameManager.instance.world.ApplicantDismissed += (sender, e) => {
                 Debug.Log(string.Format("Dismissed {0} the {1}", e.employee.Name, e.employee.Title));
+            };
+            GameManager.instance.world.ApplicantCountChanged += (sender, e) => {
+                Debug.Log(string.Format("Applicant count changed to {0}", e.value));
             };
             GameManager.instance.world.Shop.EmployeeHired += (sender, e) => {
                 Debug.Log(string.Format("Hired {0} the {1}", e.employee.Name, e.employee.Title));

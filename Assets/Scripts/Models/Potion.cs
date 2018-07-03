@@ -65,8 +65,7 @@ namespace Alchemy.Models {
 
             this.effects = effects.ToArray();
 
-            var prefix = flask.Quality.ToString();
-            var name = "Potion of ";
+            name = flask.Quality.ToString() + " Potion of ";
 
             for (int i = 0; i < this.effects.Length; i++) {
                 name += this.effects[i].Name;
@@ -75,8 +74,6 @@ namespace Alchemy.Models {
                     name += ", ";
                 }
             }
-
-            this.name = prefix + " " + name;
 
             value = flask.Value * ingredients.Length;
         }

@@ -47,7 +47,7 @@ namespace Alchemy.Models {
                     var ingredients = new List<Ingredient>();
 
                     foreach (var herb in potionPrototype.Herbs) {
-                        foreach (var shopHerb in World.Instance.Shop.Ingredients.Herbs) {
+                        foreach (var shopHerb in World.Instance.Shop.Herbs) {
                             if (shopHerb.Name == herb.Name) {
                                 ingredients.Add(shopHerb);
 

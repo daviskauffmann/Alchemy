@@ -42,8 +42,8 @@ namespace Alchemy.Controllers {
                 {
                     var flask = GameManager.instance.world.Shop.Flasks[GameManager.instance.world.Random.Next(GameManager.instance.world.Shop.Flasks.Count)];
                     var ingredients = new Ingredient[] {
-                        GameManager.instance.world.Shop.Ingredients.Total[GameManager.instance.world.Random.Next(GameManager.instance.world.Shop.Ingredients.Total.Length)],
-                        GameManager.instance.world.Shop.Ingredients.Total[GameManager.instance.world.Random.Next(GameManager.instance.world.Shop.Ingredients.Total.Length)]
+                        GameManager.instance.world.Shop.Ingredients[GameManager.instance.world.Random.Next(GameManager.instance.world.Shop.Ingredients.Length)],
+                        GameManager.instance.world.Shop.Ingredients[GameManager.instance.world.Random.Next(GameManager.instance.world.Shop.Ingredients.Length)]
                     };
 
                     GameManager.instance.world.Shop.ResearchPotion(flask, null, ingredients);

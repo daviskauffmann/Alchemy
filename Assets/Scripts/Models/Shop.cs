@@ -8,13 +8,19 @@ namespace Alchemy.Models {
         [SerializeField]
         float gold;
         [SerializeField]
-        Employees employees;
+        List<Apothecary> apothecaries;
+        [SerializeField]
+        List<Guard> guards;
+        [SerializeField]
+        List<Herbalist> herbalists;
+        [SerializeField]
+        List<Shopkeeper> shopkeepers;
         [SerializeField]
         List<Flask> flasks;
         [SerializeField]
         List<Solvent> solvents;
         [SerializeField]
-        Ingredients ingredients;
+        List<Herb> herbs;
         [SerializeField]
         List<Potion> potionPrototypes;
         [SerializeField]
@@ -42,12 +48,25 @@ namespace Alchemy.Models {
 
         public Shop() {
             gold = 10000;
-            employees = new Employees();
+            apothecaries = new List<Apothecary>();
+            guards = new List<Guard>();
+            herbalists = new List<Herbalist>();
+            shopkeepers = new List<Shopkeeper>();
             flasks = new List<Flask>();
             solvents = new List<Solvent>();
-            ingredients = new Ingredients();
+            herbs = new List<Herb>();
             potionPrototypes = new List<Potion>();
             potionsForSale = new List<Potion>();
+
+            foreach (var employee in Employees) {
+                employee.StartWorking();
+            }
+
+            World.Instance.DayChanged += (sender, e) => {
+                foreach (var employee in Employees) {
+                    World.Instance.Shop.Gold -= employee.Salary;
+                }
+            };
         }
 
         public float Gold {
@@ -60,9 +79,45 @@ namespace Alchemy.Models {
                 }
             }
         }
+        
+        public List<Apothecary> Apothecaries {
+            get { return apothecaries; }
+        }
 
-        public Employees Employees {
-            get { return employees; }
+        public List<Guard> Guards {
+            get { return guards; }
+        }
+
+        public List<Herbalist> Herbalists {
+            get { return herbalists; }
+        }
+
+        public List<Shopkeeper> Shopkeepers {
+            get { return shopkeepers; }
+        }
+
+        public Employee[] Employees {
+            get {
+                var employees = new List<Employee>();
+
+                foreach (var apothecary in Apothecaries) {
+                    employees.Add(apothecary);
+                }
+
+                foreach (var guard in Guards) {
+                    employees.Add(guard);
+                }
+
+                foreach (var herbalist in Herbalists) {
+                    employees.Add(herbalist);
+                }
+
+                foreach (var shopkeeper in Shopkeepers) {
+                    employees.Add(shopkeeper);
+                }
+
+                return employees.ToArray();
+            }
         }
 
         public List<Flask> Flasks {
@@ -72,9 +127,21 @@ namespace Alchemy.Models {
         public List<Solvent> Solvents {
             get { return solvents; }
         }
+        
+        public List<Herb> Herbs {
+            get { return herbs; }
+        }
 
-        public Ingredients Ingredients {
-            get { return ingredients; }
+        public Ingredient[] Ingredients {
+            get {
+                var ingredients = new List<Ingredient>();
+
+                foreach (var herb in Herbs) {
+                    ingredients.Add(herb);
+                }
+
+                return ingredients.ToArray();
+            }
         }
 
         public List<Potion> PotionPrototypes {
@@ -86,15 +153,41 @@ namespace Alchemy.Models {
         }
 
         public void HireEmployee(Employee employee) {
-            World.Instance.Applicants.Remove(employee);
+            if (employee is Apothecary) {
+                World.Instance.Apothecaries.Remove((Apothecary)employee);
 
-            Employees.Add(employee);
+                apothecaries.Add((Apothecary)employee);
+            } else if (employee is Guard) {
+                World.Instance.Guards.Remove((Guard)employee);
+
+                guards.Add((Guard)employee);
+            } else if (employee is Herbalist) {
+                World.Instance.Herbalists.Remove((Herbalist)employee);
+
+                herbalists.Add((Herbalist)employee);
+            } else if (employee is Shopkeeper) {
+                World.Instance.Shopkeepers.Remove((Shopkeeper)employee);
+
+                shopkeepers.Add((Shopkeeper)employee);
+            }
+
+            employee.StartWorking();
 
             OnEmployeeHired(employee);
         }
 
         public void FireEmployee(Employee employee) {
-            Employees.Remove(employee);
+            if (employee is Apothecary) {
+                apothecaries.Remove((Apothecary)employee);
+            } else if (employee is Guard) {
+                guards.Remove((Guard)employee);
+            } else if (employee is Herbalist) {
+                herbalists.Remove((Herbalist)employee);
+            } else if (employee is Shopkeeper) {
+                shopkeepers.Remove((Shopkeeper)employee);
+            }
+
+            employee.StopWorking();
 
             OnEmployeeFired(employee);
         }
@@ -120,13 +213,17 @@ namespace Alchemy.Models {
         }
 
         public void DeliverIngredient(Ingredient ingredient) {
-            Ingredients.Add(ingredient);
+            if (ingredient is Herb) {
+                herbs.Add((Herb)ingredient);
+            }
 
             OnIngredientDelivered(ingredient);
         }
 
         public void DiscardIngredient(Ingredient ingredient) {
-            Ingredients.Remove(ingredient);
+            if (ingredient is Herb) {
+                herbs.Remove((Herb)ingredient);
+            }
 
             OnIngredientDiscarded(ingredient);
         }
