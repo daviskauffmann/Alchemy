@@ -286,7 +286,7 @@ namespace Alchemy.Controllers {
         public UnityAction<Window> onUpdate { get; set; }
         public UnityAction<Window> onClose { get; set; }
         public string message { get; set; }
-        public IListData[] elements;
+        public IListData[] elements { get; set; }
         public ButtonData[] buttons { get; set; }
     }
 }

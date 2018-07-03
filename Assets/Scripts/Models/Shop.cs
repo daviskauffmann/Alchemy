@@ -125,9 +125,9 @@ namespace Alchemy.Models {
 
         public event EventHandler<PotionEventArgs> PotionResearched;
 
-        public event EventHandler<PotionEventArgs> PotionCreated;
+        public event EventHandler<PotionCreatedEventArgs> PotionCreated;
 
-        public event EventHandler<PotionEventArgs> PotionSold;
+        public event EventHandler<PotionSoldEventArgs> PotionSold;
 
         public Shop() {
             gold = 10000;
@@ -140,14 +140,16 @@ namespace Alchemy.Models {
             herbs = new List<Herb>();
             potionPrototypes = new List<Potion>();
             potionsForSale = new List<Potion>();
+        }
 
+        public void Start() {
             foreach (var employee in Employees) {
                 employee.StartWorking();
             }
 
             World.Instance.DayChanged += (sender, e) => {
                 foreach (var employee in Employees) {
-                    World.Instance.Shop.Gold -= employee.Salary;
+                    Gold -= employee.Salary;
                 }
             };
         }
@@ -156,19 +158,19 @@ namespace Alchemy.Models {
             if (employee is Apothecary) {
                 World.Instance.Apothecaries.Remove((Apothecary)employee);
 
-                apothecaries.Add((Apothecary)employee);
+                Apothecaries.Add((Apothecary)employee);
             } else if (employee is Guard) {
                 World.Instance.Guards.Remove((Guard)employee);
 
-                guards.Add((Guard)employee);
+                Guards.Add((Guard)employee);
             } else if (employee is Herbalist) {
                 World.Instance.Herbalists.Remove((Herbalist)employee);
 
-                herbalists.Add((Herbalist)employee);
+                Herbalists.Add((Herbalist)employee);
             } else if (employee is Shopkeeper) {
                 World.Instance.Shopkeepers.Remove((Shopkeeper)employee);
 
-                shopkeepers.Add((Shopkeeper)employee);
+                Shopkeepers.Add((Shopkeeper)employee);
             }
 
             employee.StartWorking();
@@ -178,13 +180,13 @@ namespace Alchemy.Models {
 
         public void FireEmployee(Employee employee) {
             if (employee is Apothecary) {
-                apothecaries.Remove((Apothecary)employee);
+                Apothecaries.Remove((Apothecary)employee);
             } else if (employee is Guard) {
-                guards.Remove((Guard)employee);
+                Guards.Remove((Guard)employee);
             } else if (employee is Herbalist) {
-                herbalists.Remove((Herbalist)employee);
+                Herbalists.Remove((Herbalist)employee);
             } else if (employee is Shopkeeper) {
-                shopkeepers.Remove((Shopkeeper)employee);
+                Shopkeepers.Remove((Shopkeeper)employee);
             }
 
             employee.StopWorking();
@@ -282,61 +284,61 @@ namespace Alchemy.Models {
 
         private void OnGoldChanged(float value) {
             if (GoldChanged != null) {
-                GoldChanged(this, new FloatEventArgs() { value = value });
+                GoldChanged(this, new FloatEventArgs(value));
             }
         }
 
         private void OnEmployeeHired(Employee employee) {
             if (EmployeeHired != null) {
-                EmployeeHired(this, new EmployeeEventArgs() { employee = employee });
+                EmployeeHired(this, new EmployeeEventArgs(employee));
             }
         }
 
         private void OnEmployeeFired(Employee employee) {
             if (EmployeeFired != null) {
-                EmployeeFired(this, new EmployeeEventArgs() { employee = employee });
+                EmployeeFired(this, new EmployeeEventArgs(employee));
             }
         }
 
         private void OnIngredientDelivered(Ingredient ingredient) {
             if (IngredientDelivered != null) {
-                IngredientDelivered(this, new IngredientEventArgs() { ingredient = ingredient });
+                IngredientDelivered(this, new IngredientEventArgs(ingredient));
             }
         }
 
         private void OnIngredientDiscarded(Ingredient ingredient) {
             if (IngredientDiscarded != null) {
-                IngredientDiscarded(this, new IngredientEventArgs() { ingredient = ingredient });
+                IngredientDiscarded(this, new IngredientEventArgs(ingredient));
             }
         }
 
         private void OnFlaskBought(Flask flask) {
             if (FlaskBought != null) {
-                FlaskBought(this, new FlaskEventArgs() { flask = flask });
+                FlaskBought(this, new FlaskEventArgs(flask));
             }
         }
 
         private void OnFlaskDiscarded(Flask flask) {
             if (FlaskDiscarded != null) {
-                FlaskDiscarded(this, new FlaskEventArgs() { flask = flask });
+                FlaskDiscarded(this, new FlaskEventArgs(flask));
             }
         }
 
         private void OnPotionResearched(Potion potion) {
             if (PotionResearched != null) {
-                PotionResearched(this, new PotionEventArgs() { potion = potion });
+                PotionResearched(this, new PotionEventArgs(potion));
             }
         }
 
         private void OnPotionCreated(Potion potion, Apothecary apothecary) {
             if (PotionCreated != null) {
-                PotionCreated(this, new PotionEventArgs() { potion = potion, employee = apothecary });
+                PotionCreated(this, new PotionCreatedEventArgs(potion, apothecary));
             }
         }
 
         private void OnPotionSold(Potion potion, Shopkeeper shopkeeper) {
             if (PotionSold != null) {
-                PotionSold(this, new PotionEventArgs() { potion = potion, employee = shopkeeper });
+                PotionSold(this, new PotionSoldEventArgs(potion, shopkeeper));
             }
         }
     }

@@ -61,6 +61,14 @@ namespace Alchemy.Models {
     }
 
     public class EmployeeEventArgs : EventArgs {
-        public Employee employee { get; set; }
+        private Employee employee;
+
+        public Employee Employee {
+            get { return employee; }
+        }
+
+        public EmployeeEventArgs(Employee employee) {
+            this.employee = employee;
+        }
     }
 }

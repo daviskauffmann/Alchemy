@@ -36,28 +36,30 @@ namespace Alchemy.Models {
         }
 
         private void FindHerb(object sender, IntEventArgs e) {
+            if (World.Instance.Random.Next(0, 100) > 20) {
+                return;
+            }
+
             excursions++;
 
-            if (World.Instance.Random.Next(0, 100) < 10) {
-                var herbs = new List<Herb>();
+            var herbs = new List<Herb>();
 
-                foreach (var herb in World.Instance.HerbDatabase) {
-                    herbs.Add((Herb)herb.Clone());
+            foreach (var herb in World.Instance.HerbDatabase) {
+                herbs.Add((Herb)herb.Clone());
 
-                    // foreach (var region in herb.Regions) {
-                    //     if (region == regionToSearch) {
-                    //         herbs.Add((Herb)herb.Clone());
-                    //     }
-                    // }
-                }
+                // foreach (var region in herb.Regions) {
+                //     if (region == regionToSearch) {
+                //         herbs.Add((Herb)herb.Clone());
+                //     }
+                // }
+            }
 
-                if (herbs.Count > 0) {
-                    herbsFound++;
+            if (herbs.Count > 0) {
+                herbsFound++;
 
-                    var herb = herbs[World.Instance.Random.Next(herbs.Count)];
+                var herb = herbs[World.Instance.Random.Next(herbs.Count)];
 
-                    World.Instance.Shop.DeliverIngredient(herb);
-                }
+                World.Instance.Shop.DeliverIngredient(herb);
             }
         }
     }

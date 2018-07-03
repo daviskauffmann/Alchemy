@@ -37,6 +37,14 @@ namespace Alchemy.Models {
     }
 
     public class HerbEventArgs : EventArgs {
-        public Herb herb { get; set; }
+        private Herb herb;
+
+        public Herb Herb {
+            get { return herb; }
+        }
+
+        public HerbEventArgs(Herb herb) {
+            this.herb = herb;
+        }
     }
 }

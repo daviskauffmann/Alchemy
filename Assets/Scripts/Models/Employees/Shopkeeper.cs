@@ -26,23 +26,25 @@ namespace Alchemy.Models {
         }
 
         private void SellPotion(object sender, IntEventArgs e) {
-            if (World.Instance.Random.Next(0, 100) < 10) {
-                Potion potion = null;
+            if (World.Instance.Random.Next(0, 100) > 10) {
+                return;
+            }
 
-                float value = -1;
+            Potion potion = null;
 
-                foreach (var shopPotion in World.Instance.Shop.PotionsForSale) {
-                    if (shopPotion.Value > value) {
-                        potion = shopPotion;
-                        value = shopPotion.Value;
-                    }
+            float value = -1;
+
+            foreach (var shopPotion in World.Instance.Shop.PotionsForSale) {
+                if (shopPotion.Value > value) {
+                    potion = shopPotion;
+                    value = shopPotion.Value;
                 }
+            }
 
-                if (potion != null) {
-                    potionsSold++;
+            if (potion != null) {
+                potionsSold++;
 
-                    World.Instance.Shop.SellPotion(potion, this);
-                }
+                World.Instance.Shop.SellPotion(potion, this);
             }
         }
     }

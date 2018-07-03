@@ -27,6 +27,10 @@ namespace Alchemy.Controllers {
             }
         }
 
+        private void Start() {
+            World.Start();
+        }
+
         private void Update() {
             World.Time += World.Speed * Time.deltaTime;
         }

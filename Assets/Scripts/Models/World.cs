@@ -260,6 +260,10 @@ namespace Alchemy.Models {
             herbalists = new List<Herbalist>();
             shopkeepers = new List<Shopkeeper>();
             flasksForSale = new List<Flask>();
+        }
+
+        public void Start() {
+            Shop.Start();
 
             DayChanged += (sender, e) => {
                 Employee applicant = null;
@@ -285,17 +289,18 @@ namespace Alchemy.Models {
             DayChanged += (sender, e) => {
                 Shop.Gold += 1000;
             };
+
         }
 
         public void ReceiveApplication(Employee applicant) {
             if (applicant is Apothecary) {
-                apothecaries.Add((Apothecary)applicant);
+                Apothecaries.Add((Apothecary)applicant);
             } else if (applicant is Guard) {
-                guards.Add((Guard)applicant);
+                Guards.Add((Guard)applicant);
             } else if (applicant is Herbalist) {
-                herbalists.Add((Herbalist)applicant);
+                Herbalists.Add((Herbalist)applicant);
             } else if (applicant is Shopkeeper) {
-                shopkeepers.Add((Shopkeeper)applicant);
+                Shopkeepers.Add((Shopkeeper)applicant);
             }
 
             OnApplicantCountChanged(Applicants.Length);
@@ -305,13 +310,13 @@ namespace Alchemy.Models {
 
         public void DismissApplication(Employee applicant) {
             if (applicant is Apothecary) {
-                apothecaries.Remove((Apothecary)applicant);
+                Apothecaries.Remove((Apothecary)applicant);
             } else if (applicant is Guard) {
-                guards.Remove((Guard)applicant);
+                Guards.Remove((Guard)applicant);
             } else if (applicant is Herbalist) {
-                herbalists.Remove((Herbalist)applicant);
+                Herbalists.Remove((Herbalist)applicant);
             } else if (applicant is Shopkeeper) {
-                shopkeepers.Remove((Shopkeeper)applicant);
+                Shopkeepers.Remove((Shopkeeper)applicant);
             }
 
             OnApplicantCountChanged(Applicants.Length);
@@ -337,62 +342,86 @@ namespace Alchemy.Models {
 
         private void OnSpeedChanged(int value) {
             if (SpeedChanged != null) {
-                SpeedChanged(this, new IntEventArgs() { value = value });
+                SpeedChanged(this, new IntEventArgs(value));
             }
         }
 
         private void OnHourChanged(int value) {
             if (HourChanged != null) {
-                HourChanged(this, new IntEventArgs() { value = value });
+                HourChanged(this, new IntEventArgs(value));
             }
         }
 
         private void OnDayChanged(int value) {
             if (DayChanged != null) {
-                DayChanged(this, new IntEventArgs() { value = value });
+                DayChanged(this, new IntEventArgs(value));
             }
         }
 
         private void OnApplicantReceived(Employee applicant) {
             if (ApplicantReceived != null) {
-                ApplicantReceived(this, new EmployeeEventArgs() { employee = applicant });
+                ApplicantReceived(this, new EmployeeEventArgs(applicant));
             }
         }
 
         private void OnApplicantDismissed(Employee applicant) {
             if (ApplicantDismissed != null) {
-                ApplicantDismissed(this, new EmployeeEventArgs() { employee = applicant });
+                ApplicantDismissed(this, new EmployeeEventArgs(applicant));
             }
         }
 
         private void OnApplicantCountChanged(int value) {
             if (ApplicantCountChanged != null) {
-                ApplicantCountChanged(this, new IntEventArgs() { value = value });
+                ApplicantCountChanged(this, new IntEventArgs(value));
             }
         }
 
         private void OnFlaskDisplayed(Flask flask) {
             if (FlaskDisplayed != null) {
-                FlaskDisplayed(this, new FlaskEventArgs() { flask = flask });
+                FlaskDisplayed(this, new FlaskEventArgs(flask));
             }
         }
 
         private void OnFlaskSold(Flask flask) {
             if (FlaskSold != null) {
-                FlaskSold(this, new FlaskEventArgs() { flask = flask });
+                FlaskSold(this, new FlaskEventArgs(flask));
             }
         }
     }
 
     public class StringEventArgs : EventArgs {
-        public string value { get; set; }
+        private string value;
+
+        public string Value {
+            get { return value; }
+        }
+
+        public StringEventArgs(string value) {
+            this.value = value;
+        }
     }
 
     public class FloatEventArgs : EventArgs {
-        public float value { get; set; }
+        private float value;
+
+        public float Value {
+            get { return value; }
+        }
+
+        public FloatEventArgs(float value) {
+            this.value = value;
+        }
     }
 
     public class IntEventArgs : EventArgs {
-        public int value { get; set; }
+        private int value;
+
+        public int Value {
+            get { return value; }
+        }
+
+        public IntEventArgs(int value) {
+            this.value = value;
+        }
     }
 }

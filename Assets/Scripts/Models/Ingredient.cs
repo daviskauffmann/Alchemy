@@ -35,6 +35,14 @@ namespace Alchemy.Models {
     }
 
     public class IngredientEventArgs : EventArgs {
-        public Ingredient ingredient { get; set; }
+        private Ingredient ingredient;
+
+        public Ingredient Ingredient {
+            get { return ingredient; }
+        }
+
+        public IngredientEventArgs(Ingredient ingredient) {
+            this.ingredient = ingredient;
+        }
     }
 }
