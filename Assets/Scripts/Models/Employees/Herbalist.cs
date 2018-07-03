@@ -6,22 +6,21 @@ namespace Alchemy.Models {
     [Serializable]
     public class Herbalist : Employee {
         [SerializeField]
-        Region regionToSearch;
+        private Region regionToSearch;
         [SerializeField]
-        int excursions;
+        private int excursions;
         [SerializeField]
-        int herbsFound;
+        private int herbsFound;
         [SerializeField]
-        int rareHerbsFound;
-
-        public Herbalist(string name, int salary)
-            : base("Herbalist", name, salary) {
-            regionToSearch = Region.Plains;
-        }
+        private int rareHerbsFound;
 
         public Region RegionToSearch {
             get { return regionToSearch; }
             set { regionToSearch = value; }
+        }
+
+        public Herbalist(string name, int salary) : base("Herbalist", name, salary) {
+            regionToSearch = Region.Plains;
         }
 
         public override void StartWorking() {
@@ -36,7 +35,7 @@ namespace Alchemy.Models {
             World.Instance.HourChanged -= FindHerb;
         }
 
-        void FindHerb(object sender, IntEventArgs e) {
+        private void FindHerb(object sender, IntEventArgs e) {
             excursions++;
 
             if (World.Instance.Random.Next(0, 100) < 10) {

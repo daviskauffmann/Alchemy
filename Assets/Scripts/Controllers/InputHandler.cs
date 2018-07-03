@@ -7,79 +7,79 @@ using UnityEngine.UI;
 
 namespace Alchemy.Controllers {
     public class InputHandler : MonoBehaviour {
-        int previousGameSpeed;
+        private int previousGameSpeed;
 
-        void Update() {
+        private void Update() {
             if (Input.GetButtonDown("Increase Game Speed")) {
-                GameManager.instance.world.Speed += 1;
+                GameManager.Instance.World.Speed += 1;
             }
 
             if (Input.GetButtonDown("Decrease Game Speed")) {
-                GameManager.instance.world.Speed -= 1;
+                GameManager.Instance.World.Speed -= 1;
             }
 
             if (Input.GetButtonDown("Jump") && EventSystem.current.currentSelectedGameObject == null) {
-                if (GameManager.instance.world.Speed != 0) {
-                    previousGameSpeed = GameManager.instance.world.Speed;
-                    GameManager.instance.world.Speed = 0;
+                if (GameManager.Instance.World.Speed != 0) {
+                    previousGameSpeed = GameManager.Instance.World.Speed;
+                    GameManager.Instance.World.Speed = 0;
                 } else {
-                    GameManager.instance.world.Speed = previousGameSpeed;
+                    GameManager.Instance.World.Speed = previousGameSpeed;
                 }
             }
 
             if (Input.GetKeyDown(KeyCode.Z)) {
                 for (int i = 0; i < 10; i++) {
-                    var herb = (Herb)GameManager.instance.world.HerbDatabase[GameManager.instance.world.Random.Next(GameManager.instance.world.HerbDatabase.Length)].Clone();
+                    var herb = (Herb)GameManager.Instance.World.HerbDatabase[GameManager.Instance.World.Random.Next(GameManager.Instance.World.HerbDatabase.Length)].Clone();
 
-                    GameManager.instance.world.Shop.DeliverIngredient(herb);
+                    GameManager.Instance.World.Shop.DeliverIngredient(herb);
                 }
-                for (int i = 0; i < 10; i++) {
-                    var flask = (Flask)GameManager.instance.world.FlaskDatabase[GameManager.instance.world.Random.Next(GameManager.instance.world.FlaskDatabase.Length)].Clone();
 
-                    GameManager.instance.world.Shop.PurchaseFlask(flask);
+                for (int i = 0; i < 10; i++) {
+                    var flask = (Flask)GameManager.Instance.World.FlaskDatabase[GameManager.Instance.World.Random.Next(GameManager.Instance.World.FlaskDatabase.Length)].Clone();
+
+                    GameManager.Instance.World.Shop.PurchaseFlask(flask);
                 }
 
                 {
-                    var flask = GameManager.instance.world.Shop.Flasks[GameManager.instance.world.Random.Next(GameManager.instance.world.Shop.Flasks.Count)];
+                    var flask = GameManager.Instance.World.Shop.Flasks[GameManager.Instance.World.Random.Next(GameManager.Instance.World.Shop.Flasks.Count)];
                     var ingredients = new Ingredient[] {
-                        GameManager.instance.world.Shop.Ingredients[GameManager.instance.world.Random.Next(GameManager.instance.world.Shop.Ingredients.Length)],
-                        GameManager.instance.world.Shop.Ingredients[GameManager.instance.world.Random.Next(GameManager.instance.world.Shop.Ingredients.Length)]
+                        GameManager.Instance.World.Shop.Ingredients[GameManager.Instance.World.Random.Next(GameManager.Instance.World.Shop.Ingredients.Length)],
+                        GameManager.Instance.World.Shop.Ingredients[GameManager.Instance.World.Random.Next(GameManager.Instance.World.Shop.Ingredients.Length)]
                     };
 
-                    GameManager.instance.world.Shop.ResearchPotion(flask, null, ingredients);
+                    GameManager.Instance.World.Shop.ResearchPotion(flask, null, ingredients);
                 }
 
                 {
                     var apothecary = new Apothecary("Apothecary", 10);
 
-                    GameManager.instance.world.ReceiveApplication(apothecary);
-                    GameManager.instance.world.Shop.HireEmployee(apothecary);
+                    GameManager.Instance.World.ReceiveApplication(apothecary);
+                    GameManager.Instance.World.Shop.HireEmployee(apothecary);
                 }
 
                 {
                     var herbalist = new Herbalist("Herbalist", 10);
 
-                    GameManager.instance.world.ReceiveApplication(herbalist);
-                    GameManager.instance.world.Shop.HireEmployee(herbalist);
+                    GameManager.Instance.World.ReceiveApplication(herbalist);
+                    GameManager.Instance.World.Shop.HireEmployee(herbalist);
                 }
 
                 {
                     var shopkeeper = new Shopkeeper("Shopkeeper", 10);
 
-                    GameManager.instance.world.ReceiveApplication(shopkeeper);
-                    GameManager.instance.world.Shop.HireEmployee(shopkeeper);
+                    GameManager.Instance.World.ReceiveApplication(shopkeeper);
+                    GameManager.Instance.World.Shop.HireEmployee(shopkeeper);
                 }
             }
 
             if (Input.GetKeyDown(KeyCode.F5)) {
-                File.WriteAllText("game.json", JsonUtility.ToJson(GameManager.instance.world));
+                File.WriteAllText("game.json", JsonUtility.ToJson(GameManager.Instance.World));
             }
-
 
             if (Input.GetKeyDown(KeyCode.A)) {
                 int dropdownOption = 0;
                 string name = "";
-                var changeName = UserInterface.CreateAlert(new AlertData() {
+                var changeName = UserInterface.Instance.CreateAlert(new AlertData() {
                     title = "Name",
                     message = "Enter your name",
                     inputs = new IInputData[] {
@@ -117,7 +117,7 @@ namespace Alchemy.Controllers {
                 changeName.AddButton(new ButtonData() {
                     text = "Cancel",
                     onClick = () => {
-                        changeName.onClose.Invoke(changeName);
+                        changeName.Close();
                     }
                 });
                 changeName.AddButton(new ButtonData() {
@@ -125,9 +125,9 @@ namespace Alchemy.Controllers {
                     onClick = () => {
                         this.name = name;
 
-                        changeName.onClose.Invoke(changeName);
+                        changeName.Close();
 
-                        var success = UserInterface.CreateAlert(new AlertData() {
+                        var success = UserInterface.Instance.CreateAlert(new AlertData() {
                             title = "Name",
                             message = "Name changed"
                         });
@@ -135,7 +135,7 @@ namespace Alchemy.Controllers {
                         success.AddButton(new ButtonData() {
                             text = "Ok",
                             onClick = () => {
-                                success.onClose.Invoke(success);
+                                success.Close();
                             }
                         });
                     }
@@ -151,13 +151,13 @@ namespace Alchemy.Controllers {
                     };
                 }
 
-                var checklist = UserInterface.CreateList(new ListData() {
+                var checklist = UserInterface.Instance.CreateList(new ListData() {
                     title = "Toggle List"
                 });
                 checklist.AddButton(new ButtonData() {
                     text = "Cancel",
                     onClick = () => {
-                        checklist.onClose.Invoke(checklist);
+                        checklist.Close();
                     }
                 });
                 checklist.AddButton(new ButtonData() {
@@ -167,7 +167,7 @@ namespace Alchemy.Controllers {
                             Debug.Log(thing.name + " is " + thing.value);
                         }
 
-                        checklist.onClose.Invoke(checklist);
+                        checklist.Close();
                     }
                 });
                 foreach (var thing in things) {
@@ -190,14 +190,14 @@ namespace Alchemy.Controllers {
                     };
                 }
 
-                var radiolist = UserInterface.CreateList(new ListData() {
+                var radiolist = UserInterface.Instance.CreateList(new ListData() {
                     title = "Radio List",
                     message = "This is a message"
                 });
                 radiolist.AddButton(new ButtonData() {
                     text = "Cancel",
                     onClick = () => {
-                        radiolist.onClose.Invoke(radiolist);
+                        radiolist.Close();
                     }
                 });
                 radiolist.AddButton(new ButtonData() {
@@ -207,7 +207,7 @@ namespace Alchemy.Controllers {
                             Debug.Log(thing.name + " is " + thing.value);
                         }
 
-                        radiolist.onClose.Invoke(radiolist);
+                        radiolist.Close();
                     }
                 });
                 foreach (var thing in things) {

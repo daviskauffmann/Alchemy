@@ -5,12 +5,11 @@ namespace Alchemy.Models {
     [Serializable]
     public class Shopkeeper : Employee {
         [SerializeField]
-        int charisma;
+        private int charisma;
         [SerializeField]
-        int potionsSold;
+        private int potionsSold;
 
-        public Shopkeeper(string name, int salary)
-            : base("Shopkeeper", name, salary) {
+        public Shopkeeper(string name, int salary) : base("Shopkeeper", name, salary) {
 
         }
 
@@ -26,7 +25,7 @@ namespace Alchemy.Models {
             World.Instance.HourChanged -= SellPotion;
         }
 
-        void SellPotion(object sender, IntEventArgs e) {
+        private void SellPotion(object sender, IntEventArgs e) {
             if (World.Instance.Random.Next(0, 100) < 10) {
                 Potion potion = null;
 

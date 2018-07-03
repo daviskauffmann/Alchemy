@@ -4,11 +4,20 @@ using UnityEngine;
 
 namespace Alchemy.Controllers {
     public class GameManager : MonoBehaviour {
-        public static GameManager instance;
+        private static GameManager instance;
 
-        public World world;
+        [SerializeField]
+        private World world;
 
-        void Awake() {
+        public static GameManager Instance {
+            get { return instance; }
+        }
+
+        public World World {
+            get { return world; }
+        }
+
+        private void Awake() {
             instance = this;
 
             if (File.Exists("game.json")) {
@@ -18,8 +27,8 @@ namespace Alchemy.Controllers {
             }
         }
 
-        void Update() {
-            world.Time += world.Speed * Time.deltaTime;
+        private void Update() {
+            World.Time += World.Speed * Time.deltaTime;
         }
     }
 }

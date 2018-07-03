@@ -3,9 +3,12 @@ using UnityEngine.UI;
 
 namespace Alchemy.Controllers {
     public class Alert : Window {
-        public Text message;
-        public Transform inputs;
-        public Transform buttons;
+        [SerializeField]
+        private Text message;
+        [SerializeField]
+        private Transform inputs;
+        [SerializeField]
+        private Transform buttons;
 
         public void SetMessage(string text) {
             message.text = text;
@@ -14,7 +17,7 @@ namespace Alchemy.Controllers {
         }
 
         public Toggle AddToggle(ToggleData toggleData) {
-            var toggle = UserInterface.CreateToggle(toggleData);
+            var toggle = UserInterface.Instance.CreateToggle(toggleData);
 
             toggle.transform.SetParent(inputs);
 
@@ -22,7 +25,7 @@ namespace Alchemy.Controllers {
         }
 
         public Slider AddSlider(SliderData sliderData) {
-            var slider = UserInterface.CreateSlider(sliderData);
+            var slider = UserInterface.Instance.CreateSlider(sliderData);
 
             slider.transform.SetParent(inputs);
 
@@ -30,7 +33,7 @@ namespace Alchemy.Controllers {
         }
 
         public Dropdown AddDropdown(DropdownData dropdownData) {
-            var dropdown = UserInterface.CreateDropdown(dropdownData);
+            var dropdown = UserInterface.Instance.CreateDropdown(dropdownData);
 
             dropdown.transform.SetParent(inputs);
 
@@ -38,7 +41,7 @@ namespace Alchemy.Controllers {
         }
 
         public InputField AddInputField(InputFieldData inputFieldData) {
-            var inputField = UserInterface.CreateInputField(inputFieldData);
+            var inputField = UserInterface.Instance.CreateInputField(inputFieldData);
 
             inputField.transform.SetParent(inputs);
 
@@ -46,7 +49,7 @@ namespace Alchemy.Controllers {
         }
 
         public Button AddButton(ButtonData buttonData) {
-            var button = UserInterface.CreateButton(buttonData);
+            var button = UserInterface.Instance.CreateButton(buttonData);
 
             button.transform.SetParent(buttons);
 

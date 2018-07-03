@@ -5,17 +5,11 @@ namespace Alchemy.Models {
     [Serializable]
     public class Flask : ICloneable {
         [SerializeField]
-        string name;
+        private string name;
         [SerializeField]
-        Quality quality;
+        private Quality quality;
         [SerializeField]
-        float value;
-
-        public Flask(string name, Quality quality, float value) {
-            this.name = name;
-            this.quality = quality;
-            this.value = value;
-        }
+        private float value;
 
         public string Name {
             get { return name; }
@@ -27,6 +21,12 @@ namespace Alchemy.Models {
 
         public float Value {
             get { return value; }
+        }
+
+        public Flask(string name, Quality quality, float value) {
+            this.name = name;
+            this.quality = quality;
+            this.value = value;
         }
 
         public object Clone() {

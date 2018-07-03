@@ -7,159 +7,34 @@ using Random = System.Random;
 namespace Alchemy.Models {
     [Serializable]
     public class World {
-        static World instance;
+        private static World instance;
 
-        Random random;
-        string[] nameDatabase;
-        Flask[] flaskDatabase;
-        Solvent[] solventDatabase;
-        Herb[] herbDatabase;
+        private Random random;
+        private string[] nameDatabase;
+        private Flask[] flaskDatabase;
+        private Solvent[] solventDatabase;
+        private Herb[] herbDatabase;
         [SerializeField]
-        int speed;
+        private int speed;
         [SerializeField]
-        float time;
+        private float time;
         float timePerHour;
         [SerializeField]
-        int hour;
+        private int hour;
         [SerializeField]
-        int day;
+        private int day;
         [SerializeField]
-        Shop shop;
+        private Shop shop;
         [SerializeField]
-        List<Apothecary> apothecaries;
+        private List<Apothecary> apothecaries;
         [SerializeField]
-        List<Guard> guards;
+        private List<Guard> guards;
         [SerializeField]
-        List<Herbalist> herbalists;
+        private List<Herbalist> herbalists;
         [SerializeField]
-        List<Shopkeeper> shopkeepers;
+        private List<Shopkeeper> shopkeepers;
         [SerializeField]
-        List<Flask> flasksForSale;
-
-        public event EventHandler<IntEventArgs> SpeedChanged;
-
-        public event EventHandler<IntEventArgs> HourChanged;
-
-        public event EventHandler<IntEventArgs> DayChanged;
-
-        public event EventHandler<EmployeeEventArgs> ApplicantReceived;
-
-        public event EventHandler<EmployeeEventArgs> ApplicantDismissed;
-
-        public event EventHandler<IntEventArgs> ApplicantCountChanged;
-
-        public event EventHandler<FlaskEventArgs> FlaskDisplayed;
-
-        public event EventHandler<FlaskEventArgs> FlaskSold;
-
-        public World() {
-            instance = this;
-            random = new Random();
-            nameDatabase = new string[] {
-                "Pavel",
-                "Bim",
-                "Olgerd",
-                "Berna",
-                "Herban",
-                "Erdan",
-                "Gilbert",
-                "Ferdinand",
-                "Jaroo",
-                "Elynwyd",
-                "Ketta",
-                "Geldar",
-                "Fenthick",
-                "Desther",
-                "Aribeth"
-            };
-            flaskDatabase = new Flask[] {
-                new Flask("Brittle Flask", Quality.Poor, 5),
-                new Flask("Weak Flask", Quality.Fair, 10),
-                new Flask("Strong Flask", Quality.Good, 20),
-                new Flask("Alchemist's Flask", Quality.Excellent, 50),
-                new Flask("Magical Flask", Quality.Perfect, 100),
-            };
-            solventDatabase = new Solvent[] {
-
-            };
-            herbDatabase = new Herb[] {
-                new Herb(
-                    "Silverleaf",
-                    new Effect[] {
-                        new Effect("Restore Health", 10),
-                        new Effect("Restore Mana", 10),
-                        new Effect("Fortify Strength", 10),
-                        new Effect("Fortify Agility", 10)
-                    },
-                    Rarity.Common,
-                    new Region[] {
-                        Region.Plains,
-                        Region.Forest
-                    }),
-                new Herb(
-                    "Peacebloom",
-                    new Effect[] {
-                        new Effect("Restore Mana", 10),
-                        new Effect("Fortify Agility", 10),
-                        new Effect("Resist Fire", 10),
-                        new Effect("Resist Poison", 10)
-                    },
-                    Rarity.Uncommon,
-                    new Region[] {
-                        Region.Forest,
-                        Region.Desert
-                    }),
-                new Herb(
-                    "Earthroot",
-                    new Effect[] {
-                        new Effect("Restore Mana", 10),
-                        new Effect("Fortify Strength", 10),
-                        new Effect("Resist Frost", 10),
-                        new Effect("Resist Poison", 10)
-                    },
-                    Rarity.Rare,
-                    new Region[] {
-                        Region.Desert,
-                        Region.Tundra
-                    })
-            };
-            speed = 1;
-            time = 0;
-            timePerHour = 1;
-            hour = 0;
-            day = 1;
-            shop = new Shop();
-            apothecaries = new List<Apothecary>();
-            guards = new List<Guard>();
-            herbalists = new List<Herbalist>();
-            shopkeepers = new List<Shopkeeper>();
-            flasksForSale = new List<Flask>();
-
-            DayChanged += (sender, e) => {
-                Employee applicant = null;
-
-                switch (Random.Next(4)) {
-                    case 0: applicant = new Herbalist(NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100)); break;
-                    case 1: applicant = new Guard(NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100)); break;
-                    case 2: applicant = new Apothecary(NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100)); break;
-                    case 3: applicant = new Shopkeeper(NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100)); break;
-                }
-
-                if (applicant != null) {
-                    ReceiveApplication(applicant);
-                }
-            };
-
-            DayChanged += (sender, e) => {
-                var flask = (Flask)FlaskDatabase[Random.Next(FlaskDatabase.Length)].Clone();
-
-                DisplayFlask(flask);
-            };
-
-            DayChanged += (sender, e) => {
-                Shop.Gold += 1000;
-            };
-        }
+        private List<Flask> flasksForSale;
 
         public static World Instance {
             get { return instance; }
@@ -287,6 +162,131 @@ namespace Alchemy.Models {
             get { return flasksForSale; }
         }
 
+        public event EventHandler<IntEventArgs> SpeedChanged;
+
+        public event EventHandler<IntEventArgs> HourChanged;
+
+        public event EventHandler<IntEventArgs> DayChanged;
+
+        public event EventHandler<EmployeeEventArgs> ApplicantReceived;
+
+        public event EventHandler<EmployeeEventArgs> ApplicantDismissed;
+
+        public event EventHandler<IntEventArgs> ApplicantCountChanged;
+
+        public event EventHandler<FlaskEventArgs> FlaskDisplayed;
+
+        public event EventHandler<FlaskEventArgs> FlaskSold;
+
+        public World() {
+            instance = this;
+            random = new Random();
+            nameDatabase = new string[] {
+                "Pavel",
+                "Bim",
+                "Olgerd",
+                "Berna",
+                "Herban",
+                "Erdan",
+                "Gilbert",
+                "Ferdinand",
+                "Jaroo",
+                "Elynwyd",
+                "Ketta",
+                "Geldar",
+                "Fenthick",
+                "Desther",
+                "Aribeth"
+            };
+            flaskDatabase = new Flask[] {
+                new Flask("Brittle Flask", Quality.Poor, 5),
+                new Flask("Weak Flask", Quality.Fair, 10),
+                new Flask("Strong Flask", Quality.Good, 20),
+                new Flask("Alchemist's Flask", Quality.Excellent, 50),
+                new Flask("Magical Flask", Quality.Perfect, 100),
+            };
+            solventDatabase = new Solvent[] {
+
+            };
+            herbDatabase = new Herb[] {
+                new Herb(
+                    "Silverleaf",
+                    new Effect[] {
+                        new Effect("Restore Health", 10),
+                        new Effect("Restore Mana", 10),
+                        new Effect("Fortify Strength", 10),
+                        new Effect("Fortify Agility", 10)
+                    },
+                    Rarity.Common,
+                    new Region[] {
+                        Region.Plains,
+                        Region.Forest
+                    }),
+                new Herb(
+                    "Peacebloom",
+                    new Effect[] {
+                        new Effect("Restore Mana", 10),
+                        new Effect("Fortify Agility", 10),
+                        new Effect("Resist Fire", 10),
+                        new Effect("Resist Poison", 10)
+                    },
+                    Rarity.Uncommon,
+                    new Region[] {
+                        Region.Forest,
+                        Region.Desert
+                    }),
+                new Herb(
+                    "Earthroot",
+                    new Effect[] {
+                        new Effect("Restore Mana", 10),
+                        new Effect("Fortify Strength", 10),
+                        new Effect("Resist Frost", 10),
+                        new Effect("Resist Poison", 10)
+                    },
+                    Rarity.Rare,
+                    new Region[] {
+                        Region.Desert,
+                        Region.Tundra
+                    })
+            };
+            speed = 1;
+            time = 0;
+            timePerHour = 1;
+            hour = 0;
+            day = 1;
+            shop = new Shop();
+            apothecaries = new List<Apothecary>();
+            guards = new List<Guard>();
+            herbalists = new List<Herbalist>();
+            shopkeepers = new List<Shopkeeper>();
+            flasksForSale = new List<Flask>();
+
+            DayChanged += (sender, e) => {
+                Employee applicant = null;
+
+                switch (Random.Next(4)) {
+                    case 0: applicant = new Herbalist(NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100)); break;
+                    case 1: applicant = new Guard(NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100)); break;
+                    case 2: applicant = new Apothecary(NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100)); break;
+                    case 3: applicant = new Shopkeeper(NameDatabase[Random.Next(NameDatabase.Length)], Random.Next(1, 100)); break;
+                }
+
+                if (applicant != null) {
+                    ReceiveApplication(applicant);
+                }
+            };
+
+            DayChanged += (sender, e) => {
+                var flask = (Flask)FlaskDatabase[Random.Next(FlaskDatabase.Length)].Clone();
+
+                DisplayFlask(flask);
+            };
+
+            DayChanged += (sender, e) => {
+                Shop.Gold += 1000;
+            };
+        }
+
         public void ReceiveApplication(Employee applicant) {
             if (applicant is Apothecary) {
                 apothecaries.Add((Apothecary)applicant);
@@ -335,49 +335,49 @@ namespace Alchemy.Models {
             OnFlaskSold(flask);
         }
 
-        protected virtual void OnSpeedChanged(int value) {
+        private void OnSpeedChanged(int value) {
             if (SpeedChanged != null) {
                 SpeedChanged(this, new IntEventArgs() { value = value });
             }
         }
 
-        protected virtual void OnHourChanged(int value) {
+        private void OnHourChanged(int value) {
             if (HourChanged != null) {
                 HourChanged(this, new IntEventArgs() { value = value });
             }
         }
 
-        protected virtual void OnDayChanged(int value) {
+        private void OnDayChanged(int value) {
             if (DayChanged != null) {
                 DayChanged(this, new IntEventArgs() { value = value });
             }
         }
 
-        protected virtual void OnApplicantReceived(Employee applicant) {
+        private void OnApplicantReceived(Employee applicant) {
             if (ApplicantReceived != null) {
                 ApplicantReceived(this, new EmployeeEventArgs() { employee = applicant });
             }
         }
 
-        protected virtual void OnApplicantDismissed(Employee applicant) {
+        private void OnApplicantDismissed(Employee applicant) {
             if (ApplicantDismissed != null) {
                 ApplicantDismissed(this, new EmployeeEventArgs() { employee = applicant });
             }
         }
 
-        protected virtual void OnApplicantCountChanged(int value) {
+        private void OnApplicantCountChanged(int value) {
             if (ApplicantCountChanged != null) {
                 ApplicantCountChanged(this, new IntEventArgs() { value = value });
             }
         }
 
-        protected virtual void OnFlaskDisplayed(Flask flask) {
+        private void OnFlaskDisplayed(Flask flask) {
             if (FlaskDisplayed != null) {
                 FlaskDisplayed(this, new FlaskEventArgs() { flask = flask });
             }
         }
 
-        protected virtual void OnFlaskSold(Flask flask) {
+        private void OnFlaskSold(Flask flask) {
             if (FlaskSold != null) {
                 FlaskSold(this, new FlaskEventArgs() { flask = flask });
             }

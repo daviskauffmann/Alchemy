@@ -17,12 +17,6 @@ namespace Alchemy.Models {
         [SerializeField]
         protected int daysEmployed;
 
-        protected Employee(string title, string name, int salary) {
-            this.title = title;
-            this.name = name;
-            this.salary = salary;
-        }
-
         public string Title {
             get { return title; }
         }
@@ -47,6 +41,12 @@ namespace Alchemy.Models {
             get { return daysEmployed; }
         }
 
+        protected Employee(string title, string name, int salary) {
+            this.title = title;
+            this.name = name;
+            this.salary = salary;
+        }
+
         public virtual void StartWorking() {
             World.Instance.DayChanged += DayChanged;
         }
@@ -55,7 +55,7 @@ namespace Alchemy.Models {
             World.Instance.DayChanged -= DayChanged;
         }
 
-        void DayChanged(object sender, IntEventArgs e) {
+        private void DayChanged(object sender, IntEventArgs e) {
             daysEmployed++;
         }
     }

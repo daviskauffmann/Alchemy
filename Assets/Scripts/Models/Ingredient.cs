@@ -9,17 +9,17 @@ namespace Alchemy.Models {
         [SerializeField]
         protected Effect[] effects;
 
-        protected Ingredient(string name, Effect[] effects) {
-            this.name = name;
-            this.effects = effects;
-        }
-
         public string Name {
             get { return name; }
         }
 
         public Effect[] Effects {
             get { return effects; }
+        }
+
+        protected Ingredient(string name, Effect[] effects) {
+            this.name = name;
+            this.effects = effects;
         }
 
         public virtual object Clone() {

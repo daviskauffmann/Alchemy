@@ -5,41 +5,45 @@ using UnityEngine.UI;
 
 namespace Alchemy.Controllers {
     public class UserInterface : MonoBehaviour {
-        public static UserInterface instance;
+        private static UserInterface instance;
 
         [SerializeField]
-        Canvas canvas;
+        private Canvas canvas;
         [SerializeField]
-        Text textPrefab;
+        private Text textPrefab;
         [SerializeField]
-        Button buttonPrefab;
+        private Button buttonPrefab;
         [SerializeField]
-        Toggle togglePrefab;
+        private Toggle togglePrefab;
         [SerializeField]
-        Toggle radioPrefab;
+        private Toggle radioPrefab;
         [SerializeField]
-        Slider sliderPrefab;
+        private Slider sliderPrefab;
         [SerializeField]
-        Scrollbar scrollbarPrefab;
+        private Scrollbar scrollbarPrefab;
         [SerializeField]
-        Dropdown dropdownPrefab;
+        private Dropdown dropdownPrefab;
         [SerializeField]
-        InputField inputFieldPrefab;
+        private InputField inputFieldPrefab;
         [SerializeField]
-        ScrollRect scrollViewPrefab;
+        private ScrollRect scrollViewPrefab;
         [SerializeField]
-        Window windowPrefab;
+        private Window windowPrefab;
         [SerializeField]
-        Alert alertPrefab;
+        private Alert alertPrefab;
         [SerializeField]
-        List listPrefab;
+        private List listPrefab;
 
-        void Awake() {
+        public static UserInterface Instance {
+            get { return instance; }
+        }
+
+        private void Awake() {
             instance = this;
         }
 
-        public static Button CreateButton(ButtonData buttonData) {
-            var button = Instantiate(instance.buttonPrefab, instance.canvas.transform, false);
+        public Button CreateButton(ButtonData buttonData) {
+            var button = Instantiate(buttonPrefab, canvas.transform, false);
 
             button.GetComponentInChildren<Text>().text = buttonData.text;
 
@@ -50,8 +54,8 @@ namespace Alchemy.Controllers {
             return button;
         }
 
-        public static Toggle CreateToggle(ToggleData toggleData) {
-            var toggle = Instantiate(instance.togglePrefab, instance.canvas.transform, false);
+        public Toggle CreateToggle(ToggleData toggleData) {
+            var toggle = Instantiate(togglePrefab, canvas.transform, false);
 
             toggle.GetComponentInChildren<Text>().text = toggleData.text;
 
@@ -64,8 +68,8 @@ namespace Alchemy.Controllers {
             return toggle;
         }
 
-        public static Toggle CreateRadio(RadioData radioData) {
-            var radio = Instantiate(instance.radioPrefab, instance.canvas.transform, false);
+        public Toggle CreateRadio(RadioData radioData) {
+            var radio = Instantiate(radioPrefab, canvas.transform, false);
 
             radio.GetComponentInChildren<Text>().text = radioData.text;
 
@@ -78,14 +82,14 @@ namespace Alchemy.Controllers {
             return radio;
         }
 
-        public static Slider CreateSlider(SliderData sliderData) {
-            var slider = Instantiate(instance.sliderPrefab, instance.canvas.transform, false);
+        public Slider CreateSlider(SliderData sliderData) {
+            var slider = Instantiate(sliderPrefab, canvas.transform, false);
 
             return slider;
         }
 
-        public static Dropdown CreateDropdown(DropdownData dropdownData) {
-            var dropdown = Instantiate(instance.dropdownPrefab, instance.canvas.transform, false);
+        public Dropdown CreateDropdown(DropdownData dropdownData) {
+            var dropdown = Instantiate(dropdownPrefab, canvas.transform, false);
 
             if (dropdownData.options != null) {
                 dropdown.options = dropdownData.options;
@@ -98,8 +102,8 @@ namespace Alchemy.Controllers {
             return dropdown;
         }
 
-        public static InputField CreateInputField(InputFieldData inputFieldData) {
-            var inputField = Instantiate(instance.inputFieldPrefab, instance.canvas.transform, false);
+        public InputField CreateInputField(InputFieldData inputFieldData) {
+            var inputField = Instantiate(inputFieldPrefab, canvas.transform, false);
 
             if (inputFieldData.onValueChanged != null) {
                 inputField.onValueChanged.AddListener(inputFieldData.onValueChanged);
@@ -112,33 +116,33 @@ namespace Alchemy.Controllers {
             return inputField;
         }
 
-        public static Window CreateWindow(WindowData windowData) {
-            var window = Instantiate(instance.windowPrefab, instance.canvas.transform, false);
+        public Window CreateWindow(WindowData windowData) {
+            var window = Instantiate(windowPrefab, canvas.transform, false);
 
-            window.title.text = windowData.title;
+            window.SetTitle(windowData.title);
 
             if (windowData.onUpdate != null) {
-                window.onUpdate.AddListener(windowData.onUpdate);
+                window.AddUpdateListener(windowData.onUpdate);
             }
 
             if (windowData.onClose != null) {
-                window.onClose.AddListener(windowData.onClose);
+                window.AddCloseListener(windowData.onClose);
             }
 
             return window;
         }
 
-        public static Alert CreateAlert(AlertData alertData) {
-            var alert = Instantiate(instance.alertPrefab, instance.canvas.transform, false);
+        public Alert CreateAlert(AlertData alertData) {
+            var alert = Instantiate(alertPrefab, canvas.transform, false);
 
-            alert.title.text = alertData.title;
+            alert.SetTitle(alertData.title);
 
             if (alertData.onUpdate != null) {
-                alert.onUpdate.AddListener(alertData.onUpdate);
+                alert.AddUpdateListener(alertData.onUpdate);
             }
 
             if (alertData.onClose != null) {
-                alert.onClose.AddListener(alertData.onClose);
+                alert.AddCloseListener(alertData.onClose);
             }
 
             alert.SetMessage(alertData.message);
@@ -174,17 +178,17 @@ namespace Alchemy.Controllers {
             return alert;
         }
 
-        public static List CreateList(ListData listData) {
-            var list = Instantiate(instance.listPrefab, instance.canvas.transform, false);
+        public List CreateList(ListData listData) {
+            var list = Instantiate(listPrefab, canvas.transform, false);
 
-            list.title.text = listData.title;
+            list.SetTitle(listData.title);
 
             if (listData.onUpdate != null) {
-                list.onUpdate.AddListener(listData.onUpdate);
+                list.AddUpdateListener(listData.onUpdate);
             }
 
             if (listData.onClose != null) {
-                list.onClose.AddListener(listData.onClose);
+                list.AddCloseListener(listData.onClose);
             }
 
             list.SetMessage(listData.message);

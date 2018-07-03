@@ -6,10 +6,9 @@ namespace Alchemy.Models {
     [Serializable]
     public class Apothecary : Employee {
         [SerializeField]
-        int potionsCrafted;
+        private int potionsCrafted;
 
-        public Apothecary(string name, int salary)
-            : base("Apothecary", name, salary) {
+        public Apothecary(string name, int salary) : base("Apothecary", name, salary) {
 
         }
 
@@ -25,7 +24,7 @@ namespace Alchemy.Models {
             World.Instance.HourChanged -= CreatePotion;
         }
 
-        void CreatePotion(object sender, IntEventArgs e) {
+        private void CreatePotion(object sender, IntEventArgs e) {
             if (World.Instance.Random.Next(0, 100) < 10) {
                 foreach (var potionPrototype in World.Instance.Shop.PotionPrototypes) {
                     Flask flask = null;

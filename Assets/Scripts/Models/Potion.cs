@@ -6,17 +6,45 @@ namespace Alchemy.Models {
     [Serializable]
     public class Potion {
         [SerializeField]
-        string name;
+        private string name;
         [SerializeField]
-        Flask flask;
+        private Flask flask;
         [SerializeField]
-        Solvent solvent;
+        private Solvent solvent;
         [SerializeField]
-        Herb[] herbs;
+        private Herb[] herbs;
         [SerializeField]
-        Effect[] effects;
+        private Effect[] effects;
         [SerializeField]
-        float value;
+        private float value;
+
+        public string Name {
+            get { return name; }
+        }
+
+        public Flask Flask {
+            get { return flask; }
+        }
+
+        public Solvent Solvent {
+            get { return solvent; }
+        }
+
+        public Herb[] Herbs {
+            get { return herbs; }
+        }
+
+        public int IngredientCount {
+            get { return herbs.Length; }
+        }
+
+        public Effect[] Effects {
+            get { return effects; }
+        }
+
+        public float Value {
+            get { return value; }
+        }
 
         public Potion(Flask flask, Solvent solvent, Ingredient[] ingredients) {
             this.name = "";
@@ -76,34 +104,6 @@ namespace Alchemy.Models {
             }
 
             value = flask.Value * ingredients.Length;
-        }
-
-        public string Name {
-            get { return name; }
-        }
-
-        public Flask Flask {
-            get { return flask; }
-        }
-
-        public Solvent Solvent {
-            get { return solvent; }
-        }
-
-        public Herb[] Herbs {
-            get { return herbs; }
-        }
-
-        public int IngredientCount {
-            get { return herbs.Length; }
-        }
-
-        public Effect[] Effects {
-            get { return effects; }
-        }
-
-        public float Value {
-            get { return value; }
         }
     }
 

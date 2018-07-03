@@ -5,16 +5,15 @@ namespace Alchemy.Models {
     [Serializable]
     public class Guard : Employee {
         [SerializeField]
-        int strength;
+        private int strength;
         [SerializeField]
-        int kills;
+        private int kills;
         [SerializeField]
-        int thievesKilled;
+        private int thievesKilled;
         [SerializeField]
-        int innocentsKilled;
+        private int innocentsKilled;
 
-        public Guard(string name, int salary)
-            : base("Guard", name, salary) {
+        public Guard(string name, int salary) : base("Guard", name, salary) {
 
         }
     }

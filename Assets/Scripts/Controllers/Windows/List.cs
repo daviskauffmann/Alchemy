@@ -3,9 +3,12 @@ using UnityEngine.UI;
 
 namespace Alchemy.Controllers {
     public class List : Window {
-        public Text message;
-        public Transform elements;
-        public Transform buttons;
+        [SerializeField]
+        private Text message;
+        [SerializeField]
+        private Transform elements;
+        [SerializeField]
+        private Transform buttons;
 
         public void SetMessage(string text) {
             message.text = text;
@@ -14,7 +17,7 @@ namespace Alchemy.Controllers {
         }
 
         public Toggle AddToggle(ToggleData toggleData) {
-            var toggle = UserInterface.CreateToggle(toggleData);
+            var toggle = UserInterface.Instance.CreateToggle(toggleData);
 
             toggle.transform.SetParent(elements);
 
@@ -22,7 +25,7 @@ namespace Alchemy.Controllers {
         }
 
         public Toggle AddRadio(RadioData radioData) {
-            var radio = UserInterface.CreateRadio(radioData);
+            var radio = UserInterface.Instance.CreateRadio(radioData);
 
             radio.transform.SetParent(elements);
 
@@ -38,7 +41,7 @@ namespace Alchemy.Controllers {
         }
 
         public Button AddButton(ButtonData buttonData) {
-            var button = UserInterface.CreateButton(buttonData);
+            var button = UserInterface.Instance.CreateButton(buttonData);
 
             button.transform.SetParent(buttons);
 

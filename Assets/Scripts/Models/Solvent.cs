@@ -5,14 +5,9 @@ namespace Alchemy.Models {
     [Serializable]
     public class Solvent : ICloneable {
         [SerializeField]
-        string name;
+        private string name;
         [SerializeField]
-        int strength;
-
-        public Solvent(string name, int strength) {
-            this.name = name;
-            this.strength = strength;
-        }
+        private int strength;
 
         public string Name {
             get { return name; }
@@ -20,6 +15,11 @@ namespace Alchemy.Models {
 
         public int Strength {
             get { return strength; }
+        }
+
+        public Solvent(string name, int strength) {
+            this.name = name;
+            this.strength = strength;
         }
 
         public object Clone() {

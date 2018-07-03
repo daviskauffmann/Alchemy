@@ -5,14 +5,9 @@ namespace Alchemy.Models {
     [Serializable]
     public class Effect : ICloneable {
         [SerializeField]
-        string name;
+        private string name;
         [SerializeField]
-        int magnitude;
-
-        public Effect(string name, int magnitude) {
-            this.name = name;
-            this.magnitude = magnitude;
-        }
+        private int magnitude;
 
         public string Name {
             get { return name; }
@@ -20,6 +15,11 @@ namespace Alchemy.Models {
 
         public int Magnitude {
             get { return magnitude; }
+        }
+
+        public Effect(string name, int magnitude) {
+            this.name = name;
+            this.magnitude = magnitude;
         }
 
         public virtual object Clone() {
