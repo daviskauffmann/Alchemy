@@ -8,11 +8,11 @@ namespace Alchemy.Models {
         [SerializeField]
         private string name;
         [SerializeField]
-        private Flask flask;
+        private string flaskName;
         [SerializeField]
-        private Solvent solvent;
+        private string solventName;
         [SerializeField]
-        private Herb[] herbs;
+        private string[] herbNames;
         [SerializeField]
         private Effect[] effects;
         [SerializeField]
@@ -22,20 +22,20 @@ namespace Alchemy.Models {
             get { return name; }
         }
 
-        public Flask Flask {
-            get { return flask; }
+        public string FlaskName {
+            get { return flaskName; }
         }
 
-        public Solvent Solvent {
-            get { return solvent; }
+        public string SolventName {
+            get { return solventName; }
         }
 
-        public Herb[] Herbs {
-            get { return herbs; }
+        public string[] HerbNames {
+            get { return herbNames; }
         }
 
         public int IngredientCount {
-            get { return herbs.Length; }
+            get { return HerbNames.Length /*+ OtherTypeNames.Length*/; }
         }
 
         public Effect[] Effects {
@@ -47,20 +47,16 @@ namespace Alchemy.Models {
         }
 
         public Potion(Flask flask, Solvent solvent, Ingredient[] ingredients) {
-            var herbs = new List<Herb>();
-            // var otherTypes = new List<OtherType>();
+            var herbNames = new List<string>();
+            // var otherTypeNames = new List<string>();
 
             foreach (var ingredient in ingredients) {
                 if (ingredient is Herb) {
-                    herbs.Add((Herb)ingredient.Clone());
-                }
-                // if (ingredients[i] is OtherType)
-                // {
-                //     otherTypes.Add((OtherType)ingredients[i].Clone());
-                // }
+                    herbNames.Add(ingredient.Name);
+                }/* else if (ingredient is OtherType) {
+                    otherTypes.Add(ingredient.Name);
+                }*/
             }
-
-            //this.otherTypes = otherTypes.ToArray();
 
             var effectsToCheck = new Queue<Effect>();
 
@@ -95,11 +91,12 @@ namespace Alchemy.Models {
             }
 
             this.name = name;
-            this.flask = flask;
-            this.solvent = /*(Solvent)*/solvent/*.Clone()*/;
-            this.herbs = herbs.ToArray();
+            this.flaskName = flask.Name;
+            this.solventName = solvent == null ? string.Empty : solvent.Name;
+            this.herbNames = herbNames.ToArray();
+            // this.otherTypeNames = otherTypeNames.ToArray();
             this.effects = effects.ToArray();
-            this.value = flask.Value * ingredients.Length;
+            this.value = flask.Value * effects.Count;
         }
     }
 

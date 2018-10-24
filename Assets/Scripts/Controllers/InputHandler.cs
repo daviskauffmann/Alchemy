@@ -58,7 +58,7 @@ namespace Alchemy.Controllers {
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.C)) {
+            if (Input.GetKeyDown(KeyCode.Y)) {
                 var flask = GameManager.Instance.World.Shop.Flasks[GameManager.Instance.World.Random.Next(GameManager.Instance.World.Shop.Flasks.Count)];
                 var ingredients = new Ingredient[] {
                         GameManager.Instance.World.Shop.Ingredients[GameManager.Instance.World.Random.Next(GameManager.Instance.World.Shop.Ingredients.Length)],

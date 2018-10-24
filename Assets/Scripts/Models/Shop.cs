@@ -231,6 +231,9 @@ namespace Alchemy.Models {
         }
 
         public void ResearchPotion(Flask flask, Solvent solvent, Ingredient[] ingredients) {
+            foreach (var ingredient in ingredients) {
+                Debug.Log(ingredient.Name);
+            }
             var potion = new Potion(flask, solvent, ingredients);
 
             if (!AddPotionPrototype(potion)) {

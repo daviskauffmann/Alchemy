@@ -34,7 +34,7 @@ namespace Alchemy.Models {
         [SerializeField]
         private List<Shopkeeper> shopkeepers;
         [SerializeField]
-        private List<Flask> flasksForSale;
+        private List<Flask> flasks;
 
         public static World Instance {
             get { return instance; }
@@ -158,8 +158,8 @@ namespace Alchemy.Models {
             }
         }
 
-        public List<Flask> FlasksForSale {
-            get { return flasksForSale; }
+        public List<Flask> Flasks {
+            get { return flasks; }
         }
 
         public event EventHandler<IntEventArgs> SpeedChanged;
@@ -259,7 +259,7 @@ namespace Alchemy.Models {
             guards = new List<Guard>();
             herbalists = new List<Herbalist>();
             shopkeepers = new List<Shopkeeper>();
-            flasksForSale = new List<Flask>();
+            flasks = new List<Flask>();
         }
 
         public void Start() {
@@ -328,7 +328,7 @@ namespace Alchemy.Models {
         }
 
         public void DisplayFlask(Flask flask) {
-            FlasksForSale.Add(flask);
+            Flasks.Add(flask);
 
             OnFlaskDisplayed(flask);
         }
@@ -338,7 +338,7 @@ namespace Alchemy.Models {
                 return;
             }
 
-            FlasksForSale.Remove(flask);
+            Flasks.Remove(flask);
 
             OnFlaskSold(flask);
         }

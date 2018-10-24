@@ -33,7 +33,7 @@ namespace Alchemy.Models {
                 Flask flask = null;
 
                 foreach (var shopFlask in World.Instance.Shop.Flasks) {
-                    if (shopFlask.Name == potionPrototype.Flask.Name) {
+                    if (shopFlask.Name == potionPrototype.FlaskName) {
                         flask = shopFlask;
 
                         break;
@@ -48,9 +48,9 @@ namespace Alchemy.Models {
 
                 var ingredients = new List<Ingredient>();
 
-                foreach (var herb in potionPrototype.Herbs) {
+                foreach (var herbName in potionPrototype.HerbNames) {
                     foreach (var shopHerb in World.Instance.Shop.Herbs) {
-                        if (shopHerb.Name == herb.Name) {
+                        if (shopHerb.Name == herbName) {
                             ingredients.Add(shopHerb);
 
                             break;
