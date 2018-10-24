@@ -16,13 +16,13 @@ namespace Alchemy.Models {
         public override void StartWorking() {
             base.StartWorking();
 
-            World.Instance.HourChanged += SellPotion;
+            World.Instance.HourChanged += this.SellPotion;
         }
 
         public override void StopWorking() {
             base.StopWorking();
 
-            World.Instance.HourChanged -= SellPotion;
+            World.Instance.HourChanged -= this.SellPotion;
         }
 
         private void SellPotion(object sender, IntEventArgs e) {
@@ -42,7 +42,7 @@ namespace Alchemy.Models {
             }
 
             if (potion != null) {
-                potionsSold++;
+                this.potionsSold++;
 
                 World.Instance.Shop.SellPotion(potion, this);
             }

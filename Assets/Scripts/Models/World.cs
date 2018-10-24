@@ -7,18 +7,11 @@ using Random = System.Random;
 namespace Alchemy.Models {
     [Serializable]
     public class World {
-        private static World instance;
-
-        private Random random;
-        private string[] nameDatabase;
-        private Flask[] flaskDatabase;
-        private Solvent[] solventDatabase;
-        private Herb[] herbDatabase;
         [SerializeField]
         private int speed;
         [SerializeField]
         private float time;
-        float timePerHour;
+        private float timePerHour;
         [SerializeField]
         private int hour;
         [SerializeField]
@@ -36,121 +29,99 @@ namespace Alchemy.Models {
         [SerializeField]
         private List<Flask> flasks;
 
-        public static World Instance {
-            get { return instance; }
-        }
+        public static World Instance { get; private set; }
 
-        public Random Random {
-            get { return random; }
-        }
+        public Random Random { get; }
 
-        public string[] NameDatabase {
-            get { return nameDatabase; }
-        }
+        public string[] NameDatabase { get; }
 
-        public Flask[] FlaskDatabase {
-            get { return flaskDatabase; }
-        }
+        public Flask[] FlaskDatabase { get; }
 
-        public Solvent[] SolventDatabase {
-            get { return solventDatabase; }
-        }
+        public Solvent[] SolventDatabase { get; }
 
-        public Herb[] HerbDatabase {
-            get { return herbDatabase; }
-        }
+        public Herb[] HerbDatabase { get; }
 
         public int Speed {
-            get { return speed; }
+            get { return this.speed; }
             set {
-                if (speed != value) {
-                    speed = value;
+                if (this.speed != value) {
+                    this.speed = value;
 
-                    OnSpeedChanged(speed);
+                    this.OnSpeedChanged(this.speed);
                 }
             }
         }
 
         public float Time {
-            get { return time; }
+            get { return this.time; }
             set {
-                if (time != value) {
-                    time = value;
+                if (this.time != value) {
+                    this.time = value;
 
-                    if (time >= timePerHour) {
-                        time = 0;
+                    if (this.time >= this.timePerHour) {
+                        this.time = 0;
 
-                        Hour++;
+                        this.Hour++;
                     }
                 }
             }
         }
 
         public int Hour {
-            get { return hour; }
+            get { return this.hour; }
             set {
-                if (hour != value) {
-                    hour = value;
+                if (this.hour != value) {
+                    this.hour = value;
 
-                    if (hour >= 24) {
-                        hour = 0;
+                    if (this.hour >= 24) {
+                        this.hour = 0;
 
-                        Day++;
+                        this.Day++;
                     }
 
-                    OnHourChanged(hour);
+                    this.OnHourChanged(this.hour);
                 }
             }
         }
 
         public int Day {
-            get { return day; }
+            get { return this.day; }
             set {
-                if (day != value) {
-                    day = value;
+                if (this.day != value) {
+                    this.day = value;
 
-                    OnDayChanged(day);
+                    this.OnDayChanged(this.day);
                 }
             }
         }
 
-        public Shop Shop {
-            get { return shop; }
-        }
+        public Shop Shop => this.shop;
 
-        public List<Apothecary> Apothecaries {
-            get { return apothecaries; }
-        }
+        public List<Apothecary> Apothecaries => this.apothecaries;
 
-        public List<Guard> Guards {
-            get { return guards; }
-        }
+        public List<Guard> Guards => this.guards;
 
-        public List<Herbalist> Herbalists {
-            get { return herbalists; }
-        }
+        public List<Herbalist> Herbalists => this.herbalists;
 
-        public List<Shopkeeper> Shopkeepers {
-            get { return shopkeepers; }
-        }
+        public List<Shopkeeper> Shopkeepers => this.shopkeepers;
 
         public Employee[] Applicants {
             get {
                 var applicants = new List<Employee>();
 
-                foreach (var apothecary in Apothecaries) {
+                foreach (var apothecary in this.Apothecaries) {
                     applicants.Add(apothecary);
                 }
 
-                foreach (var guard in Guards) {
+                foreach (var guard in this.Guards) {
                     applicants.Add(guard);
                 }
 
-                foreach (var herbalist in Herbalists) {
+                foreach (var herbalist in this.Herbalists) {
                     applicants.Add(herbalist);
                 }
 
-                foreach (var shopkeeper in Shopkeepers) {
+                foreach (var shopkeeper in this.Shopkeepers) {
                     applicants.Add(shopkeeper);
                 }
 
@@ -158,9 +129,7 @@ namespace Alchemy.Models {
             }
         }
 
-        public List<Flask> Flasks {
-            get { return flasks; }
-        }
+        public List<Flask> Flasks => this.flasks;
 
         public event EventHandler<IntEventArgs> SpeedChanged;
 
@@ -179,9 +148,9 @@ namespace Alchemy.Models {
         public event EventHandler<FlaskEventArgs> FlaskSold;
 
         public World() {
-            instance = this;
-            random = new Random();
-            nameDatabase = new string[] {
+            Instance = this;
+            this.Random = new Random();
+            this.NameDatabase = new string[] {
                 "Pavel",
                 "Bim",
                 "Olgerd",
@@ -198,17 +167,17 @@ namespace Alchemy.Models {
                 "Desther",
                 "Aribeth"
             };
-            flaskDatabase = new Flask[] {
+            this.FlaskDatabase = new Flask[] {
                 new Flask("Brittle Flask", Quality.Poor, 5),
                 new Flask("Weak Flask", Quality.Fair, 10),
                 new Flask("Strong Flask", Quality.Good, 20),
                 new Flask("Alchemist's Flask", Quality.Excellent, 50),
                 new Flask("Magical Flask", Quality.Perfect, 100),
             };
-            solventDatabase = new Solvent[] {
+            this.SolventDatabase = new Solvent[] {
 
             };
-            herbDatabase = new Herb[] {
+            this.HerbDatabase = new Herb[] {
                 new Herb(
                     "Silverleaf",
                     new Effect[] {
@@ -249,29 +218,29 @@ namespace Alchemy.Models {
                         Region.Tundra
                     })
             };
-            speed = 1;
-            time = 0;
-            timePerHour = 1;
-            hour = 0;
-            day = 1;
-            shop = new Shop();
-            apothecaries = new List<Apothecary>();
-            guards = new List<Guard>();
-            herbalists = new List<Herbalist>();
-            shopkeepers = new List<Shopkeeper>();
-            flasks = new List<Flask>();
+            this.speed = 1;
+            this.time = 0;
+            this.timePerHour = 1;
+            this.hour = 0;
+            this.day = 1;
+            this.shop = new Shop();
+            this.apothecaries = new List<Apothecary>();
+            this.guards = new List<Guard>();
+            this.herbalists = new List<Herbalist>();
+            this.shopkeepers = new List<Shopkeeper>();
+            this.flasks = new List<Flask>();
         }
 
         public void Start() {
-            Shop.Start();
+            this.Shop.Start();
 
             DayChanged += (sender, e) => {
                 Employee applicant = null;
 
-                string name = NameDatabase[Random.Next(NameDatabase.Length)];
-                int salary = Random.Next(1, 100);
+                var name = this.NameDatabase[this.Random.Next(this.NameDatabase.Length)];
+                var salary = this.Random.Next(1, 100);
 
-                switch (Random.Next(4)) {
+                switch (this.Random.Next(4)) {
                     case 0: applicant = new Herbalist(name, salary); break;
                     case 1: applicant = new Guard(name, salary); break;
                     case 2: applicant = new Apothecary(name, salary); break;
@@ -279,152 +248,108 @@ namespace Alchemy.Models {
                 }
 
                 if (applicant != null) {
-                    ReceiveApplication(applicant);
+                    this.ReceiveApplication(applicant);
                 }
             };
 
             DayChanged += (sender, e) => {
-                var flask = (Flask)FlaskDatabase[Random.Next(FlaskDatabase.Length)].Clone();
+                var flask = (Flask)this.FlaskDatabase[this.Random.Next(this.FlaskDatabase.Length)].Clone();
 
-                DisplayFlask(flask);
+                this.DisplayFlask(flask);
             };
 
             DayChanged += (sender, e) => {
-                Shop.Gold += 1000;
+                this.Shop.Gold += 1000;
             };
 
         }
 
         public void ReceiveApplication(Employee applicant) {
             if (applicant is Apothecary) {
-                Apothecaries.Add((Apothecary)applicant);
+                this.Apothecaries.Add((Apothecary)applicant);
             } else if (applicant is Guard) {
-                Guards.Add((Guard)applicant);
+                this.Guards.Add((Guard)applicant);
             } else if (applicant is Herbalist) {
-                Herbalists.Add((Herbalist)applicant);
+                this.Herbalists.Add((Herbalist)applicant);
             } else if (applicant is Shopkeeper) {
-                Shopkeepers.Add((Shopkeeper)applicant);
+                this.Shopkeepers.Add((Shopkeeper)applicant);
             }
 
-            OnApplicantCountChanged(Applicants.Length);
+            this.OnApplicantCountChanged(this.Applicants.Length);
 
-            OnApplicantReceived(applicant);
+            this.OnApplicantReceived(applicant);
         }
 
         public void DismissApplication(Employee applicant) {
             if (applicant is Apothecary) {
-                Apothecaries.Remove((Apothecary)applicant);
+                this.Apothecaries.Remove((Apothecary)applicant);
             } else if (applicant is Guard) {
-                Guards.Remove((Guard)applicant);
+                this.Guards.Remove((Guard)applicant);
             } else if (applicant is Herbalist) {
-                Herbalists.Remove((Herbalist)applicant);
+                this.Herbalists.Remove((Herbalist)applicant);
             } else if (applicant is Shopkeeper) {
-                Shopkeepers.Remove((Shopkeeper)applicant);
+                this.Shopkeepers.Remove((Shopkeeper)applicant);
             }
 
-            OnApplicantCountChanged(Applicants.Length);
+            this.OnApplicantCountChanged(this.Applicants.Length);
 
-            OnApplicantDismissed(applicant);
+            this.OnApplicantDismissed(applicant);
         }
 
         public void DisplayFlask(Flask flask) {
-            Flasks.Add(flask);
+            this.Flasks.Add(flask);
 
-            OnFlaskDisplayed(flask);
+            this.OnFlaskDisplayed(flask);
         }
 
         public void SellFlask(Flask flask) {
-            if (!Shop.PurchaseFlask(flask)) {
+            if (!this.Shop.PurchaseFlask(flask)) {
                 return;
             }
 
-            Flasks.Remove(flask);
+            this.Flasks.Remove(flask);
 
-            OnFlaskSold(flask);
+            this.OnFlaskSold(flask);
         }
 
-        private void OnSpeedChanged(int value) {
-            if (SpeedChanged != null) {
-                SpeedChanged(this, new IntEventArgs(value));
-            }
-        }
+        private void OnSpeedChanged(int value) => SpeedChanged?.Invoke(this, new IntEventArgs(value));
 
-        private void OnHourChanged(int value) {
-            if (HourChanged != null) {
-                HourChanged(this, new IntEventArgs(value));
-            }
-        }
+        private void OnHourChanged(int value) => HourChanged?.Invoke(this, new IntEventArgs(value));
 
-        private void OnDayChanged(int value) {
-            if (DayChanged != null) {
-                DayChanged(this, new IntEventArgs(value));
-            }
-        }
+        private void OnDayChanged(int value) => DayChanged?.Invoke(this, new IntEventArgs(value));
 
-        private void OnApplicantReceived(Employee applicant) {
-            if (ApplicantReceived != null) {
-                ApplicantReceived(this, new EmployeeEventArgs(applicant));
-            }
-        }
+        private void OnApplicantReceived(Employee applicant) => ApplicantReceived?.Invoke(this, new EmployeeEventArgs(applicant));
 
-        private void OnApplicantDismissed(Employee applicant) {
-            if (ApplicantDismissed != null) {
-                ApplicantDismissed(this, new EmployeeEventArgs(applicant));
-            }
-        }
+        private void OnApplicantDismissed(Employee applicant) => ApplicantDismissed?.Invoke(this, new EmployeeEventArgs(applicant));
 
-        private void OnApplicantCountChanged(int value) {
-            if (ApplicantCountChanged != null) {
-                ApplicantCountChanged(this, new IntEventArgs(value));
-            }
-        }
+        private void OnApplicantCountChanged(int value) => ApplicantCountChanged?.Invoke(this, new IntEventArgs(value));
 
-        private void OnFlaskDisplayed(Flask flask) {
-            if (FlaskDisplayed != null) {
-                FlaskDisplayed(this, new FlaskEventArgs(flask));
-            }
-        }
+        private void OnFlaskDisplayed(Flask flask) => FlaskDisplayed?.Invoke(this, new FlaskEventArgs(flask));
 
-        private void OnFlaskSold(Flask flask) {
-            if (FlaskSold != null) {
-                FlaskSold(this, new FlaskEventArgs(flask));
-            }
-        }
+        private void OnFlaskSold(Flask flask) => FlaskSold?.Invoke(this, new FlaskEventArgs(flask));
     }
 
     public class StringEventArgs : EventArgs {
-        private string value;
-
-        public string Value {
-            get { return value; }
-        }
+        public string Value { get; }
 
         public StringEventArgs(string value) {
-            this.value = value;
+            this.Value = value;
         }
     }
 
     public class FloatEventArgs : EventArgs {
-        private float value;
-
-        public float Value {
-            get { return value; }
-        }
+        public float Value { get; }
 
         public FloatEventArgs(float value) {
-            this.value = value;
+            this.Value = value;
         }
     }
 
     public class IntEventArgs : EventArgs {
-        private int value;
-
-        public int Value {
-            get { return value; }
-        }
+        public int Value { get; }
 
         public IntEventArgs(int value) {
-            this.value = value;
+            this.Value = value;
         }
     }
 }

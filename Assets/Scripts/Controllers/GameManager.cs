@@ -14,25 +14,25 @@ namespace Alchemy.Controllers {
         }
 
         public World World {
-            get { return world; }
+            get { return this.world; }
         }
 
         private void Awake() {
             instance = this;
 
             if (File.Exists("game.json")) {
-                world = JsonUtility.FromJson<World>(File.ReadAllText("game.json"));
+                this.world = JsonUtility.FromJson<World>(File.ReadAllText("game.json"));
             } else {
-                world = new World();
+                this.world = new World();
             }
         }
 
         private void Start() {
-            World.Start();
+            this.World.Start();
         }
 
         private void Update() {
-            World.Time += World.Speed * Time.deltaTime;
+            this.World.Time += this.World.Speed * Time.deltaTime;
         }
     }
 }

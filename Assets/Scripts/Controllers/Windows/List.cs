@@ -11,15 +11,15 @@ namespace Alchemy.Controllers {
         private Transform buttons;
 
         public void SetMessage(string text) {
-            message.text = text;
+            this.message.text = text;
 
-            message.gameObject.SetActive(message.text != string.Empty);
+            this.message.gameObject.SetActive(this.message.text != string.Empty);
         }
 
         public Toggle AddToggle(ToggleData toggleData) {
             var toggle = UserInterface.Instance.CreateToggle(toggleData);
 
-            toggle.transform.SetParent(elements);
+            toggle.transform.SetParent(this.elements);
 
             return toggle;
         }
@@ -27,12 +27,12 @@ namespace Alchemy.Controllers {
         public Toggle AddRadio(RadioData radioData) {
             var radio = UserInterface.Instance.CreateRadio(radioData);
 
-            radio.transform.SetParent(elements);
+            radio.transform.SetParent(this.elements);
 
-            var group = elements.GetComponent<ToggleGroup>();
+            var group = this.elements.GetComponent<ToggleGroup>();
 
             if (group == null) {
-                radio.group = elements.gameObject.AddComponent<ToggleGroup>();
+                radio.group = this.elements.gameObject.AddComponent<ToggleGroup>();
             } else {
                 radio.group = group;
             }
@@ -43,7 +43,7 @@ namespace Alchemy.Controllers {
         public Button AddButton(ButtonData buttonData) {
             var button = UserInterface.Instance.CreateButton(buttonData);
 
-            button.transform.SetParent(buttons);
+            button.transform.SetParent(this.buttons);
 
             return button;
         }

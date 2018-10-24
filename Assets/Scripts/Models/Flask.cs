@@ -11,17 +11,11 @@ namespace Alchemy.Models {
         [SerializeField]
         private float value;
 
-        public string Name {
-            get { return name; }
-        }
+        public string Name => this.name;
 
-        public Quality Quality {
-            get { return quality; }
-        }
+        public Quality Quality => this.quality;
 
-        public float Value {
-            get { return value; }
-        }
+        public float Value => this.value;
 
         public Flask(string name, Quality quality, float value) {
             this.name = name;
@@ -30,7 +24,7 @@ namespace Alchemy.Models {
         }
 
         public object Clone() {
-            var clone = (Flask)MemberwiseClone();
+            var clone = (Flask)this.MemberwiseClone();
 
             return clone;
         }
@@ -45,14 +39,10 @@ namespace Alchemy.Models {
     }
 
     public class FlaskEventArgs : EventArgs {
-        private Flask flask;
-
-        public Flask Flask {
-            get { return flask; }
-        }
+        public Flask Flask { get; }
 
         public FlaskEventArgs(Flask flask) {
-            this.flask = flask;
+            this.Flask = flask;
         }
     }
 }

@@ -20,10 +20,10 @@ namespace Alchemy.Controllers {
 
             if (Input.GetButtonDown("Jump") && EventSystem.current.currentSelectedGameObject == null) {
                 if (GameManager.Instance.World.Speed != 0) {
-                    previousGameSpeed = GameManager.Instance.World.Speed;
+                    this.previousGameSpeed = GameManager.Instance.World.Speed;
                     GameManager.Instance.World.Speed = 0;
                 } else {
-                    GameManager.Instance.World.Speed = previousGameSpeed;
+                    GameManager.Instance.World.Speed = this.previousGameSpeed;
                 }
             }
 
@@ -45,13 +45,13 @@ namespace Alchemy.Controllers {
             }
 
             if (Input.GetKeyDown(KeyCode.X)) {
-                for (int i = 0; i < 10; i++) {
+                for (var i = 0; i < 10; i++) {
                     var herb = (Herb)GameManager.Instance.World.HerbDatabase[GameManager.Instance.World.Random.Next(GameManager.Instance.World.HerbDatabase.Length)].Clone();
 
                     GameManager.Instance.World.Shop.DeliverIngredient(herb);
                 }
 
-                for (int i = 0; i < 10; i++) {
+                for (var i = 0; i < 10; i++) {
                     var flask = (Flask)GameManager.Instance.World.FlaskDatabase[GameManager.Instance.World.Random.Next(GameManager.Instance.World.FlaskDatabase.Length)].Clone();
 
                     GameManager.Instance.World.Shop.PurchaseFlask(flask);
@@ -74,8 +74,8 @@ namespace Alchemy.Controllers {
             }
 
             if (Input.GetKeyDown(KeyCode.A)) {
-                int dropdownOption = 0;
-                string name = "";
+                var dropdownOption = 0;
+                var name = "";
                 var changeName = UserInterface.Instance.CreateAlert(new AlertData() {
                     title = "Name",
                     message = "Enter your name",
@@ -92,7 +92,7 @@ namespace Alchemy.Controllers {
                         },
                         new InputFieldData() {
                             onEndEdit = (value) => {
-                                string prefix = "";
+                                var prefix = "";
 
                                 switch (dropdownOption) {
                                     case 0:
@@ -141,7 +141,7 @@ namespace Alchemy.Controllers {
 
             if (Input.GetKeyDown(KeyCode.B)) {
                 var things = new BoolThing[10];
-                for (int i = 0; i < things.Length; i++) {
+                for (var i = 0; i < things.Length; i++) {
                     things[i] = new BoolThing() {
                         name = "Thing " + i,
                         value = i % 2 == 0
@@ -180,7 +180,7 @@ namespace Alchemy.Controllers {
 
             if (Input.GetKeyDown(KeyCode.C)) {
                 var things = new BoolThing[10];
-                for (int i = 0; i < things.Length; i++) {
+                for (var i = 0; i < things.Length; i++) {
                     things[i] = new BoolThing() {
                         name = "Thing " + i,
                         value = false

@@ -17,29 +17,17 @@ namespace Alchemy.Models {
         [SerializeField]
         protected int daysEmployed;
 
-        public string Title {
-            get { return title; }
-        }
+        public string Title => this.title;
 
-        public string Name {
-            get { return name; }
-        }
+        public string Name => this.name;
 
-        public string Description {
-            get { return description; }
-        }
+        public string Description => this.description;
 
-        public float Health {
-            get { return health; }
-        }
+        public float Health => this.health;
 
-        public int Salary {
-            get { return salary; }
-        }
+        public int Salary => this.salary;
 
-        public int DaysEmployed {
-            get { return daysEmployed; }
-        }
+        public int DaysEmployed => this.daysEmployed;
 
         protected Employee(string title, string name, int salary) {
             this.title = title;
@@ -47,28 +35,18 @@ namespace Alchemy.Models {
             this.salary = salary;
         }
 
-        public virtual void StartWorking() {
-            World.Instance.DayChanged += DayChanged;
-        }
+        public virtual void StartWorking() => World.Instance.DayChanged += this.DayChanged;
 
-        public virtual void StopWorking() {
-            World.Instance.DayChanged -= DayChanged;
-        }
+        public virtual void StopWorking() => World.Instance.DayChanged -= this.DayChanged;
 
-        private void DayChanged(object sender, IntEventArgs e) {
-            daysEmployed++;
-        }
+        private void DayChanged(object sender, IntEventArgs e) => this.daysEmployed++;
     }
 
     public class EmployeeEventArgs : EventArgs {
-        private Employee employee;
-
-        public Employee Employee {
-            get { return employee; }
-        }
+        public Employee Employee { get; }
 
         public EmployeeEventArgs(Employee employee) {
-            this.employee = employee;
+            this.Employee = employee;
         }
     }
 }

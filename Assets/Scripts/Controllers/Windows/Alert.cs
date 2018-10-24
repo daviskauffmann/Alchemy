@@ -11,15 +11,15 @@ namespace Alchemy.Controllers {
         private Transform buttons;
 
         public void SetMessage(string text) {
-            message.text = text;
+            this.message.text = text;
 
-            message.gameObject.SetActive(message.text != string.Empty);
+            this.message.gameObject.SetActive(this.message.text != string.Empty);
         }
 
         public Toggle AddToggle(ToggleData toggleData) {
             var toggle = UserInterface.Instance.CreateToggle(toggleData);
 
-            toggle.transform.SetParent(inputs);
+            toggle.transform.SetParent(this.inputs);
 
             return toggle;
         }
@@ -27,7 +27,7 @@ namespace Alchemy.Controllers {
         public Slider AddSlider(SliderData sliderData) {
             var slider = UserInterface.Instance.CreateSlider(sliderData);
 
-            slider.transform.SetParent(inputs);
+            slider.transform.SetParent(this.inputs);
 
             return slider;
         }
@@ -35,7 +35,7 @@ namespace Alchemy.Controllers {
         public Dropdown AddDropdown(DropdownData dropdownData) {
             var dropdown = UserInterface.Instance.CreateDropdown(dropdownData);
 
-            dropdown.transform.SetParent(inputs);
+            dropdown.transform.SetParent(this.inputs);
 
             return dropdown;
         }
@@ -43,7 +43,7 @@ namespace Alchemy.Controllers {
         public InputField AddInputField(InputFieldData inputFieldData) {
             var inputField = UserInterface.Instance.CreateInputField(inputFieldData);
 
-            inputField.transform.SetParent(inputs);
+            inputField.transform.SetParent(this.inputs);
 
             return inputField;
         }
@@ -51,7 +51,7 @@ namespace Alchemy.Controllers {
         public Button AddButton(ButtonData buttonData) {
             var button = UserInterface.Instance.CreateButton(buttonData);
 
-            button.transform.SetParent(buttons);
+            button.transform.SetParent(this.buttons);
 
             return button;
         }

@@ -15,13 +15,13 @@ namespace Alchemy.Models {
         public override void StartWorking() {
             base.StartWorking();
 
-            World.Instance.HourChanged += CreatePotion;
+            World.Instance.HourChanged += this.CreatePotion;
         }
 
         public override void StopWorking() {
             base.StopWorking();
 
-            World.Instance.HourChanged -= CreatePotion;
+            World.Instance.HourChanged -= this.CreatePotion;
         }
 
         private void CreatePotion(object sender, IntEventArgs e) {
@@ -62,7 +62,7 @@ namespace Alchemy.Models {
                     continue;
                 }
 
-                potionsCrafted++;
+                this.potionsCrafted++;
 
                 World.Instance.Shop.CreatePotion(flask, solvent, ingredients.ToArray(), this);
 

@@ -15,24 +15,24 @@ namespace Alchemy.Models {
         private int rareHerbsFound;
 
         public Region RegionToSearch {
-            get { return regionToSearch; }
-            set { regionToSearch = value; }
+            get { return this.regionToSearch; }
+            set { this.regionToSearch = value; }
         }
 
         public Herbalist(string name, int salary) : base("Herbalist", name, salary) {
-            regionToSearch = Region.Plains;
+            this.regionToSearch = Region.Plains;
         }
 
         public override void StartWorking() {
             base.StartWorking();
 
-            World.Instance.HourChanged += FindHerb;
+            World.Instance.HourChanged += this.FindHerb;
         }
 
         public override void StopWorking() {
             base.StopWorking();
 
-            World.Instance.HourChanged -= FindHerb;
+            World.Instance.HourChanged -= this.FindHerb;
         }
 
         private void FindHerb(object sender, IntEventArgs e) {
@@ -40,7 +40,7 @@ namespace Alchemy.Models {
                 return;
             }
 
-            excursions++;
+            this.excursions++;
 
             var herbPrototypes = new List<Herb>();
 
@@ -53,13 +53,13 @@ namespace Alchemy.Models {
             }
 
             if (herbPrototypes.Count > 0) {
-                herbsFound++;
+                this.herbsFound++;
 
                 var herbPrototype = herbPrototypes[World.Instance.Random.Next(herbPrototypes.Count)];
                 var herb = (Herb)herbPrototype.Clone();
 
                 foreach (var effect in herb.Effects) {
-                    float magnitude = effect.Magnitude * (World.Instance.Random.Next(1, 10) / 10.0f);
+                    var magnitude = effect.Magnitude * (World.Instance.Random.Next(1, 10) / 10.0f);
                     effect.Magnitude = Mathf.RoundToInt(magnitude);
                 }
 

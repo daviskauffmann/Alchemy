@@ -27,49 +27,41 @@ namespace Alchemy.Models {
         private List<Potion> potionsForSale;
 
         public float Gold {
-            get { return gold; }
+            get { return this.gold; }
             set {
-                if (gold != value) {
-                    gold = value;
+                if (this.gold != value) {
+                    this.gold = value;
 
-                    OnGoldChanged(gold);
+                    this.OnGoldChanged(this.gold);
                 }
             }
         }
 
-        public List<Apothecary> Apothecaries {
-            get { return apothecaries; }
-        }
+        public List<Apothecary> Apothecaries => this.apothecaries;
 
-        public List<Guard> Guards {
-            get { return guards; }
-        }
+        public List<Guard> Guards => this.guards;
 
-        public List<Herbalist> Herbalists {
-            get { return herbalists; }
-        }
+        public List<Herbalist> Herbalists => this.herbalists;
 
-        public List<Shopkeeper> Shopkeepers {
-            get { return shopkeepers; }
-        }
+        public List<Shopkeeper> Shopkeepers => this.shopkeepers;
 
         public Employee[] Employees {
             get {
                 var employees = new List<Employee>();
 
-                foreach (var apothecary in Apothecaries) {
+                foreach (var apothecary in this.Apothecaries) {
                     employees.Add(apothecary);
                 }
 
-                foreach (var guard in Guards) {
+                foreach (var guard in this.Guards) {
                     employees.Add(guard);
                 }
 
-                foreach (var herbalist in Herbalists) {
+                foreach (var herbalist in this.Herbalists) {
                     employees.Add(herbalist);
                 }
 
-                foreach (var shopkeeper in Shopkeepers) {
+                foreach (var shopkeeper in this.Shopkeepers) {
                     employees.Add(shopkeeper);
                 }
 
@@ -77,23 +69,17 @@ namespace Alchemy.Models {
             }
         }
 
-        public List<Flask> Flasks {
-            get { return flasks; }
-        }
+        public List<Flask> Flasks => this.flasks;
 
-        public List<Solvent> Solvents {
-            get { return solvents; }
-        }
+        public List<Solvent> Solvents => this.solvents;
 
-        public List<Herb> Herbs {
-            get { return herbs; }
-        }
+        public List<Herb> Herbs => this.herbs;
 
         public Ingredient[] Ingredients {
             get {
                 var ingredients = new List<Ingredient>();
 
-                foreach (var herb in Herbs) {
+                foreach (var herb in this.Herbs) {
                     ingredients.Add(herb);
                 }
 
@@ -101,13 +87,9 @@ namespace Alchemy.Models {
             }
         }
 
-        public List<Potion> PotionPrototypes {
-            get { return potionPrototypes; }
-        }
+        public List<Potion> PotionPrototypes => this.potionPrototypes;
 
-        public List<Potion> PotionsForSale {
-            get { return potionsForSale; }
-        }
+        public List<Potion> PotionsForSale => this.potionsForSale;
 
         public event EventHandler<FloatEventArgs> GoldChanged;
 
@@ -130,26 +112,26 @@ namespace Alchemy.Models {
         public event EventHandler<PotionSoldEventArgs> PotionSold;
 
         public Shop() {
-            gold = 10000;
-            apothecaries = new List<Apothecary>();
-            guards = new List<Guard>();
-            herbalists = new List<Herbalist>();
-            shopkeepers = new List<Shopkeeper>();
-            flasks = new List<Flask>();
-            solvents = new List<Solvent>();
-            herbs = new List<Herb>();
-            potionPrototypes = new List<Potion>();
-            potionsForSale = new List<Potion>();
+            this.gold = 10000;
+            this.apothecaries = new List<Apothecary>();
+            this.guards = new List<Guard>();
+            this.herbalists = new List<Herbalist>();
+            this.shopkeepers = new List<Shopkeeper>();
+            this.flasks = new List<Flask>();
+            this.solvents = new List<Solvent>();
+            this.herbs = new List<Herb>();
+            this.potionPrototypes = new List<Potion>();
+            this.potionsForSale = new List<Potion>();
         }
 
         public void Start() {
-            foreach (var employee in Employees) {
+            foreach (var employee in this.Employees) {
                 employee.StartWorking();
             }
 
             World.Instance.DayChanged += (sender, e) => {
-                foreach (var employee in Employees) {
-                    Gold -= employee.Salary;
+                foreach (var employee in this.Employees) {
+                    this.Gold -= employee.Salary;
                 }
             };
         }
@@ -158,76 +140,76 @@ namespace Alchemy.Models {
             if (employee is Apothecary) {
                 World.Instance.Apothecaries.Remove((Apothecary)employee);
 
-                Apothecaries.Add((Apothecary)employee);
+                this.Apothecaries.Add((Apothecary)employee);
             } else if (employee is Guard) {
                 World.Instance.Guards.Remove((Guard)employee);
 
-                Guards.Add((Guard)employee);
+                this.Guards.Add((Guard)employee);
             } else if (employee is Herbalist) {
                 World.Instance.Herbalists.Remove((Herbalist)employee);
 
-                Herbalists.Add((Herbalist)employee);
+                this.Herbalists.Add((Herbalist)employee);
             } else if (employee is Shopkeeper) {
                 World.Instance.Shopkeepers.Remove((Shopkeeper)employee);
 
-                Shopkeepers.Add((Shopkeeper)employee);
+                this.Shopkeepers.Add((Shopkeeper)employee);
             }
 
             employee.StartWorking();
 
-            OnEmployeeHired(employee);
+            this.OnEmployeeHired(employee);
         }
 
         public void FireEmployee(Employee employee) {
             if (employee is Apothecary) {
-                Apothecaries.Remove((Apothecary)employee);
+                this.Apothecaries.Remove((Apothecary)employee);
             } else if (employee is Guard) {
-                Guards.Remove((Guard)employee);
+                this.Guards.Remove((Guard)employee);
             } else if (employee is Herbalist) {
-                Herbalists.Remove((Herbalist)employee);
+                this.Herbalists.Remove((Herbalist)employee);
             } else if (employee is Shopkeeper) {
-                Shopkeepers.Remove((Shopkeeper)employee);
+                this.Shopkeepers.Remove((Shopkeeper)employee);
             }
 
             employee.StopWorking();
 
-            OnEmployeeFired(employee);
+            this.OnEmployeeFired(employee);
         }
 
         public bool PurchaseFlask(Flask flask) {
-            if (Gold < flask.Value) {
+            if (this.Gold < flask.Value) {
                 return false;
             }
 
-            Gold -= flask.Value;
+            this.Gold -= flask.Value;
 
-            Flasks.Add(flask);
+            this.Flasks.Add(flask);
 
-            OnFlaskBought(flask);
+            this.OnFlaskBought(flask);
 
             return true;
         }
 
         public void DiscardFlask(Flask flask) {
-            Flasks.Remove(flask);
+            this.Flasks.Remove(flask);
 
-            OnFlaskDiscarded(flask);
+            this.OnFlaskDiscarded(flask);
         }
 
         public void DeliverIngredient(Ingredient ingredient) {
             if (ingredient is Herb) {
-                herbs.Add((Herb)ingredient);
+                this.herbs.Add((Herb)ingredient);
             }
 
-            OnIngredientDelivered(ingredient);
+            this.OnIngredientDelivered(ingredient);
         }
 
         public void DiscardIngredient(Ingredient ingredient) {
             if (ingredient is Herb) {
-                herbs.Remove((Herb)ingredient);
+                this.herbs.Remove((Herb)ingredient);
             }
 
-            OnIngredientDiscarded(ingredient);
+            this.OnIngredientDiscarded(ingredient);
         }
 
         public void ResearchPotion(Flask flask, Solvent solvent, Ingredient[] ingredients) {
@@ -236,113 +218,73 @@ namespace Alchemy.Models {
             }
             var potion = new Potion(flask, solvent, ingredients);
 
-            if (!AddPotionPrototype(potion)) {
+            if (!this.AddPotionPrototype(potion)) {
                 return;
             }
 
-            RemovePotionMaterials(flask, solvent, ingredients);
+            this.RemovePotionMaterials(flask, solvent, ingredients);
 
-            OnPotionResearched(potion);
+            this.OnPotionResearched(potion);
         }
 
         public void CreatePotion(Flask flask, Solvent solvent, Ingredient[] ingredients, Apothecary apothecary) {
             var potion = new Potion(flask, solvent, ingredients);
 
-            PotionsForSale.Add(potion);
+            this.PotionsForSale.Add(potion);
 
-            RemovePotionMaterials(flask, solvent, ingredients);
+            this.RemovePotionMaterials(flask, solvent, ingredients);
 
-            OnPotionCreated(potion, apothecary);
+            this.OnPotionCreated(potion, apothecary);
         }
 
         public void SellPotion(Potion potion, Shopkeeper shopkeeper) {
-            Gold += potion.Value;
+            this.Gold += potion.Value;
 
-            PotionsForSale.Remove(potion);
+            this.PotionsForSale.Remove(potion);
 
-            OnPotionSold(potion, shopkeeper);
+            this.OnPotionSold(potion, shopkeeper);
         }
 
         private bool AddPotionPrototype(Potion potion) {
-            foreach (var potionPrototype in PotionPrototypes) {
+            foreach (var potionPrototype in this.PotionPrototypes) {
                 if (potion.Name == potionPrototype.Name) {
                     return false;
                 }
             }
 
-            PotionPrototypes.Add(potion);
+            this.PotionPrototypes.Add(potion);
 
             return true;
         }
 
         private void RemovePotionMaterials(Flask flask, Solvent solvent, Ingredient[] ingredients) {
-            DiscardFlask(flask);
+            this.DiscardFlask(flask);
 
             // DiscardSolvent(solvent);
 
             foreach (var ingredient in ingredients) {
-                DiscardIngredient(ingredient);
+                this.DiscardIngredient(ingredient);
             }
         }
 
-        private void OnGoldChanged(float value) {
-            if (GoldChanged != null) {
-                GoldChanged(this, new FloatEventArgs(value));
-            }
-        }
+        private void OnGoldChanged(float value) => GoldChanged?.Invoke(this, new FloatEventArgs(value));
 
-        private void OnEmployeeHired(Employee employee) {
-            if (EmployeeHired != null) {
-                EmployeeHired(this, new EmployeeEventArgs(employee));
-            }
-        }
+        private void OnEmployeeHired(Employee employee) => EmployeeHired?.Invoke(this, new EmployeeEventArgs(employee));
 
-        private void OnEmployeeFired(Employee employee) {
-            if (EmployeeFired != null) {
-                EmployeeFired(this, new EmployeeEventArgs(employee));
-            }
-        }
+        private void OnEmployeeFired(Employee employee) => EmployeeFired?.Invoke(this, new EmployeeEventArgs(employee));
 
-        private void OnIngredientDelivered(Ingredient ingredient) {
-            if (IngredientDelivered != null) {
-                IngredientDelivered(this, new IngredientEventArgs(ingredient));
-            }
-        }
+        private void OnIngredientDelivered(Ingredient ingredient) => IngredientDelivered?.Invoke(this, new IngredientEventArgs(ingredient));
 
-        private void OnIngredientDiscarded(Ingredient ingredient) {
-            if (IngredientDiscarded != null) {
-                IngredientDiscarded(this, new IngredientEventArgs(ingredient));
-            }
-        }
+        private void OnIngredientDiscarded(Ingredient ingredient) => IngredientDiscarded?.Invoke(this, new IngredientEventArgs(ingredient));
 
-        private void OnFlaskBought(Flask flask) {
-            if (FlaskBought != null) {
-                FlaskBought(this, new FlaskEventArgs(flask));
-            }
-        }
+        private void OnFlaskBought(Flask flask) => FlaskBought?.Invoke(this, new FlaskEventArgs(flask));
 
-        private void OnFlaskDiscarded(Flask flask) {
-            if (FlaskDiscarded != null) {
-                FlaskDiscarded(this, new FlaskEventArgs(flask));
-            }
-        }
+        private void OnFlaskDiscarded(Flask flask) => FlaskDiscarded?.Invoke(this, new FlaskEventArgs(flask));
 
-        private void OnPotionResearched(Potion potion) {
-            if (PotionResearched != null) {
-                PotionResearched(this, new PotionEventArgs(potion));
-            }
-        }
+        private void OnPotionResearched(Potion potion) => PotionResearched?.Invoke(this, new PotionEventArgs(potion));
 
-        private void OnPotionCreated(Potion potion, Apothecary apothecary) {
-            if (PotionCreated != null) {
-                PotionCreated(this, new PotionCreatedEventArgs(potion, apothecary));
-            }
-        }
+        private void OnPotionCreated(Potion potion, Apothecary apothecary) => PotionCreated?.Invoke(this, new PotionCreatedEventArgs(potion, apothecary));
 
-        private void OnPotionSold(Potion potion, Shopkeeper shopkeeper) {
-            if (PotionSold != null) {
-                PotionSold(this, new PotionSoldEventArgs(potion, shopkeeper));
-            }
-        }
+        private void OnPotionSold(Potion potion, Shopkeeper shopkeeper) => PotionSold?.Invoke(this, new PotionSoldEventArgs(potion, shopkeeper));
     }
 }

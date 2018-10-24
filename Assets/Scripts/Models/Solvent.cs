@@ -9,13 +9,9 @@ namespace Alchemy.Models {
         [SerializeField]
         private int strength;
 
-        public string Name {
-            get { return name; }
-        }
+        public string Name => this.name;
 
-        public int Strength {
-            get { return strength; }
-        }
+        public int Strength => this.strength;
 
         public Solvent(string name, int strength) {
             this.name = name;
@@ -23,7 +19,7 @@ namespace Alchemy.Models {
         }
 
         public object Clone() {
-            var clone = (Solvent)MemberwiseClone();
+            var clone = (Solvent)this.MemberwiseClone();
 
             return clone;
         }

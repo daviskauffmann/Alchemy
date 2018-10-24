@@ -9,13 +9,9 @@ namespace Alchemy.Models {
         [SerializeField]
         protected Effect[] effects;
 
-        public string Name {
-            get { return name; }
-        }
+        public string Name => this.name;
 
-        public Effect[] Effects {
-            get { return effects; }
-        }
+        public Effect[] Effects => this.effects;
 
         protected Ingredient(string name, Effect[] effects) {
             this.name = name;
@@ -23,11 +19,11 @@ namespace Alchemy.Models {
         }
 
         public virtual object Clone() {
-            var ingredient = (Ingredient)MemberwiseClone();
+            var ingredient = (Ingredient)this.MemberwiseClone();
 
-            ingredient.effects = new Effect[effects.Length];
-            for (int i = 0; i < effects.Length; i++) {
-                ingredient.effects[i] = (Effect)effects[i].Clone();
+            ingredient.effects = new Effect[this.effects.Length];
+            for (var i = 0; i < this.effects.Length; i++) {
+                ingredient.effects[i] = (Effect)this.effects[i].Clone();
             }
 
             return ingredient;
@@ -35,14 +31,10 @@ namespace Alchemy.Models {
     }
 
     public class IngredientEventArgs : EventArgs {
-        private Ingredient ingredient;
-
-        public Ingredient Ingredient {
-            get { return ingredient; }
-        }
+        public Ingredient Ingredient { get; }
 
         public IngredientEventArgs(Ingredient ingredient) {
-            this.ingredient = ingredient;
+            this.Ingredient = ingredient;
         }
     }
 }

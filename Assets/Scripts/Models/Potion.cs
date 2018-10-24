@@ -18,33 +18,19 @@ namespace Alchemy.Models {
         [SerializeField]
         private float value;
 
-        public string Name {
-            get { return name; }
-        }
+        public string Name => this.name;
 
-        public string FlaskName {
-            get { return flaskName; }
-        }
+        public string FlaskName => this.flaskName;
 
-        public string SolventName {
-            get { return solventName; }
-        }
+        public string SolventName => this.solventName;
 
-        public string[] HerbNames {
-            get { return herbNames; }
-        }
+        public string[] HerbNames => this.herbNames;
 
-        public int IngredientCount {
-            get { return HerbNames.Length /*+ OtherTypeNames.Length*/; }
-        }
+        public int IngredientCount => this.HerbNames.Length /*+ OtherTypeNames.Length*/;
 
-        public Effect[] Effects {
-            get { return effects; }
-        }
+        public Effect[] Effects => this.effects;
 
-        public float Value {
-            get { return value; }
-        }
+        public float Value => this.value;
 
         public Potion(Flask flask, Solvent solvent, Ingredient[] ingredients) {
             var herbNames = new List<string>();
@@ -80,9 +66,9 @@ namespace Alchemy.Models {
                 }
             }
 
-            string name = flask.Quality.ToString() + " Potion of ";
+            var name = flask.Quality.ToString() + " Potion of ";
 
-            for (int i = 0; i < effects.Count; i++) {
+            for (var i = 0; i < effects.Count; i++) {
                 name += effects[i].Name;
 
                 if (i < effects.Count - 1) {
@@ -101,38 +87,26 @@ namespace Alchemy.Models {
     }
 
     public class PotionEventArgs : EventArgs {
-        private Potion potion;
-
-        public Potion Potion {
-            get { return potion; }
-        }
+        public Potion Potion { get; }
 
         public PotionEventArgs(Potion potion) {
-            this.potion = potion;
+            this.Potion = potion;
         }
     }
 
     public class PotionCreatedEventArgs : PotionEventArgs {
-        private Employee creator;
-
-        public Employee Creator {
-            get { return creator; }
-        }
+        public Employee Creator { get; }
 
         public PotionCreatedEventArgs(Potion potion, Employee creator) : base(potion) {
-            this.creator = creator;
+            this.Creator = creator;
         }
     }
 
     public class PotionSoldEventArgs : PotionEventArgs {
-        private Employee seller;
-
-        public Employee Seller {
-            get { return seller; }
-        }
+        public Employee Seller { get; }
 
         public PotionSoldEventArgs(Potion potion, Employee seller) : base(potion) {
-            this.seller = seller;
+            this.Seller = seller;
         }
     }
 }

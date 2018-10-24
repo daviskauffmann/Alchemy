@@ -25,66 +25,56 @@ namespace Alchemy.Controllers {
         private Vector2 offset;
 
         public float Width {
-            get { return widthController.rect.width; }
-            set { widthController.sizeDelta = new Vector2(value, widthController.rect.height); }
+            get { return this.widthController.rect.width; }
+            set { this.widthController.sizeDelta = new Vector2(value, this.widthController.rect.height); }
         }
 
         public float Height {
-            get { return heightController.rect.height; }
-            set { heightController.sizeDelta = new Vector2(heightController.rect.width, value); }
+            get { return this.heightController.rect.height; }
+            set { this.heightController.sizeDelta = new Vector2(this.heightController.rect.width, value); }
         }
 
         private void Awake() {
-            onUpdate = new WindowEvent();
-            onClose = new WindowEvent();
+            this.onUpdate = new WindowEvent();
+            this.onClose = new WindowEvent();
         }
 
         private void Start() {
-            close.onClick.AddListener(() => {
-                Close();
+            this.close.onClick.AddListener(() => {
+                this.Close();
             });
 
-            minimize.onClick.AddListener(() => {
-                Minimize();
+            this.minimize.onClick.AddListener(() => {
+                this.Minimize();
             });
         }
 
         private void Update() {
-            if (active) {
-                onUpdate.Invoke(this);
+            if (this.active) {
+                this.onUpdate.Invoke(this);
             }
         }
 
-        public void OnBeginDrag(PointerEventData eventData) {
-            offset = (Vector2)transform.position - eventData.position;
-        }
+        public void OnBeginDrag(PointerEventData eventData) => this.offset = (Vector2)this.transform.position - eventData.position;
 
-        public void OnDrag(PointerEventData eventData) {
-            transform.position = eventData.position + offset;
-        }
+        public void OnDrag(PointerEventData eventData) => this.transform.position = eventData.position + this.offset;
 
-        public void SetTitle(string text) {
-            title.text = text;
-        }
+        public void SetTitle(string text) => this.title.text = text;
 
-        public void AddUpdateListener(UnityAction<Window> call) {
-            onUpdate.AddListener(call);
-        }
+        public void AddUpdateListener(UnityAction<Window> call) => this.onUpdate.AddListener(call);
 
-        public void AddCloseListener(UnityAction<Window> call) {
-            onClose.AddListener(call);
-        }
+        public void AddCloseListener(UnityAction<Window> call) => this.onClose.AddListener(call);
 
         public void Minimize() {
-            active = !active;
+            this.active = !this.active;
 
-            content.SetActive(active);
+            this.content.SetActive(this.active);
         }
 
         public void Close() {
-            onClose.Invoke(this);
+            this.onClose.Invoke(this);
 
-            Destroy(gameObject);
+            Destroy(this.gameObject);
         }
     }
 

@@ -9,13 +9,11 @@ namespace Alchemy.Models {
         [SerializeField]
         private int magnitude;
 
-        public string Name {
-            get { return name; }
-        }
+        public string Name => this.name;
 
         public int Magnitude {
-            get { return magnitude; }
-            set { magnitude = value; }
+            get { return this.magnitude; }
+            set { this.magnitude = value; }
         }
 
         public Effect(string name, int magnitude) {
@@ -24,16 +22,16 @@ namespace Alchemy.Models {
         }
 
         public virtual object Clone() {
-            var clone = (Effect)MemberwiseClone();
+            var clone = (Effect)this.MemberwiseClone();
 
             return clone;
         }
 
         public Effect Combine(Effect other) {
-            if (Name == other.Name) {
-                var clone = (Effect)Clone();
+            if (this.Name == other.Name) {
+                var clone = (Effect)this.Clone();
 
-                clone.Magnitude = Magnitude + other.Magnitude;
+                clone.Magnitude = this.Magnitude + other.Magnitude;
 
                 return clone;
             }
