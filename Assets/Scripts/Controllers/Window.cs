@@ -17,21 +17,19 @@ namespace Alchemy.Controllers {
         private RectTransform heightController;
         [SerializeField]
         private GameObject content;
-        [SerializeField]
         private WindowEvent onUpdate;
-        [SerializeField]
         private WindowEvent onClose;
         private bool active = true;
         private Vector2 offset;
 
         public float Width {
             get { return this.widthController.rect.width; }
-            set { this.widthController.sizeDelta = new Vector2(value, this.widthController.rect.height); }
+            set { this.widthController.sizeDelta = new Vector2(value, this.Height); }
         }
 
         public float Height {
             get { return this.heightController.rect.height; }
-            set { this.heightController.sizeDelta = new Vector2(this.heightController.rect.width, value); }
+            set { this.heightController.sizeDelta = new Vector2(this.Width, value); }
         }
 
         private void Awake() {

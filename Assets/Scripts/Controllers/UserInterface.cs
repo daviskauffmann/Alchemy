@@ -247,7 +247,7 @@ namespace Alchemy.Controllers {
     }
 
     public struct SliderData : IInputData {
-
+        public UnityAction<float> onValueChanged { get; set; }
     }
 
     public struct DropdownData : IInputData {

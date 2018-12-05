@@ -59,7 +59,7 @@ namespace Alchemy.Models {
                 var herb = (Herb)herbPrototype.Clone();
 
                 foreach (var effect in herb.Effects) {
-                    var magnitude = effect.Magnitude * (World.Instance.Random.Next(1, 10) / 10.0f);
+                    var magnitude = effect.Magnitude * (World.Instance.Random.Next(50, 150) / 100.0f);
                     effect.Magnitude = Mathf.RoundToInt(magnitude);
                 }
 
